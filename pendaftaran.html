@@ -1,0 +1,180 @@
+﻿<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pendaftaran | Salut Transport</title>
+  <meta name="description" content="Lengkapkan pendaftaran rasmi Salut Transport untuk servis van sekolah sekitar Bandar Baru Bangi.">
+  <meta name="theme-color" content="#07100c">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="icon" type="image/png" href="assets/app-icon-192.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme') || localStorage.getItem('salut-theme');
+        var mode = stored === 'light' || stored === 'dark'
+          ? stored
+          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', mode);
+      } catch (error) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="nav">
+  <div class="container navRow">
+    <a class="brand" href="index.html#utama" aria-label="Salut Transport">
+      <span class="logo"><img src="assets/logo.png" alt="Salut Transport"></span>
+      <span class="brandText"><strong>SALUT</strong><small>TRANSPORT</small></span>
+    </a>
+    <div class="links">
+      <a href="index.html#kenapa">Kenapa Kami</a>
+      <a href="index.html#pakej">Pakej</a>
+      <a href="pendaftaran.html">Daftar</a>
+      <a href="index.html#tentang">Tentang</a>
+      <a href="index.html#kawasan">Kawasan</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="index.html#contact">Contact</a>
+      <button class="themeToggle" type="button" aria-label="Tukar dark mode" aria-pressed="false"><span class="toggleKnob"></span><span class="toggleText">Mode</span></button>
+    </div>
+    <a class="navCta" href="#borang">Isi Borang</a>
+  </div>
+</nav>
+
+<main>
+  <section id="borang" class="registrationFormSection registrationOnlyPage">
+    <div class="container registrationFormSingle">
+      <div class="registrationShell">
+        <div class="registrationTop">
+          <div>
+            <strong>Borang Pendaftaran Salut Transport</strong>
+            <span>Lengkapkan maklumat rasmi untuk pendaftaran van sekolah sesi 2027.</span>
+          </div>
+        </div>
+        <form class="sheetRegistrationForm kbcStyleForm" data-endpoint="/api/registration">
+          <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="formHoneypot">
+          <div class="formProgress" aria-label="Langkah pendaftaran">
+            <a href="#maklumat-anak"><span>1</span>Maklumat Anak</a>
+            <a href="#maklumat-penjaga"><span>2</span>Ibu Bapa</a>
+            <a href="#maklumat-pengangkutan"><span>3</span>Pengangkutan</a>
+            <a href="#pengesahan"><span>4</span>Pengesahan</a>
+          </div>
+
+          <section id="maklumat-anak" class="formCard">
+            <div class="formCardTitle"><span>&#128118;</span><h3>Maklumat Kanak-Kanak</h3></div>
+            <label><span class="fieldLabel">Nama penuh anak <span class="req">*</span></span><small>(seperti dalam MyKid)</small><input name="namaAnak" placeholder="Contoh: Amirah Husna Binti Mohd Yusman" required></label>
+            <div class="formRow">
+              <label><span class="fieldLabel">Tarikh lahir <span class="req">*</span></span><input name="tarikhLahir" type="date" required></label>
+              <label><span class="fieldLabel">Umur</span><input name="umur" placeholder="Dikira mengikut tahun 2027" readonly></label>
+            </div>
+            <label><span class="fieldLabel">Darjah / tingkatan 2027 <span class="req">*</span></span><small>Dipilih automatik berdasarkan tahun lahir. Boleh dibetulkan jika anak masuk sekolah awal atau lewat.</small><select name="darjahTingkatan2027" required>
+              <option value="">Pilih tarikh lahir dahulu</option>
+              <option>Darjah 1</option>
+              <option>Darjah 2</option>
+              <option>Darjah 3</option>
+              <option>Darjah 4</option>
+              <option>Darjah 5</option>
+              <option>Darjah 6</option>
+              <option>Tingkatan 1</option>
+              <option>Tingkatan 2</option>
+              <option>Tingkatan 3</option>
+              <option>Tingkatan 4</option>
+              <option>Tingkatan 5</option>
+              <option>Perlu semakan</option>
+            </select></label>
+            <label><span class="fieldLabel">Jantina <span class="req">*</span></span></label>
+            <div class="radioStack">
+              <label><input name="jantina" type="radio" value="Lelaki" required><span>Lelaki</span></label>
+              <label><input name="jantina" type="radio" value="Perempuan" required><span>Perempuan</span></label>
+            </div>
+            <label><span class="fieldLabel">Alamat rumah <span class="req">*</span></span><textarea name="alamatRumah" placeholder="No. rumah, jalan, poskod, taman, negeri" required></textarea></label>
+            <label><span class="fieldLabel">Nama sekolah <span class="req">*</span></span><select name="sekolah" required>
+              <option value="">Pilih sekolah</option>
+              <option>SK Jalan 2</option>
+              <option>SMK Jalan 2</option>
+              <option>SK Jalan 3</option>
+              <option>SMK Jalan 3</option>
+              <option>SK Jalan 4</option>
+              <option>SMK Jalan 4</option>
+              <option>SERI / SEMI ABIM Sg Ramal</option>
+              <option>KAFA Jubli Perak</option>
+              <option>Sri Ummah As Sobbah</option>
+              <option>Sri Ummah Al Ikhlas</option>
+            </select></label>
+          </section>
+
+          <section id="maklumat-penjaga" class="formCard">
+            <div class="formCardTitle"><span>&#128104;&#8205;&#128105;&#8205;&#128103;</span><h3>Maklumat Ibu Bapa / Penjaga</h3></div>
+            <label><span class="fieldLabel">Nama ayah / penjaga lelaki <span class="req">*</span></span><input name="namaAyah" placeholder="Nama penuh" required></label>
+            <div class="formRow">
+              <label><span class="fieldLabel">No. telefon ayah <span class="req">*</span></span><input name="telefonAyah" type="tel" inputmode="tel" autocomplete="tel" maxlength="14" pattern="(?:\+?60|0)1\d{8,9}" title="Masukkan nombor telefon Malaysia yang lengkap, contoh 0181234567 atau 60181234567." placeholder="Contoh: 0181234567" required></label>
+              <label><span class="fieldLabel">No. IC ayah / penjaga lelaki <span class="req">*</span></span><input name="icAyah" inputmode="numeric" placeholder="Contoh: 800101145678" required></label>
+            </div>
+            <label><span class="fieldLabel">Nama ibu / penjaga wanita <span class="req">*</span></span><input name="namaIbu" placeholder="Nama penuh" required></label>
+            <div class="formRow">
+              <label><span class="fieldLabel">No. telefon ibu <span class="req">*</span></span><input name="telefonIbu" type="tel" inputmode="tel" autocomplete="tel" maxlength="14" pattern="(?:\+?60|0)1\d{8,9}" title="Masukkan nombor telefon Malaysia yang lengkap, contoh 0181234567 atau 60181234567." placeholder="Contoh: 0181234567" required></label>
+              <label>No. IC ibu / penjaga wanita<input name="icIbu" inputmode="numeric" placeholder="Contoh: 800101145678"></label>
+            </div>
+            <label><span class="fieldLabel">Alamat e-mel <span class="req">*</span></span><input name="email" type="email" placeholder="contoh@email.com" required><small>Maklumat penting dan resit akan dihantar ke e-mel ini.</small></label>
+          </section>
+
+          <section id="maklumat-pengangkutan" class="formCard">
+            <div class="formCardTitle"><span>&#128652;</span><h3>Maklumat Pengangkutan</h3></div>
+            <div class="formRow">
+              <label><span class="fieldLabel">Sesi sekolah <span class="req">*</span></span><select name="sesiSekolah" required><option value="">Pilih sesi</option><option>Pagi</option><option>Petang</option></select></label>
+              <label><span class="fieldLabel">Pilihan perjalanan <span class="req">*</span></span><select name="pilihanPerjalanan" data-trip-select required><option value="">Pilih perjalanan</option><option>PERGI</option><option>BALIK</option><option>PERGI DAN BALIK</option></select></label>
+            </div>
+            <div class="tripFields" data-trip-one hidden>
+              <div class="routeBlock">
+                <h4 data-trip-one-title>Perjalanan pergi</h4>
+                <div class="formRow">
+                  <label><span class="fieldLabel">Pickup point <span class="req">*</span></span><select name="pickupPoint" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                  <label><span class="fieldLabel">Drop off <span class="req">*</span></span><select name="dropOff" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                </div>
+              </div>
+            </div>
+            <div class="tripFields" data-trip-two hidden>
+              <div class="routeBlock">
+                <h4>Perjalanan pergi</h4>
+                <div class="formRow">
+                  <label><span class="fieldLabel">Pickup point pertama <span class="req">*</span></span><select name="pickupPoint1" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                  <label><span class="fieldLabel">Drop off pertama <span class="req">*</span></span><select name="dropOff1" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                </div>
+              </div>
+              <div class="routeBlock">
+                <h4>Perjalanan balik</h4>
+                <div class="formRow">
+                  <label><span class="fieldLabel">Pickup point kedua <span class="req">*</span></span><select name="pickupPoint2" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                  <label><span class="fieldLabel">Drop off kedua <span class="req">*</span></span><select name="dropOff2" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="pengesahan" class="formCard">
+            <div class="formCardTitle"><span>&#9989;</span><h3>Pengesahan</h3></div>
+            <label class="consentRow"><input name="termsAccepted" type="checkbox" value="true" required><span>Saya mengesahkan maklumat yang diberikan adalah betul dan bersetuju dengan <a href="terms.html" target="_blank" rel="noopener">T&amp;C Salut Transport</a>.</span></label>
+            <label class="consentRow"><input name="privacyAccepted" type="checkbox" value="true" required><span>Saya telah membaca dan bersetuju dengan <a href="privacy.html" target="_blank" rel="noopener">Notis Privasi</a>.</span></label>
+            <button class="btn btnPrimary" type="submit">Hantar Pendaftaran</button>
+            <p class="sheetFormStatus" aria-live="polite"></p>
+          </section>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<a class="whatsappBox" href="https://wa.me/60123539977" target="_blank" rel="noopener" aria-label="WhatsApp Salut Transport">WhatsApp kami</a>
+<footer class="footer"><div class="container footerRow"><div>&copy; 2026 Salut Transport. Semua hak cipta terpelihara.</div><div><a href="terms.html">T&amp;C</a> &middot; <a href="refund.html">Refund</a> &middot; <a href="cancellation.html">Cancellation</a> &middot; <a href="service-delivery.html">Service Delivery</a> &middot; <a href="privacy.html">Privacy</a></div></div></footer>
+<script src="site.js"></script>
+</body>
+</html>
+
+

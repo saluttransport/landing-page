@@ -1,0 +1,203 @@
+﻿<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Salut Transport</title>
+  <meta name="description" content="Perkhidmatan van sekolah selamat, selesa dan dipercayai sekitar Bandar Baru Bangi.">
+  <meta name="theme-color" content="#07090c">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="icon" type="image/png" href="assets/app-icon-192.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+    (function(){
+      try {
+        var stored = localStorage.getItem('theme') || localStorage.getItem('salut-theme');
+        var mode = stored === 'light' || stored === 'dark'
+          ? stored
+          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', mode);
+      } catch (error) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="nav heroNav">
+  <div class="container navRow">
+    <a class="brand heroBrand" href="index.html" aria-label="Salut Transport Home">
+      <span class="logo"><img src="assets/logo.png" alt="Salut Transport"></span>
+      <span class="brandText"><strong>SALUT</strong><small>TRANSPORT</small></span>
+    </a>
+    <div class="links heroLinks">
+      <a href="#kenapa">Kenapa Kami</a>
+      <a href="#pakej">Pakej</a>
+      <a href="#daftar">Cara Daftar</a>
+      <a href="#tentang">Tentang</a>
+      <a href="#kawasan">Kawasan</a>
+      <a href="#faq">FAQ</a>
+      <a href="#review">Testimoni</a>
+      <button class="themeToggle" type="button" aria-label="Tukar dark mode" aria-pressed="false"><span class="toggleKnob"></span><span class="toggleText">Mode</span></button>
+    </div>
+    <a class="navCta" href="#contact">Semak Slot</a>
+  </div>
+</nav>
+
+<header class="hero photoHero" id="utama">
+  <div class="heroGallery" data-hero-images="assets/hero.jpg,assets/mcn-8413.png,assets/wa-2438-u.png" aria-hidden="true">
+    <img class="heroSlide isActive" src="assets/hero.jpg" alt="">
+    <img class="heroSlide" src="assets/mcn-8413.png" alt="">
+    <img class="heroSlide" src="assets/wa-2438-u.png" alt="">
+  </div>
+  <button class="heroSlideButton heroSlidePrev" type="button" aria-label="Gambar sebelumnya">‹</button>
+  <button class="heroSlideButton heroSlideNext" type="button" aria-label="Gambar seterusnya">›</button>
+  <div class="heroSlideDots" aria-label="Pilih gambar hero"></div>
+  <div class="heroShade"></div>
+  <div class="container heroContent">
+    <div class="heroCopy">
+      <p class="eyebrow">Van sekolah Bandar Baru Bangi</p>
+      <h1>Selamat.<br>Selesa.<br><span>Dipercayai.</span></h1>
+      <p class="lead">Perkhidmatan van sekolah yang memastikan keselamatan dan keselesaan anak-anak anda setiap hari.</p>
+      <div class="heroBadges" aria-label="Kelebihan Salut Transport">
+        <div><b>Selamat</b><small>Pemandu berpengalaman dan kenderaan selamat</small></div>
+        <div><b>Selesa</b><small>Van bersih, selesa dan berhawa dingin</small></div>
+        <div><b>Punctual</b><small>Tepat pada masa mengikut laluan semasa</small></div>
+      </div>
+      <div class="ctaRow heroActions">
+        <a class="btn btnPrimary" href="#contact">Semak Slot</a>
+        <a class="btn btnGhost" href="https://wa.me/60123539977?text=Assalamualaikum%2C%20saya%20nak%20semak%20slot%20van%20sekolah." target="_blank" rel="noopener">WhatsApp Kami</a>
+      </div>
+      <p class="heroTrustLine">Dipercayai oleh <span data-trust-count>200+</span> keluarga di Bandar Baru Bangi</p>
+    </div>
+  </div>
+</header>
+
+<section id="kenapa" class="section darkBand">
+  <div class="container splitIntro">
+    <div><p class="sectionKicker">Kenapa kami</p><h2 class="sectionTitle">Kenapa ibu bapa pilih Salut Transport?</h2></div>
+    <p class="sectionLead">Kami bukan sekadar ambil dan hantar. Fokus kami ialah keselamatan, laluan yang jelas, seat yang terkawal dan komunikasi yang mudah untuk ibu bapa bekerja.</p>
+  </div>
+  <div class="container cards featureCards">
+    <div class="card"><div class="icon">&#x1F46E;&#x1F3FC;&#x200D;&#x2642;&#xFE0F;</div><h3>Pemandu Tetap</h3><p>Urusan pickup dan drop-off lebih konsisten kerana anak berurusan dengan pemandu yang sama mengikut laluan.</p></div>
+    <div class="card"><div class="icon">&#x1F6E3;&#xFE0F;</div><h3>Laluan Sekolah Jelas</h3><p>Route disusun mengikut kawasan rumah dan sekolah supaya perjalanan harian lebih praktikal dan mudah dipantau.</p></div>
+    <div class="card"><div class="icon">&#x1F4AC;</div><h3>WhatsApp Terus</h3><p>Ibu bapa boleh berhubung terus untuk semakan jadual, perubahan, cuti atau maklumat penting berkaitan anak.</p></div>
+    <div class="card"><div class="icon">&#x1F4BA;</div><h3>Seat Terhad</h3><p>Slot dikawal mengikut kawasan supaya route tidak terlalu padat dan masa perjalanan lebih munasabah.</p></div>
+    <div class="card"><div class="icon">&#x1F68C;</div><h3>Fokus Van Sekolah</h3><p>Servis khusus untuk perjalanan pergi dan balik sekolah sekitar Bandar Baru Bangi dan Sg Ramal.</p></div>
+    <div class="card"><div class="icon">&#x1F46A;</div><h3>Sesuai Ibu Bapa Bekerja</h3><p>Pickup dan drop-off harian membantu ibu bapa mengurus rutin sekolah anak dengan lebih tenang.</p></div>
+  </div>
+</section>
+
+
+
+<section id="pakej" class="section darkBand">
+  <div class="container splitIntro">
+    <div><p class="sectionKicker">Pakej</p><h2 class="sectionTitle">Pakej ringkas, bayaran jelas.</h2></div>
+    <p class="sectionLead">Pilih perjalanan satu hala atau dua hala. Harga bergantung kepada kawasan, sekolah, sesi dan susunan route semasa.</p>
+  </div>
+  <div class="container cards serviceCards">
+    <div class="card"><h3>1 Hala</h3><div class="price">Semak Harga</div><p>Sesuai untuk pergi sahaja atau balik sahaja.</p></div>
+    <div class="card"><h3>2 Hala</h3><div class="price">Semak Harga</div><p>Untuk pergi dan balik sekolah dengan jadual lebih lengkap.</p></div>
+    <div class="card"><h3>Bayaran Online</h3><div class="price billplz">Billplz</div><p>Pautan bayaran boleh diberikan untuk urusan pembayaran yang lebih mudah.</p></div>
+  </div>
+</section>
+
+<section id="daftar" class="section lightBand">
+  <div class="container splitIntro">
+    <div><p class="sectionKicker">Cara daftar</p><h2 class="sectionTitle">Flow ringkas sebelum anak mula naik van.</h2></div>
+    <p class="sectionLead">Proses dibuat berperingkat supaya ibu bapa jelas tentang route, syarat servis dan bayaran sebelum slot disahkan.</p>
+  </div>
+  <div class="container steps">
+    <div class="step"><span>1</span><h3>Semak slot</h3><p>Hantar nama sekolah, kawasan rumah, sesi sekolah dan maklumat ringkas anak melalui WhatsApp.</p></div>
+    <div class="step"><span>2</span><h3>Confirm route</h3><p>Kami semak kawasan, sekolah, pickup point dan kesesuaian jadual mengikut route semasa.</p></div>
+    <div class="step"><span>3</span><h3>Isi Borang Pendaftaran</h3><p>Selepas route sesuai, ibu bapa isi <a href="pendaftaran.html">borang pendaftaran rasmi</a> dengan maklumat lengkap pelajar dan penjaga.</p></div>
+    <div class="step"><span>4</span><h3>Baca T&amp;C</h3><p>Ibu bapa baca dan faham terma servis, cancellation, refund dan aturan perjalanan harian.</p></div>
+    <div class="step"><span>5</span><h3>Isi form bayaran</h3><p>Lengkapkan form bayaran atau pautan bayaran yang kami sediakan untuk pengesahan slot.</p></div>
+    <div class="step"><span>6</span><h3>Anak mula naik van</h3><p>Pickup dan drop-off berjalan mengikut jadual yang telah dipersetujui bersama.</p></div>
+  </div>
+</section>
+
+<section id="tentang" class="section lightBand aboutSection">
+  <div class="container aboutBrief netlifyAbout">
+    <div class="aboutImage fleetAbout" aria-label="Fleet Salut Transport"><div class="aboutFleetGrid"><button class="fleetPreview" type="button" data-src="assets/mcn-8413.png" aria-label="Preview gambar van Salut Transport"><img src="assets/mcn-8413.png" alt="Van Salut Transport MCN 8413"></button><button class="fleetPreview" type="button" data-src="assets/wa-2438-u.png" aria-label="Preview gambar van Salut Transport"><img src="assets/wa-2438-u.png" alt="Van Salut Transport WA 2438 U"></button></div><div class="hoursBox"><b>&#x1F552; Waktu Operasi</b><strong>Isnin - Jumaat<br>6:00 pagi - 7:30 malam</strong></div></div>
+    <div class="aboutCopyBlock">
+      <p class="sectionKicker">Tentang Salut Transport</p>
+      <h2 class="sectionTitle">Ketenangan Untuk Ibu Bapa, Keselesaan Untuk Anak</h2>
+      <p>Bagi kami, setiap perjalanan bukan sekadar menghantar anak ke sekolah. Ia adalah amanah yang diberikan oleh ibu bapa.</p>
+      <p>Salut Transport hadir untuk menyediakan perkhidmatan pengangkutan sekolah yang selamat, selesa dan boleh dipercayai, agar ibu bapa dapat menjalani rutin harian dengan penuh keyakinan.</p>
+      <p>Kami percaya ketenangan hati ibu bapa adalah permulaan kepada kebahagiaan dan kejayaan anak-anak.</p>
+      <a class="inlineCta" href="https://wa.me/60123539977?text=Assalamualaikum%2C%20saya%20nak%20semak%20slot%20van%20sekolah." target="_blank" rel="noopener">WhatsApp untuk semak slot</a>
+    </div>
+  </div>
+</section>
+
+<section id="kawasan" class="section darkBand compactBand">
+  <div class="container centered">
+    <p class="sectionKicker">Kawasan servis</p>
+    <h2 class="sectionTitle">Kawasan &amp; sekolah diliputi</h2>
+    <p class="sectionLead">Tekan kad sekolah untuk preview lokasi. <span class="desktopOnlyText">Tekan ikon &#x1F5FA;&#xFE0F; untuk buka Google Maps.</span></p>
+    <div class="schoolLocator simpleMapLocator">
+      <div class="schoolList" aria-label="Senarai sekolah diliputi">
+        <div class="schoolCard isActive"><button class="schoolSelect" type="button" data-name="Sekolah Kebangsaan Bandar Baru Bangi Jalan 2" data-short="SK Jalan 2" data-area="Jalan 2, Bandar Baru Bangi" data-query="Sekolah Kebangsaan Bandar Baru Bangi Jalan 2"><span>SK</span><div><strong>Sekolah Kebangsaan Bandar Baru Bangi Jalan 2</strong><small>Jalan 2, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202" target="_blank" rel="noopener">&#x1F5FA;&#xFE0F;</a></div>
+        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="Sekolah Menengah Kebangsaan Bandar Baru Bangi" data-short="SMK BBB" data-area="Bandar Baru Bangi, Selangor" data-query="Sekolah Menengah Kebangsaan Bandar Baru Bangi"><span>SM</span><div><strong>Sekolah Menengah Kebangsaan Bandar Baru Bangi</strong><small>Bandar Baru Bangi, Selangor</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Menengah%20Kebangsaan%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener">&#x1F5FA;&#xFE0F;</a></div>
+        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="SK Jalan Tiga" data-short="SK Jalan 3" data-area="Jalan 3, Bandar Baru Bangi" data-query="SK Jalan Tiga Bandar Baru Bangi" data-map-url="https://maps.app.goo.gl/XGVw4Wz4iBoFzNBd7"><span>SK</span><div><strong>SK Jalan Tiga</strong><small>Jalan 3, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://maps.app.goo.gl/XGVw4Wz4iBoFzNBd7" target="_blank" rel="noopener">&#x1F5FA;&#xFE0F;</a></div>
+        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="SMK Jalan Tiga" data-short="SMK Jalan 3" data-area="Jalan 3, Bandar Baru Bangi" data-query="SMK Jalan Tiga Bandar Baru Bangi"><span>SM</span><div><strong>SMK Jalan Tiga</strong><small>Jalan 3, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=SMK%20Jalan%20Tiga%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener">&#x1F5FA;&#xFE0F;</a></div>
+        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="Sekolah Kebangsaan Jalan Empat" data-short="SK Jalan 4" data-area="Jalan 4, Bandar Baru Bangi" data-query="Sekolah Kebangsaan Jalan Empat Bandar Baru Bangi"><span>SK</span><div><strong>Sekolah Kebangsaan Jalan Empat</strong><small>Jalan 4, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Kebangsaan%20Jalan%20Empat%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener">&#x1F5FA;&#xFE0F;</a></div>
+        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="SMK Jalan Empat" data-short="SMK Jalan 4" data-area="Jalan 4, Bandar Baru Bangi" data-query="SMK Jalan Empat Bandar Baru Bangi"><span>SM</span><div><strong>SMK Jalan Empat</strong><small>Jalan 4, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=SMK%20Jalan%20Empat%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener">&#x1F5FA;&#xFE0F;</a></div>
+        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="ABIM Sg Ramal" data-short="ABIM" data-area="Sg Ramal, Kajang" data-query="ABIM Sg Ramal"><span>AB</span><div><strong>ABIM Sg Ramal</strong><small>Sg Ramal, Kajang</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=ABIM%20Sg%20Ramal" target="_blank" rel="noopener">&#x1F5FA;&#xFE0F;</a></div>
+      </div>
+      <div class="schoolMapPanel">
+        <iframe id="schoolMap" title="Peta sekolah diliputi" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202&amp;output=embed"></iframe>
+        <div class="schoolMapInfo"><div><h3 id="schoolMapName">Sekolah Kebangsaan Bandar Baru Bangi Jalan 2</h3><p id="schoolMapArea">Jalan 2, Bandar Baru Bangi</p></div><a id="schoolMapLink" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202" target="_blank" rel="noopener">Buka dalam Google Maps</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section lightBand">
+  <div class="container splitIntro"><div><p class="sectionKicker">FAQ ibu bapa</p><h2 class="sectionTitle">Soalan biasa sebelum daftar.</h2></div><p class="sectionLead">Jawapan ringkas untuk bantu ibu bapa faham route, bayaran, pickup dan komunikasi harian.</p></div>
+  <div class="container faqList">
+    <details data-go-daftar><summary>Macam mana nak daftar?</summary><p>Pergi ke bahagian Cara Daftar untuk lihat flow penuh. Selepas semak slot, kami confirm route, ibu bapa isi borang pendaftaran rasmi, baca T&amp;C dan lengkapkan form bayaran.</p></details>
+    <details><summary>Area mana yang Salut Transport cover?</summary><p>Fokus utama ialah Bandar Baru Bangi, Seksyen 2, Seksyen 3, Seksyen 4 dan kawasan Sg Ramal tertakluk kepada route semasa.</p></details>
+    <details><summary>Bayaran bulanan berapa?</summary><p>Harga bergantung kepada kawasan, sekolah, sesi dan pilihan 1 hala atau 2 hala. Hubungi kami untuk semak harga berdasarkan route anak.</p></details>
+    <details><summary>Kalau anak MC atau cuti macam mana?</summary><p>Maklumkan lebih awal melalui WhatsApp supaya pemandu tahu anak tidak perlu diambil atau dihantar pada hari tersebut.</p></details>
+    <details><summary>Kalau tukar alamat atau pickup point?</summary><p>Beritahu kami lebih awal. Kami akan semak sama ada alamat baru masih sesuai dengan route yang berjalan.</p></details>
+    <details><summary>Pickup pukul berapa?</summary><p>Masa pickup bergantung kepada sekolah, sesi dan susunan route. Kami akan confirm selepas maklumat kawasan dan sekolah diterima.</p></details>
+    <details><summary>Ada refund atau cancellation policy?</summary><p>Ya. Sila rujuk halaman Cancellation Policy dan Refund Policy untuk maklumat lanjut.</p></details>
+    <details><summary>Bagaimana kaedah bayaran bulanan?</summary><p>Bayaran dibuat menggunakan link yang kami sediakan setiap bulan. Ibu bapa perlu isi maklumat yang diminta supaya bayaran boleh direkodkan dengan betul.</p></details>
+    <details><summary>Macam mana parent akan dimaklumkan?</summary><p>Komunikasi utama dibuat melalui WhatsApp untuk semakan route, perubahan jadual, cuti atau maklumat penting lain.</p></details>
+  </div>
+</section>
+
+<section id="review" class="section darkBand compactBand"><div class="container centered"><p class="sectionKicker">Review ibu bapa</p><h2 class="sectionTitle">Kepercayaan ibu bapa sangat penting.</h2><p class="sectionLead">Antara maklum balas ringkas daripada ibu bapa yang menggunakan servis Salut Transport.</p><div class="reviewWrap"><div class="reviewCard"><div class="quoteMark">&quot;</div><p>Saya syukur Allah mudahkan saya jumpa Salut Transport.</p><span>Puan Nina</span></div><div class="reviewCard"><div class="quoteMark">&quot;</div><p>Link pembayaran baharu ini lebih bagus daripada sistem sebelumnya. Kini bayaran boleh dibuat terus melalui online banking tanpa perlu melalui langkah tambahan yang menyusahkan.</p><span>Encik Asyraf</span></div></div></div></section>
+
+<section id="contact" class="section contactBand">
+  <div class="container contactGrid"><div class="contactInfo"><p class="sectionKicker">Hubungi kami</p><h2>Jom aturkan perjalanan anak</h2><p>Kongsi maklumat sekolah, kawasan rumah dan sesi anak. Kami akan semak route, harga dan jadual yang sesuai sebelum teruskan pendaftaran.</p><div class="contactPanel"><b>Salut Transport</b><a href="tel:+60123539977">012-353 9977</a><a href="https://wa.me/60123539977" target="_blank" rel="noopener">WhatsApp Salut Transport</a></div></div>
+    <form class="contactForm whatsappForm"><div class="formHeader"><h3>Maklumat anak & penjaga</h3><p>Borang ini akan sediakan mesej WhatsApp secara automatik.</p></div><div class="formRow"><div class="field"><label for="nama">Nama Ibu Bapa / Penjaga</label><input id="nama" name="Nama Ibu Bapa / Penjaga" type="text" autocomplete="name" required></div><div class="field"><label for="telefon">No. telefon</label><input id="telefon" name="No. telefon" type="tel" autocomplete="tel" required></div></div><div class="formRow"><div class="field"><label for="sekolah">Sekolah anak</label><input id="sekolah" name="Sekolah anak" type="text" required></div><div class="field"><label for="darjah">Tahun / darjah anak</label><input id="darjah" name="Tahun atau darjah anak" type="text" placeholder="Contoh: Tahun 3 / Tingkatan 1"></div></div><div class="formRow"><div class="field"><label for="kawasanRumah">Kawasan rumah</label><input id="kawasanRumah" name="Kawasan rumah" type="text" placeholder="Contoh: Seksyen 4, Bangi" required></div><div class="field"><label for="sesiSekolah">Sesi sekolah</label><select id="sesiSekolah" name="Sesi sekolah"><option>Pagi</option><option>Petang</option><option>Belum pasti</option></select></div></div><div class="field"><label for="mesej">Mesej tambahan</label><textarea id="mesej" name="Mesej tambahan" placeholder="Contoh: perlu 1 hala / 2 hala, pickup point, waktu tamat sekolah"></textarea></div><div class="formActions"><button class="btn btnPrimary" type="submit">Hantar ke WhatsApp</button><a class="btn btnGhost darkText" href="https://wa.me/60123539977?text=Assalamualaikum%2C%20saya%20nak%20semak%20slot%20van%20sekolah." target="_blank" rel="noopener">WhatsApp Terus</a></div><p class="formNote">Selepas klik hantar, WhatsApp akan terbuka dengan mesej yang sudah siap.</p></form>
+  </div>
+</section>
+
+<section class="section finalBand"><div class="container finalCta"><div><h2>Sedia bincang route anak?</h2><p>Hubungi kami melalui WhatsApp dan kami bantu semak pilihan yang sesuai.</p></div><a class="btn btnPrimary" href="#contact">Hubungi Kami</a></div></section>
+<a class="whatsappBox" href="https://wa.me/60123539977" target="_blank" rel="noopener" aria-label="WhatsApp Salut Transport">WhatsApp kami</a>
+<div class="mobileWhatsAppChat" aria-hidden="true"><div class="chatHead"><strong>Salut Transport</strong><button type="button" class="chatClose" aria-label="Tutup chat">×</button></div><textarea class="chatMessage" aria-label="Mesej WhatsApp">Assalamualaikum, saya nak semak slot van sekolah.</textarea><button type="button" class="chatSend">Send WhatsApp</button></div>
+<div class="fleetLightbox" id="fleetLightbox" aria-hidden="true">
+  <div class="fleetLightboxPanel" role="dialog" aria-modal="true" aria-label="Preview gambar van">
+    <button class="fleetLightboxClose" type="button" aria-label="Tutup preview">×</button>
+    <img class="fleetLightboxImage" src="assets/mcn-8413.png" alt="">
+    <p>Van Salut Transport</p>
+  </div>
+</div>
+<footer class="footer"><div class="container footerRow"><div>&copy; 2026 Salut Transport. Semua hak cipta terpelihara.</div><div><a href="terms.html">T&amp;C</a> · <a href="refund.html">Refund</a> · <a href="cancellation.html">Cancellation</a> · <a href="service-delivery.html">Service Delivery</a> · <a href="privacy.html">Privacy</a></div></div></footer>
+<script src="site.js"></script>
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+.git
+.agents
+.codex
+salut-ten-concept
+salut-platform
+nextjs-auth-persistence-fix
+salut-transport-2026-automation
+salut-transport-2027-automation
+.pnpm-store
+deploy-*.zip
+codex_*.png
+codex_*.gs
+onpay_*.txt

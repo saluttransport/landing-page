@@ -1,0 +1,27 @@
+# Local Netlify folder
+.netlify
+
+# Local tooling / editor config
+.claude
+.agents
+
+# Separate sub-projects (each managed on its own, not part of this repo)
+salut-platform/
+salut-ten-concept/
+salut-transport-2026-automation/
+salut-transport-2027-automation/
+nextjs-auth-persistence-fix/
+
+# Build/dependency artifacts and scratch files
+.pnpm-store
+node_modules
+deploy-*.zip
+salut-transport-2027-automation.zip
+codex_*.png
+codex_*.gs
+onpay_*.txt
+
+# Env / secrets
+.env
+.env.*
+!.env.example
