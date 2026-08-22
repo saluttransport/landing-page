@@ -451,7 +451,7 @@
     floatingWhatsapp.setAttribute('role', 'button');
     floatingWhatsapp.setAttribute('aria-label', 'Buka chat WhatsApp Salut Transport');
     floatingWhatsapp.setAttribute('aria-expanded', 'false');
-    floatingWhatsapp.innerHTML = '<span class="whatsappFloatingIcon" aria-hidden="true"></span><span class="whatsappUnreadBadge" aria-hidden="true">1</span>';
+    floatingWhatsapp.innerHTML = '<span class="whatsappFloatingIcon" aria-hidden="true"></span>';
     chatBox.setAttribute('role', 'dialog');
     chatBox.setAttribute('aria-modal', 'false');
     chatBox.setAttribute('aria-label', 'Chat WhatsApp Salut Transport');
