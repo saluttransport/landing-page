@@ -1,11 +1,16 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ms">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pendaftaran | Salut Transport</title>
-  <meta name="description" content="Lengkapkan pendaftaran rasmi Salut Transport untuk servis van sekolah sekitar Bandar Baru Bangi.">
+  <meta name="description" content="Lengkapkan pendaftaran rasmi Salut Transport untuk servis van sekolah sekitar Bandar Baru Bangi. Ambil masa lebih kurang 4 minit.">
   <meta name="theme-color" content="#07100c">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Salut Transport">
+  <meta property="og:title" content="Pendaftaran Van Sekolah | Salut Transport">
+  <meta property="og:description" content="Lengkapkan pendaftaran rasmi Salut Transport untuk servis van sekolah sekitar Bandar Baru Bangi.">
+  <meta property="og:image" content="assets/og-image.jpg">
   <link rel="manifest" href="site.webmanifest">
   <link rel="icon" type="image/png" href="assets/app-icon-192.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -26,8 +31,10 @@
     })();
   </script>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="concept.css">
 </head>
-<body>
+<body data-concept-preview="true">
+<div class="conceptRibbon">Pratonton konsep &mdash; <b>Salut TEN Concept</b>. Borang ini dalam <b>mod simulasi</b>: tiada data sebenar dihantar. <a href="https://wa.me/60123539977" target="_blank" rel="noopener">Ada soalan?</a></div>
 <nav class="nav">
   <div class="container navRow">
     <a class="brand" href="index.html#utama" aria-label="Salut Transport">
@@ -35,13 +42,11 @@
       <span class="brandText"><strong>SALUT</strong><small>TRANSPORT</small></span>
     </a>
     <div class="links">
-      <a href="index.html#kenapa">Kenapa Kami</a>
-      <a href="index.html#pakej">Pakej</a>
-      <a href="pendaftaran.html">Daftar</a>
-      <a href="index.html#tentang">Tentang</a>
       <a href="index.html#kawasan">Kawasan</a>
+      <a href="index.html#kenapa">Kenapa Kami</a>
+      <a href="pendaftaran.html" aria-current="page">Daftar</a>
       <a href="index.html#faq">FAQ</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="index.html#contact">Hubungi</a>
       <button class="themeToggle" type="button" aria-label="Tukar dark mode" aria-pressed="false"><span class="toggleKnob"></span><span class="toggleText">Mode</span></button>
     </div>
     <a class="navCta" href="#borang">Isi Borang</a>
@@ -54,8 +59,12 @@
       <div class="registrationShell">
         <div class="registrationTop">
           <div>
-            <strong>Borang Pendaftaran Salut Transport</strong>
+            <h1>Borang Pendaftaran Salut Transport</h1>
             <span>Lengkapkan maklumat rasmi untuk pendaftaran van sekolah sesi 2027.</span>
+            <div class="registrationMeta">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.5l3.5 2"/></svg> Ambil masa lebih kurang 4 minit</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9.5h16M8 3.5v3M16 3.5v3"/></svg> 4 bahagian ringkas</span>
+            </div>
           </div>
         </div>
         <form class="sheetRegistrationForm kbcStyleForm" data-endpoint="/api/registration">
@@ -68,7 +77,7 @@
           </div>
 
           <section id="maklumat-anak" class="formCard">
-            <div class="formCardTitle"><span>&#128118;</span><h3>Maklumat Kanak-Kanak</h3></div>
+            <div class="formCardTitle"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="3.2"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></span><h2>Maklumat Kanak-Kanak</h2></div>
             <label><span class="fieldLabel">Nama penuh anak <span class="req">*</span></span><small>(seperti dalam MyKid)</small><input name="namaAnak" placeholder="Contoh: Amirah Husna Binti Mohd Yusman" required></label>
             <div class="formRow">
               <label><span class="fieldLabel">Tarikh lahir <span class="req">*</span></span><input name="tarikhLahir" type="date" required></label>
@@ -111,7 +120,8 @@
           </section>
 
           <section id="maklumat-penjaga" class="formCard">
-            <div class="formCardTitle"><span>&#128104;&#8205;&#128105;&#8205;&#128103;</span><h3>Maklumat Ibu Bapa / Penjaga</h3></div>
+            <div class="formCardTitle"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8.5" cy="7" r="2.6"/><circle cx="16" cy="8" r="2.2"/><path d="M4 20c0-2.8 2-5 4.5-5s4.5 2.2 4.5 5"/><path d="M13 20c.2-2.4 1.7-4.2 3.5-4.2 2 0 3.5 2 3.5 4.2"/></svg></span><h2>Maklumat Ibu Bapa / Penjaga</h2></div>
+            <p class="icPurposeNote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 10.5v5.5M12 7.8h.01"/></svg><span>No. IC digunakan untuk pengesahan identiti penjaga sah sahaja dan tidak dikongsi kepada pihak ketiga. Rujuk <a href="privacy.html" target="_blank" rel="noopener">Notis Privasi</a>.</span></p>
             <label><span class="fieldLabel">Nama ayah / penjaga lelaki <span class="req">*</span></span><input name="namaAyah" placeholder="Nama penuh" required></label>
             <div class="formRow">
               <label><span class="fieldLabel">No. telefon ayah <span class="req">*</span></span><input name="telefonAyah" type="tel" inputmode="tel" autocomplete="tel" maxlength="14" pattern="(?:\+?60|0)1\d{8,9}" title="Masukkan nombor telefon Malaysia yang lengkap, contoh 0181234567 atau 60181234567." placeholder="Contoh: 0181234567" required></label>
@@ -122,18 +132,18 @@
               <label><span class="fieldLabel">No. telefon ibu <span class="req">*</span></span><input name="telefonIbu" type="tel" inputmode="tel" autocomplete="tel" maxlength="14" pattern="(?:\+?60|0)1\d{8,9}" title="Masukkan nombor telefon Malaysia yang lengkap, contoh 0181234567 atau 60181234567." placeholder="Contoh: 0181234567" required></label>
               <label>No. IC ibu / penjaga wanita<input name="icIbu" inputmode="numeric" placeholder="Contoh: 800101145678"></label>
             </div>
-            <label><span class="fieldLabel">Alamat e-mel <span class="req">*</span></span><input name="email" type="email" placeholder="contoh@email.com" required><small>Maklumat penting dan resit akan dihantar ke e-mel ini.</small></label>
+            <label><span class="fieldLabel">Alamat e-mel <span class="req">*</span></span><input name="email" type="email" inputmode="email" autocomplete="email" placeholder="contoh@email.com" required><small>Maklumat penting dan resit akan dihantar ke e-mel ini.</small></label>
           </section>
 
           <section id="maklumat-pengangkutan" class="formCard">
-            <div class="formCardTitle"><span>&#128652;</span><h3>Maklumat Pengangkutan</h3></div>
+            <div class="formCardTitle"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h1.5l1.7-4.6A2 2 0 0 1 8.1 6h7.8a2 2 0 0 1 1.9 1.4L19.5 12H21"/><rect x="2.5" y="12" width="19" height="5" rx="1.5"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg></span><h2>Maklumat Pengangkutan</h2></div>
             <div class="formRow">
               <label><span class="fieldLabel">Sesi sekolah <span class="req">*</span></span><select name="sesiSekolah" required><option value="">Pilih sesi</option><option>Pagi</option><option>Petang</option></select></label>
               <label><span class="fieldLabel">Pilihan perjalanan <span class="req">*</span></span><select name="pilihanPerjalanan" data-trip-select required><option value="">Pilih perjalanan</option><option>PERGI</option><option>BALIK</option><option>PERGI DAN BALIK</option></select></label>
             </div>
             <div class="tripFields" data-trip-one hidden>
               <div class="routeBlock">
-                <h4 data-trip-one-title>Perjalanan pergi</h4>
+                <h3 data-trip-one-title>Perjalanan pergi</h3>
                 <div class="formRow">
                   <label><span class="fieldLabel">Pickup point <span class="req">*</span></span><select name="pickupPoint" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
                   <label><span class="fieldLabel">Drop off <span class="req">*</span></span><select name="dropOff" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
@@ -142,14 +152,14 @@
             </div>
             <div class="tripFields" data-trip-two hidden>
               <div class="routeBlock">
-                <h4>Perjalanan pergi</h4>
+                <h3>Perjalanan pergi</h3>
                 <div class="formRow">
                   <label><span class="fieldLabel">Pickup point pertama <span class="req">*</span></span><select name="pickupPoint1" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
                   <label><span class="fieldLabel">Drop off pertama <span class="req">*</span></span><select name="dropOff1" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
                 </div>
               </div>
               <div class="routeBlock">
-                <h4>Perjalanan balik</h4>
+                <h3>Perjalanan balik</h3>
                 <div class="formRow">
                   <label><span class="fieldLabel">Pickup point kedua <span class="req">*</span></span><select name="pickupPoint2" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
                   <label><span class="fieldLabel">Drop off kedua <span class="req">*</span></span><select name="dropOff2" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
@@ -159,7 +169,7 @@
           </section>
 
           <section id="pengesahan" class="formCard">
-            <div class="formCardTitle"><span>&#9989;</span><h3>Pengesahan</h3></div>
+            <div class="formCardTitle"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg></span><h2>Pengesahan</h2></div>
             <label class="consentRow"><input name="termsAccepted" type="checkbox" value="true" required><span>Saya mengesahkan maklumat yang diberikan adalah betul dan bersetuju dengan <a href="terms.html" target="_blank" rel="noopener">T&amp;C Salut Transport</a>.</span></label>
             <label class="consentRow"><input name="privacyAccepted" type="checkbox" value="true" required><span>Saya telah membaca dan bersetuju dengan <a href="privacy.html" target="_blank" rel="noopener">Notis Privasi</a>.</span></label>
             <button class="btn btnPrimary" type="submit">Hantar Pendaftaran</button>
@@ -172,9 +182,33 @@
 </main>
 
 <a class="whatsappBox" href="https://wa.me/60123539977" target="_blank" rel="noopener" aria-label="WhatsApp Salut Transport">WhatsApp kami</a>
-<footer class="footer"><div class="container footerRow"><div>&copy; 2026 Salut Transport. Semua hak cipta terpelihara.</div><div><a href="terms.html">T&amp;C</a> &middot; <a href="refund.html">Refund</a> &middot; <a href="cancellation.html">Cancellation</a> &middot; <a href="service-delivery.html">Service Delivery</a> &middot; <a href="privacy.html">Privacy</a></div></div></footer>
+<footer class="footer">
+  <div class="container">
+    <div class="footerGrid">
+      <div class="footerBrand">
+        <strong>Salut Transport</strong>
+        <p>Van sekolah untuk Bandar Baru Bangi dan Sg Ramal.</p>
+        <a class="navSupport" href="https://wa.me/60123539977" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.3-3.5A7.96 7.96 0 0 1 4 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>012-353 9977</a>
+      </div>
+      <div class="footerCol">
+        <p class="footerColHead">Hubungi</p>
+        <a href="mailto:saluttransport@gmail.com">saluttransport@gmail.com</a>
+        <div>12, Jalan 4/12F, Seksyen 4,<br>43650 Bandar Baru Bangi</div>
+      </div>
+      <div class="footerCol">
+        <p class="footerColHead">Pautan</p>
+        <a href="index.html#kawasan">Kawasan</a>
+        <a href="contact.html">Hubungi (penuh)</a>
+        <a href="terms.html">T&amp;C</a>
+        <a href="refund.html">Refund</a>
+        <a href="cancellation.html">Cancellation</a>
+        <a href="service-delivery.html">Service Delivery</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+    <div class="footerBottom"><div>&copy; 2026 Salut Transport. Semua hak cipta terpelihara.</div></div>
+  </div>
+</footer>
 <script src="site.js"></script>
 </body>
 </html>
-
-

@@ -1,0 +1,11 @@
+# This robots.txt intentionally blocks ALL crawling.
+# It belongs to the "salut-ten-concept" preview build, which must never be
+# indexed by search engines. When (and only when) work from this branch is
+# promoted to production, replace this file with the production version:
+#
+#   User-agent: *
+#   Allow: /
+#   Sitemap: https://salut.my/sitemap.xml
+#
+User-agent: *
+Disallow: /

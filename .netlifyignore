@@ -1,13 +1,23 @@
 .git
-.agents
-.codex
-salut-ten-concept
-salut-platform
-nextjs-auth-persistence-fix
-salut-transport-2026-automation
-salut-transport-2027-automation
-.pnpm-store
-deploy-*.zip
-codex_*.png
-codex_*.gs
-onpay_*.txt
+node_modules
+
+# Large orphaned/unreferenced source images kept in the repo for safety but
+# not linked from any concept page — excluding them only shrinks THIS deploy
+# upload; the files themselves are untouched on disk.
+assets/bgl-6186.png
+assets/hero-section.png
+assets/wkb-2924.png
+assets/mcn-8413.png
+assets/wa-2438-u.png
+assets/hero-opt-mobile.webp
+assets/hero-opt-fallback.jpg
+assets/mcn-8413-opt-fallback.jpg
+assets/wa-2438-u-opt-fallback.jpg
+
+# Unrelated in-progress prototype files (payment-receipt page), not part of
+# this concept build.
+resit.html
+resit-preview.html
+resit-simple-preview.html
+resit-*.png
+preview-header.png

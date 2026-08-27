@@ -1,4 +1,5 @@
 ﻿(function(){
+  var CONCEPT_PREVIEW = document.body.hasAttribute('data-concept-preview');
   var nav = document.querySelector('.nav');
   var row = document.querySelector('.navRow');
   var links = document.querySelector('.links');
@@ -49,13 +50,11 @@
       '<button class="mobileNavClose" type="button" aria-label="Tutup menu" data-menu-close>×</button>',
       '</div>',
       '<nav class="mobileNavLinks" aria-label="Mobile navigation">',
-      '<a href="index.html#kenapa">Kenapa Kami</a>',
-      '<a href="index.html#pakej">Pakej</a>',
-      '<a href="index.html#daftar">Cara Daftar</a>',
-      '<a href="index.html#tentang">Tentang</a>',
       '<a href="index.html#kawasan">Kawasan</a>',
+      '<a href="index.html#kenapa">Kenapa Kami</a>',
+      '<a href="index.html#daftar">Cara Daftar</a>',
       '<a href="index.html#faq">FAQ</a>',
-      '<a href="index.html#review">Testimoni</a>',
+      '<a href="index.html#contact">Hubungi</a>',
       '</nav>',
       '<div class="mobileNavActions">',
       '<div class="mobileThemeRow"><span>Tema</span><button class="themeToggle mobileThemeToggle" type="button" aria-label="Toggle light and dark mode"></button></div>',
@@ -139,11 +138,11 @@
   });
 
   var heroGallery = document.querySelector('.heroGallery');
-  if (heroGallery && heroGallery.dataset.heroImages) {
+  if (heroGallery && heroGallery.dataset.heroImages && !heroGallery.querySelector('.heroSlide')) {
     var heroImages = heroGallery.dataset.heroImages.split(',').map(function(path){ return path.trim(); }).filter(Boolean);
     if (heroImages.length) {
       heroGallery.innerHTML = heroImages.map(function(path, index){
-        return '<img class="heroSlide' + (index === 0 ? ' isActive' : '') + '" src="' + path + '" alt="">';
+        return '<img class="heroSlide' + (index === 0 ? ' isActive' : '') + '" src="' + path + '" alt="" loading="' + (index === 0 ? 'eager' : 'lazy') + '">';
       }).join('');
     }
   }
@@ -259,6 +258,42 @@
       tripSelect.addEventListener('change', updateTripFields);
       updateTripFields();
     }
+
+    var progressLinks = Array.prototype.slice.call(form.querySelectorAll('.formProgress a'));
+    var progressSections = progressLinks.map(function(link){
+      var id = (link.getAttribute('href') || '').replace('#', '');
+      return document.getElementById(id);
+    });
+    function sectionIsComplete(section){
+      if (!section) return false;
+      var fields = Array.prototype.slice.call(section.querySelectorAll('input,select,textarea')).filter(function(field){
+        return !field.disabled && field.offsetParent !== null;
+      });
+      if (!fields.length) return false;
+      return fields.every(function(field){
+        if (field.type === 'checkbox') return !field.required || field.checked;
+        if (!field.required) return field.checkValidity();
+        return field.checkValidity() && String(field.value || '').trim() !== '';
+      });
+    }
+    function refreshProgress(){
+      progressSections.forEach(function(section, index){
+        if (progressLinks[index]) progressLinks[index].classList.toggle('isDone', sectionIsComplete(section));
+      });
+    }
+    if (progressLinks.length && progressSections.length && 'IntersectionObserver' in window) {
+      var spy = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          var index = progressSections.indexOf(entry.target);
+          if (index === -1 || !progressLinks[index]) return;
+          progressLinks[index].classList.toggle('isCurrent', entry.isIntersecting);
+        });
+      }, { rootMargin: '-30% 0px -55% 0px' });
+      progressSections.forEach(function(section){ if (section) spy.observe(section); });
+    }
+    form.addEventListener('input', refreshProgress);
+    form.addEventListener('change', refreshProgress);
+    refreshProgress();
     function schoolLevel2027(birthYear){
       var levels = {
         2020: 'Darjah 1', 2019: 'Darjah 2', 2018: 'Darjah 3', 2017: 'Darjah 4',
@@ -349,6 +384,11 @@
         if (form.dataset.submitting === 'true') setStatus('Pendaftaran sudah diterima dan sedang disahkan. Jangan refresh atau tekan semula.', '');
       }, 1800);
       function sendRegistration(attempt){
+        if (CONCEPT_PREVIEW) {
+          return new Promise(function(resolve){ setTimeout(resolve, 900); }).then(function(){
+            return { success: true, submissionId: 'PRATONTON-' + currentRequestId().slice(0, 8).toUpperCase() };
+          });
+        }
         return fetch(endpoint, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
@@ -379,7 +419,11 @@
         sessionStorage.removeItem(requestStorageKey);
         form.reset();
         updateTripFields();
-        setStatus('Pendaftaran berjaya dihantar. ID rujukan: ' + data.submissionId, 'success');
+        var message = CONCEPT_PREVIEW
+          ? 'Mod pratonton: borang sah dan lengkap. Dalam laman sebenar, pendaftaran ini akan dihantar. ID rujukan ujian: ' + data.submissionId
+          : 'Pendaftaran berjaya dihantar. ID rujukan: ' + data.submissionId;
+        setStatus(message, 'success');
+        refreshProgress();
       }).catch(function(){
         setStatus('Pendaftaran belum dapat disahkan. Jangan isi borang baharu — tekan Hantar Pendaftaran sekali lagi atau hubungi WhatsApp.', 'error');
       }).finally(function(){
@@ -459,7 +503,7 @@
       '<div class="chatHead">',
       '<div class="chatIdentity">',
       '<span class="chatAvatar" aria-hidden="true"><img src="assets/logo.png" alt=""><i></i></span>',
-      '<span><strong>Salut Transport</strong><small>Online sekarang</small></span>',
+      '<span><strong>Salut Transport</strong><small>Balas dalam ~1 jam waktu operasi</small></span>',
       '</div>',
       '<button type="button" class="chatClose" aria-label="Tutup chat">×</button>',
       '</div>',
