@@ -98,6 +98,34 @@ body:not(.darkMode) .btnSecondary{
   border-radius:999px;padding:8px 14px;margin-bottom:16px;
 }
 
+/* ---------- 5b. Coverage self-checker (real data, no invented slots/price) ---------- */
+.schoolCheckerBox{
+  position:relative;max-width:440px;margin:22px auto 6px;
+}
+.schoolCheckerBox svg{
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  width:20px;height:20px;color:rgba(255,255,255,.5);pointer-events:none;
+}
+.schoolCheckerBox input{
+  width:100%;min-height:52px;border-radius:999px;
+  border:1.5px solid rgba(212,162,76,.35);
+  background:rgba(255,255,255,.06);color:#fff;
+  font:700 16px 'Nunito Sans',system-ui,sans-serif;
+  padding:12px 18px 12px 46px;
+}
+.schoolCheckerBox input::placeholder{color:rgba(255,255,255,.45);}
+.schoolCheckerBox input:focus{border-color:var(--yellow,#D4A24C);outline:none;box-shadow:0 0 0 4px rgba(212,162,76,.18);}
+html[data-theme="light"] .schoolCheckerBox input,
+body:not(.darkMode) .schoolCheckerBox input{background:rgba(26,36,32,.04);color:#1A2420;border-color:rgba(26,36,32,.16);}
+html[data-theme="light"] .schoolCheckerBox svg,
+body:not(.darkMode) .schoolCheckerBox svg{color:rgba(26,36,32,.4);}
+.schoolFilterEmpty{
+  max-width:520px;margin:14px auto 0;font-size:14.5px;line-height:1.5;
+  color:rgba(255,255,255,.68);
+}
+.schoolFilterEmpty a{color:var(--yellow,#D4A24C);font-weight:800;}
+.schoolCard[hidden]{display:none!important;}
+
 /* ---------- 6. Pricing section -> "check fare" UX, no invented numbers ---------- */
 .fareBanner{
   grid-column:1/-1;

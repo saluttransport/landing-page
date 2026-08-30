@@ -437,6 +437,24 @@
     });
   });
 
+  var schoolFilter = document.getElementById('schoolFilter');
+  var schoolFilterEmpty = document.getElementById('schoolFilterEmpty');
+  var schoolCards = Array.prototype.slice.call(document.querySelectorAll('.schoolCard'));
+  if (schoolFilter && schoolCards.length) {
+    schoolFilter.addEventListener('input', function(){
+      var query = schoolFilter.value.trim().toLowerCase();
+      var visibleCount = 0;
+      schoolCards.forEach(function(card){
+        var button = card.querySelector('.schoolSelect');
+        var haystack = ((button.dataset.name || '') + ' ' + (button.dataset.area || '') + ' ' + (button.dataset.short || '')).toLowerCase();
+        var matches = !query || haystack.indexOf(query) !== -1;
+        card.hidden = !matches;
+        if (matches) visibleCount++;
+      });
+      if (schoolFilterEmpty) schoolFilterEmpty.hidden = visibleCount > 0;
+    });
+  }
+
   var mapFrame = document.getElementById('schoolMap');
   var mapName = document.getElementById('schoolMapName');
   var mapArea = document.getElementById('schoolMapArea');
