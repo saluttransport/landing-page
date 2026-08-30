@@ -146,6 +146,13 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.3-4.3"/></svg>
       <input type="search" id="schoolFilter" placeholder="Contoh: Jalan 4, Sg Ramal, SMK..." aria-label="Semak sekolah atau kawasan anda" autocomplete="off">
     </div>
+    <div class="zoneChips" role="group" aria-label="Tapis ikut kawasan">
+      <button type="button" class="zoneChip isActive" data-zone="">Semua</button>
+      <button type="button" class="zoneChip" data-zone="Jalan 2">Jalan 2</button>
+      <button type="button" class="zoneChip" data-zone="Jalan 3">Jalan 3</button>
+      <button type="button" class="zoneChip" data-zone="Jalan 4">Jalan 4</button>
+      <button type="button" class="zoneChip" data-zone="Sg Ramal">Sg Ramal</button>
+    </div>
     <p class="schoolFilterEmpty" id="schoolFilterEmpty" hidden>Tiada sekolah sepadan dalam senarai — tapi kawasan berdekatan mungkin masih boleh disusun ikut route semasa. <a href="https://wa.me/60123539977?text=Assalamualaikum%2C%20saya%20nak%20tanya%20jika%20kawasan%20saya%20diliputi." target="_blank" rel="noopener">Tanya di WhatsApp</a>.</p>
     <div class="schoolLocator simpleMapLocator">
       <div class="schoolList" aria-label="Senarai sekolah diliputi">
@@ -159,7 +166,17 @@
       </div>
       <div class="schoolMapPanel">
         <iframe id="schoolMap" title="Peta sekolah diliputi" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202&amp;output=embed"></iframe>
-        <div class="schoolMapInfo"><div><h3 id="schoolMapName">Sekolah Kebangsaan Bandar Baru Bangi Jalan 2</h3><p id="schoolMapArea">Jalan 2, Bandar Baru Bangi</p></div><a id="schoolMapLink" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202" target="_blank" rel="noopener">Buka dalam Google Maps</a></div>
+        <div class="schoolMapInfo">
+          <div>
+            <span class="coveredBadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>Diliputi</span>
+            <h3 id="schoolMapName">Sekolah Kebangsaan Bandar Baru Bangi Jalan 2</h3>
+            <p id="schoolMapArea">Jalan 2, Bandar Baru Bangi</p>
+          </div>
+          <div class="schoolMapInfoActions">
+            <a id="schoolMapCta" class="btn btnPrimary" href="https://wa.me/60123539977?text=Assalamualaikum%2C%20saya%20nak%20semak%20tambang%20untuk%20anak%20di%20Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202." target="_blank" rel="noopener">Semak Tambang Sekarang</a>
+            <a id="schoolMapLink" class="btn btnSecondary" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202" target="_blank" rel="noopener">Buka dalam Google Maps</a>
+          </div>
+        </div>
       </div>
     </div>
     <p class="priceNote">Tak nampak sekolah anak di sini? Hubungi kami di WhatsApp &mdash; kawasan berdekatan mungkin masih boleh disusun ikut route semasa.</p>

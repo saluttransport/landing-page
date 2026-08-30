@@ -440,25 +440,41 @@
   var schoolFilter = document.getElementById('schoolFilter');
   var schoolFilterEmpty = document.getElementById('schoolFilterEmpty');
   var schoolCards = Array.prototype.slice.call(document.querySelectorAll('.schoolCard'));
+  var zoneChips = Array.prototype.slice.call(document.querySelectorAll('.zoneChip'));
+  function runSchoolFilter(query){
+    query = (query || '').trim().toLowerCase();
+    var visibleCount = 0;
+    schoolCards.forEach(function(card){
+      var button = card.querySelector('.schoolSelect');
+      var haystack = ((button.dataset.name || '') + ' ' + (button.dataset.area || '') + ' ' + (button.dataset.short || '')).toLowerCase();
+      var matches = !query || haystack.indexOf(query) !== -1;
+      card.hidden = !matches;
+      if (matches) visibleCount++;
+    });
+    if (schoolFilterEmpty) schoolFilterEmpty.hidden = visibleCount > 0;
+  }
   if (schoolFilter && schoolCards.length) {
     schoolFilter.addEventListener('input', function(){
-      var query = schoolFilter.value.trim().toLowerCase();
-      var visibleCount = 0;
-      schoolCards.forEach(function(card){
-        var button = card.querySelector('.schoolSelect');
-        var haystack = ((button.dataset.name || '') + ' ' + (button.dataset.area || '') + ' ' + (button.dataset.short || '')).toLowerCase();
-        var matches = !query || haystack.indexOf(query) !== -1;
-        card.hidden = !matches;
-        if (matches) visibleCount++;
-      });
-      if (schoolFilterEmpty) schoolFilterEmpty.hidden = visibleCount > 0;
+      runSchoolFilter(schoolFilter.value);
+      var matchesActiveZone = zoneChips.some(function(chip){ return chip.classList.contains('isActive') && chip.dataset.zone && chip.dataset.zone.toLowerCase() === schoolFilter.value.trim().toLowerCase(); });
+      if (!matchesActiveZone) {
+        zoneChips.forEach(function(chip){ chip.classList.toggle('isActive', chip.dataset.zone === ''); });
+      }
     });
   }
+  zoneChips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      zoneChips.forEach(function(item){ item.classList.toggle('isActive', item === chip); });
+      if (schoolFilter) schoolFilter.value = chip.dataset.zone || '';
+      runSchoolFilter(chip.dataset.zone || '');
+    });
+  });
 
   var mapFrame = document.getElementById('schoolMap');
   var mapName = document.getElementById('schoolMapName');
   var mapArea = document.getElementById('schoolMapArea');
   var mapLink = document.getElementById('schoolMapLink');
+  var mapCta = document.getElementById('schoolMapCta');
   document.querySelectorAll('.schoolSelect').forEach(function(button){
     button.addEventListener('click', function(){
       var query = button.dataset.query || '';
@@ -472,6 +488,7 @@
       if (mapArea) mapArea.textContent = area;
       if (mapLink) mapLink.href = mapUrl;
       if (mapFrame) mapFrame.src = 'https://maps.google.com/maps?q=' + encodeURIComponent(query) + '&output=embed';
+      if (mapCta) mapCta.href = 'https://wa.me/60123539977?text=' + encodeURIComponent('Assalamualaikum, saya nak semak tambang untuk anak di ' + name + '.');
     });
   });
 
