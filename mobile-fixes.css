@@ -2061,6 +2061,24 @@ html[data-theme="dark"] .sheetRegistrationForm select:disabled{
 
 /* Mobile sidebar CTA cleanup: keep only the yellow button visible */
 @media(max-width:980px){
+  .mobileNavBrand strong{
+    color:#ef3340!important;
+    font-family:'Nunito Sans',system-ui,-apple-system,Segoe UI,Arial,sans-serif!important;
+    font-style:italic!important;
+    font-weight:900!important;
+    letter-spacing:0!important;
+    text-transform:uppercase!important;
+  }
+
+  .mobileNavBrand small{
+    color:#1f5fbf!important;
+    font-family:'Nunito Sans',system-ui,-apple-system,Segoe UI,Arial,sans-serif!important;
+    font-style:italic!important;
+    font-weight:900!important;
+    letter-spacing:3px!important;
+    text-transform:uppercase!important;
+  }
+
   .mobileNavActions{
     background:transparent!important;
     border:0!important;

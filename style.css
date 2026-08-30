@@ -1402,3 +1402,16 @@ body.darkMode .contactBand{
   background:#1C3628;
   color:white;
 }
+
+/* Contact form note: keep the helper text readable in dark mode */
+html[data-theme="dark"] .formNote,
+body.darkMode .formNote{
+  background:#0A130E!important;
+  color:rgba(243,238,228,.78)!important;
+  border-color:rgba(255,255,255,.14)!important;
+}
+
+/* Fleet cards stay clickable without a visible preview label */
+.fleetPreview:after{
+  display:none!important;
+}

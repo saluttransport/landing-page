@@ -17,11 +17,11 @@
 .conceptRibbon b{color:var(--yellow,#D4A24C)}
 .conceptRibbon a{text-decoration:underline;color:#fff}
 
-/* ---------- 1. Brand mark: fix stray red/blue, back to gold/ink ---------- */
-.brandText strong{color:#FFFFFF !important;}
-.brandText small{color:rgba(255,255,255,.72) !important;}
-html[data-theme="light"] .brandText strong{color:#1A2420 !important;}
-html[data-theme="light"] .brandText small{color:rgba(26,36,32,.62) !important;}
+/* ---------- 1. Brand mark: keep Salut wordmark colours consistent ---------- */
+.brandText strong{color:#ef3340 !important;}
+.brandText small{color:#1f5fbf !important;}
+html[data-theme="light"] .brandText strong{color:#ef3340 !important;}
+html[data-theme="light"] .brandText small{color:#1f5fbf !important;}
 
 /* ---------- 2. CTA system: primary / secondary / support ----------
    Primary  = check availability & fare (gold fill)  -> .btnPrimary (unchanged)
