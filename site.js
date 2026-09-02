@@ -1,5 +1,4 @@
 ﻿(function(){
-  var CONCEPT_PREVIEW = document.body.hasAttribute('data-concept-preview');
   var nav = document.querySelector('.nav');
   var row = document.querySelector('.navRow');
   var links = document.querySelector('.links');
@@ -384,11 +383,6 @@
         if (form.dataset.submitting === 'true') setStatus('Pendaftaran sudah diterima dan sedang disahkan. Jangan refresh atau tekan semula.', '');
       }, 1800);
       function sendRegistration(attempt){
-        if (CONCEPT_PREVIEW) {
-          return new Promise(function(resolve){ setTimeout(resolve, 900); }).then(function(){
-            return { success: true, submissionId: 'PRATONTON-' + currentRequestId().slice(0, 8).toUpperCase() };
-          });
-        }
         return fetch(endpoint, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
@@ -419,9 +413,7 @@
         sessionStorage.removeItem(requestStorageKey);
         form.reset();
         updateTripFields();
-        var message = CONCEPT_PREVIEW
-          ? 'Mod pratonton: borang sah dan lengkap. Dalam laman sebenar, pendaftaran ini akan dihantar. ID rujukan ujian: ' + data.submissionId
-          : 'Pendaftaran berjaya dihantar. ID rujukan: ' + data.submissionId;
+        var message = 'Pendaftaran berjaya dihantar. ID rujukan: ' + data.submissionId;
         setStatus(message, 'success');
         refreshProgress();
       }).catch(function(){
