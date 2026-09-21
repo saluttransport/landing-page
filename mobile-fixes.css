@@ -1679,8 +1679,21 @@ html[data-theme="light"] .themeToggle .themeTrack{
 .whatsappBox:not(.hasOpened){
   animation:whatsappPulse 2.4s ease-in-out infinite;
 }
+.whatsappBox:not(.hasOpened):after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:2px solid #25d366;
+  animation:whatsappRing 2.4s ease-out infinite;
+  pointer-events:none;
+}
 .whatsappBox:not(.hasOpened):hover,
 .whatsappBox:not(.hasOpened):focus-visible{
+  animation-play-state:paused;
+}
+.whatsappBox:not(.hasOpened):hover:after,
+.whatsappBox:not(.hasOpened):focus-visible:after{
   animation-play-state:paused;
 }
 
@@ -1875,14 +1888,12 @@ html[data-theme="light"] .themeToggle .themeTrack{
 }
 
 @keyframes whatsappPulse{
-  0%,100%{
-    transform:scale(1);
-    box-shadow:0 18px 42px rgba(15,46,34,.34),0 0 0 0 rgba(37,211,102,.55);
-  }
-  50%{
-    transform:scale(1.07);
-    box-shadow:0 18px 42px rgba(15,46,34,.34),0 0 0 12px rgba(37,211,102,0);
-  }
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+}
+@keyframes whatsappRing{
+  0%{transform:scale(1);opacity:.65}
+  100%{transform:scale(1.7);opacity:0}
 }
 
 @media(max-width:560px){
