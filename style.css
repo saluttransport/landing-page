@@ -10,13 +10,6 @@
   text-shadow:0 1px 0 rgba(255,255,255,.1);
 }
 
-/* Final hero readability override */
-body:not(.darkMode) .heroShade{
-  background:
-    linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.88) 42%,rgba(255,255,255,.58) 72%,rgba(255,255,255,.3) 100%),
-    linear-gradient(0deg,rgba(255,255,255,.46),transparent 48%)!important;
-}
-
 /* Theme bootstrap support before site.js applies body.darkMode */
 html[data-theme="dark"] body{background:#0F2E22;color:#fff}
 html[data-theme="dark"] .nav{background:rgba(10,19,14,.9)}
@@ -1141,13 +1134,6 @@ body:not(.darkMode) .footer a:hover{color:#B8842F!important}
     font-size:16px;
     line-height:1.6;
   }
-}
-
-/* Final light-mode hero fade override */
-body:not(.darkMode) .heroShade{
-  background:
-    linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.88) 42%,rgba(255,255,255,.58) 72%,rgba(255,255,255,.3) 100%),
-    linear-gradient(0deg,rgba(255,255,255,.46),transparent 48%)!important;
 }
 
 /* Final mobile hero icon override */
