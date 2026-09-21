@@ -242,15 +242,5 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   color:rgba(255,255,255,.55);text-align:center;
 }
 
-/* ---------- 12. Mobile: keep floating WhatsApp from crowding primary CTAs ---------- */
-@media(max-width:560px){
-  .whatsappBox{
-    right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));
-    padding:14px 18px;font-size:0;width:56px;height:56px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .whatsappFloatingIcon{width:26px;height:26px;}
-}
-
 /* ---------- 13. About / fleet: caption for excluded stock asset (dev note only, harmless if unused) ---------- */
 .fleetCount{font-size:12.5px;color:inherit;opacity:.6;font-weight:700;margin-top:8px;}
