@@ -216,15 +216,6 @@ html[data-theme="dark"] .contentPage h2{color:#fff;}
   .footerGrid{grid-template-columns:1fr;gap:22px;}
 }
 
-/* ---------- 9. Nav: current-page indicator, tidy WhatsApp support link ---------- */
-.links a[aria-current="page"],
-.mobileNavLinks a[aria-current="page"]{color:var(--yellow,#D4A24C)!important;opacity:1;}
-.navSupport{
-  display:inline-flex;align-items:center;gap:6px;
-  color:rgba(255,255,255,.85)!important;font-size:13px!important;
-}
-.navSupport svg{width:15px;height:15px;color:#1f9e5c;}
-
 /* ---------- 10. Accessibility: visible focus, touch targets, contrast ---------- */
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{
   outline:3px solid var(--yellow,#D4A24C)!important;
