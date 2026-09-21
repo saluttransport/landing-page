@@ -518,7 +518,6 @@
     var quickReplies = Array.prototype.slice.call(chatBox.querySelectorAll('.chatQuickReplies button'));
     var lastChatFocus = null;
     var chatOpenedKey = 'salut-whatsapp-opened';
-    var chatAutoKey = 'salut-whatsapp-auto-shown';
     function removeUnread(){
       floatingWhatsapp.classList.add('hasOpened');
       sessionStorage.setItem(chatOpenedKey, 'true');
@@ -597,12 +596,6 @@
         setChat(false, true);
       }
     });
-    if (sessionStorage.getItem(chatAutoKey) !== 'true') {
-      sessionStorage.setItem(chatAutoKey, 'true');
-      window.setTimeout(function(){
-        if (!chatBox.classList.contains('isOpen')) setChat(true, false);
-      }, 4200);
-    }
     if (sendChat) {
       sendChat.addEventListener('click', function(){
         setChat(false, false);
