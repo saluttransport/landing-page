@@ -1415,3 +1415,13 @@ body.darkMode .formNote{
 .fleetPreview:after{
   display:none!important;
 }
+
+/* Mobile: keep floating WhatsApp button from crowding primary CTAs, on every page */
+@media(max-width:560px){
+  .whatsappBox{
+    right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));
+    padding:14px 18px;font-size:0;width:56px;height:56px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .whatsappFloatingIcon{width:26px;height:26px;}
+}
