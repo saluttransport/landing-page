@@ -1416,6 +1416,17 @@ body.darkMode .formNote{
   display:none!important;
 }
 
+/* Nav: current-page indicator, sized WhatsApp support link icon — on every page.
+   Without explicit sizing, the inline SVG here defaults to its unconstrained
+   intrinsic size, which renders as a huge icon. */
+.links a[aria-current="page"],
+.mobileNavLinks a[aria-current="page"]{color:var(--yellow,#D4A24C)!important;opacity:1;}
+.navSupport{
+  display:inline-flex;align-items:center;gap:6px;
+  color:rgba(255,255,255,.85)!important;font-size:13px!important;
+}
+.navSupport svg{width:15px;height:15px;color:#1f9e5c;}
+
 /* Floating WhatsApp launcher + chat popup — on every page. site.js builds the
    .mobileWhatsAppChat panel (avatar, bubble, quick replies, send button) at
    runtime on every page; without these rules it rendered unstyled/oversized. */
