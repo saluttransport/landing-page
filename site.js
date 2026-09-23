@@ -517,14 +517,6 @@
     var sendChat = chatBox.querySelector('.chatSend');
     var quickReplies = Array.prototype.slice.call(chatBox.querySelectorAll('.chatQuickReplies button'));
     var lastChatFocus = null;
-    var chatOpenedKey = 'salut-whatsapp-opened';
-    function removeUnread(){
-      floatingWhatsapp.classList.add('hasOpened');
-      sessionStorage.setItem(chatOpenedKey, 'true');
-    }
-    if (sessionStorage.getItem(chatOpenedKey) === 'true') {
-      floatingWhatsapp.classList.add('hasOpened');
-    }
     function focusableChatItems(){
       return Array.prototype.slice.call(chatBox.querySelectorAll('button,a[href],textarea,input,select,[tabindex]:not([tabindex="-1"])')).filter(function(item){
         return !item.disabled && item.offsetParent !== null;
@@ -541,7 +533,6 @@
       }
       floatingWhatsapp.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (open) {
-        removeUnread();
         setTimeout(function(){ if (closeChat) closeChat.focus({preventScroll:true}); }, 80);
       } else if (restoreFocus !== false && lastChatFocus && document.contains(lastChatFocus)) {
         lastChatFocus.focus({preventScroll:true});
