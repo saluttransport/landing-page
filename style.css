@@ -818,7 +818,7 @@ select option:disabled{
 .registrationFormSection{background:var(--black);padding:94px 0}
 .registrationOnlyPage{padding:34px 0 72px;min-height:calc(100svh - 86px)}
 .registrationFormSingle{max-width:940px}
-.registrationShell{background:#0A1F17;border:1px solid rgba(212,162,76,.24);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;padding:12px}
+.registrationShell{background:#0A1F17;border:1px solid rgba(212,162,76,.24);border-radius:20px;box-shadow:var(--shadow);padding:12px}
 .registrationTop{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 12px 16px;color:white}
 .registrationTop strong{display:block;font-size:24px;line-height:1.2}
 .registrationTop span{display:block;margin-top:4px;color:rgba(255,255,255,.72);font-size:16px;font-weight:700}
