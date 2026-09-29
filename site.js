@@ -462,14 +462,14 @@
   var floatingWhatsapp = document.querySelector('.whatsappBox');
   var chatBox = document.querySelector('.mobileWhatsAppChat');
   var chatOverlay = document.querySelector('.whatsappChatOverlay');
-  var whatsappDefaultMessage = 'Assalamualaikum! Saya nak tanya tentang servis van sekolah Salut Transport.';
-  var whatsappMessages = {
-    slot: 'Assalamualaikum, saya nak semak slot van sekolah untuk anak saya.',
-    price: 'Assalamualaikum, saya nak tanya harga pakej van sekolah Salut Transport.',
-    area: 'Assalamualaikum, saya nak tanya kawasan yang diliputi oleh Salut Transport.'
-  };
+  var whatsappEscapeMessage = 'Assalamualaikum! Saya nak tanya tentang servis van sekolah Salut Transport.';
   function whatsappUrl(message){
-    return 'https://wa.me/60123539977?text=' + encodeURIComponent(message || whatsappDefaultMessage);
+    return 'https://wa.me/60123539977?text=' + encodeURIComponent(message || whatsappEscapeMessage);
+  }
+  function escapeHtml(value){
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch];
+    });
   }
   if (floatingWhatsapp && !chatBox) {
     chatBox = document.createElement('div');
@@ -482,41 +482,140 @@
       chatOverlay = document.createElement('button');
       chatOverlay.className = 'whatsappChatOverlay';
       chatOverlay.type = 'button';
-      chatOverlay.setAttribute('aria-label', 'Tutup chat WhatsApp');
+      chatOverlay.setAttribute('aria-label', 'Tutup chat Salut Transport');
       chatOverlay.setAttribute('aria-hidden', 'true');
       document.body.insertBefore(chatOverlay, chatBox);
     }
     floatingWhatsapp.setAttribute('role', 'button');
-    floatingWhatsapp.setAttribute('aria-label', 'Buka chat WhatsApp Salut Transport');
+    floatingWhatsapp.setAttribute('aria-label', 'Buka chat Salut Transport');
     floatingWhatsapp.setAttribute('aria-expanded', 'false');
     floatingWhatsapp.innerHTML = '<span class="whatsappFloatingIcon" aria-hidden="true"></span>';
     chatBox.setAttribute('role', 'dialog');
     chatBox.setAttribute('aria-modal', 'false');
-    chatBox.setAttribute('aria-label', 'Chat WhatsApp Salut Transport');
+    chatBox.setAttribute('aria-label', 'Chat Salut Transport');
     chatBox.innerHTML = [
       '<div class="chatHead">',
       '<div class="chatIdentity">',
       '<span class="chatAvatar" aria-hidden="true"><img src="assets/logo.png" alt=""><i></i></span>',
-      '<span><strong>Salut Transport</strong><small>Balas dalam ~1 jam waktu operasi</small></span>',
+      '<span><strong>Salut Transport</strong><small>Pembantu automatik &middot; sedia membantu</small></span>',
       '</div>',
-      '<button type="button" class="chatClose" aria-label="Tutup chat">×</button>',
+      '<button type="button" class="chatClose" aria-label="Tutup chat">&times;</button>',
       '</div>',
       '<div class="chatBody">',
-      '<p class="chatBubble">Assalamualaikum! Ada apa yang boleh kami bantu untuk perjalanan sekolah anak?</p>',
-      '<div class="chatQuickReplies" aria-label="Pilihan mesej pantas">',
-      '<button type="button" data-message-key="slot">Semak slot van sekolah</button>',
-      '<button type="button" data-message-key="price">Tanya harga pakej</button>',
-      '<button type="button" data-message-key="area">Tanya kawasan diliputi</button>',
-      '</div>',
+      '<div class="chatMessages" id="chatMessages" role="log" aria-live="polite"></div>',
       '</div>',
       '<div class="chatFooter">',
-      '<a class="chatSend" href="' + whatsappUrl(whatsappDefaultMessage) + '" target="_blank" rel="noopener"><span aria-hidden="true"></span>Buka WhatsApp</a>',
+      '<form class="chatInputRow">',
+      '<textarea class="chatInput" rows="1" maxlength="600" placeholder="Taip soalan anda..." aria-label="Taip soalan anda"></textarea>',
+      '<button type="submit" class="chatSubmit" aria-label="Hantar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 20.5 3l-5 17-5.2-6.3L3 11.5Zm7.3 2.7 3.4 4.1 3.2-11.2-6.6 7.1Z"/></svg></button>',
+      '</form>',
+      '<a class="chatWaEscape" href="' + whatsappUrl(whatsappEscapeMessage) + '" target="_blank" rel="noopener">&#128172; Lebih senang? WhatsApp terus</a>',
       '</div>'
     ].join('');
     var closeChat = chatBox.querySelector('.chatClose');
-    var sendChat = chatBox.querySelector('.chatSend');
-    var quickReplies = Array.prototype.slice.call(chatBox.querySelectorAll('.chatQuickReplies button'));
+    var messagesEl = chatBox.querySelector('#chatMessages');
+    var chatForm = chatBox.querySelector('.chatInputRow');
+    var chatInput = chatBox.querySelector('.chatInput');
+    var chatSubmit = chatBox.querySelector('.chatSubmit');
     var lastChatFocus = null;
+    var history = [];
+    var hasWelcomed = false;
+    var busy = false;
+
+    function scrollMessagesToEnd(){
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+    function addBotBubble(textContent, quickReplyLabels){
+      var wrap = document.createElement('div');
+      var bubble = document.createElement('p');
+      bubble.className = 'msg msgBot';
+      bubble.innerHTML = escapeHtml(textContent).replace(/\n/g, '<br>');
+      wrap.appendChild(bubble);
+      if (quickReplyLabels && quickReplyLabels.length) {
+        var qr = document.createElement('div');
+        qr.className = 'chatQuickReplies';
+        qr.setAttribute('aria-label', 'Pilihan soalan pantas');
+        quickReplyLabels.forEach(function(label){
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = label;
+          btn.addEventListener('click', function(){ sendMessage(label); });
+          qr.appendChild(btn);
+        });
+        wrap.appendChild(qr);
+      }
+      messagesEl.appendChild(wrap);
+      scrollMessagesToEnd();
+    }
+    function addUserBubble(textContent){
+      var bubble = document.createElement('p');
+      bubble.className = 'msg msgUser';
+      bubble.textContent = textContent;
+      messagesEl.appendChild(bubble);
+      scrollMessagesToEnd();
+    }
+    function showTyping(){
+      var dots = document.createElement('div');
+      dots.className = 'typingDots';
+      dots.id = 'chatTyping';
+      dots.innerHTML = '<span></span><span></span><span></span>';
+      messagesEl.appendChild(dots);
+      scrollMessagesToEnd();
+    }
+    function hideTyping(){
+      var dots = document.getElementById('chatTyping');
+      if (dots) dots.remove();
+    }
+    function autoResize(){
+      chatInput.style.height = 'auto';
+      chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + 'px';
+    }
+    function setBusy(state){
+      busy = state;
+      chatSubmit.disabled = state;
+      chatInput.disabled = state;
+    }
+    function sendMessage(rawText){
+      var userText = (rawText || chatInput.value || '').trim();
+      if (!userText || busy) return;
+      chatInput.value = '';
+      autoResize();
+      addUserBubble(userText);
+      history.push({ role: 'user', content: userText });
+      if (history.length > 10) history = history.slice(history.length - 10);
+      setBusy(true);
+      showTyping();
+      fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history })
+      }).then(function(response){
+        return response.json().catch(function(){ return null; }).then(function(data){
+          if (response.ok && data && data.success && data.reply) return data.reply;
+          throw new Error('chat_failed');
+        });
+      }).then(function(reply){
+        hideTyping();
+        addBotBubble(reply);
+        history.push({ role: 'assistant', content: reply });
+      }).catch(function(){
+        hideTyping();
+        addBotBubble('Maaf, ada masalah sambungan. Sila cuba lagi sekejap, atau terus WhatsApp kami di bawah. 💬');
+      }).finally(function(){
+        setBusy(false);
+        chatInput.focus({ preventScroll: true });
+      });
+    }
+    function addWelcome(){
+      if (hasWelcomed) return;
+      hasWelcomed = true;
+      addBotBubble('Assalamualaikum! 👋 Saya pembantu automatik Salut Transport. Boleh saya bantu anda hari ini?', [
+        'Semak slot & tambang',
+        'Kawasan diliputi',
+        'Macam mana nak daftar'
+      ]);
+    }
+
     function focusableChatItems(){
       return Array.prototype.slice.call(chatBox.querySelectorAll('button,a[href],textarea,input,select,[tabindex]:not([tabindex="-1"])')).filter(function(item){
         return !item.disabled && item.offsetParent !== null;
@@ -533,7 +632,8 @@
       }
       floatingWhatsapp.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (open) {
-        setTimeout(function(){ if (closeChat) closeChat.focus({preventScroll:true}); }, 80);
+        addWelcome();
+        setTimeout(function(){ if (chatInput) chatInput.focus({preventScroll:true}); }, 80);
       } else if (restoreFocus !== false && lastChatFocus && document.contains(lastChatFocus)) {
         lastChatFocus.focus({preventScroll:true});
       }
@@ -555,13 +655,16 @@
       if (event.target.closest && event.target.closest('.themeToggle')) return;
       setChat(false, true);
     });
-    quickReplies.forEach(function(reply){
-      reply.addEventListener('click', function(){
-        var key = reply.dataset.messageKey;
-        var message = whatsappMessages[key] || whatsappDefaultMessage;
-        quickReplies.forEach(function(item){ item.classList.toggle('isSelected', item === reply); });
-        if (sendChat) sendChat.href = whatsappUrl(message);
-      });
+    chatForm.addEventListener('submit', function(event){
+      event.preventDefault();
+      sendMessage();
+    });
+    chatInput.addEventListener('input', autoResize);
+    chatInput.addEventListener('keydown', function(event){
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
     });
     chatBox.addEventListener('keydown', function(event){
       if (event.key === 'Escape') {
@@ -587,11 +690,6 @@
         setChat(false, true);
       }
     });
-    if (sendChat) {
-      sendChat.addEventListener('click', function(){
-        setChat(false, false);
-      });
-    }
   }
 
   var fleetLightbox = document.getElementById('fleetLightbox');
