@@ -1,4 +1,4 @@
-﻿(function(){
+(function(){
   var nav = document.querySelector('.nav');
   var row = document.querySelector('.navRow');
   var links = document.querySelector('.links');
@@ -13,7 +13,19 @@
   }
   ensureStylesheet('mobile-fixes.css');
   ensureStylesheet('content-fixes.css');
+  var goLiveSheet = document.querySelector('link[href="go-live.css"]');
+  if (goLiveSheet) document.head.appendChild(goLiveSheet);
 
+  document.querySelectorAll('.brandText').forEach(function(wordmark){
+    ['strong','small'].forEach(function(tag){
+      var word = wordmark.querySelector(tag);
+      if (!word || word.dataset.justified) return;
+      var letters = word.textContent.trim();
+      word.setAttribute('aria-label', letters);
+      word.innerHTML = Array.from(letters).map(function(letter){ return '<span aria-hidden="true">' + letter + '</span>'; }).join('');
+      word.dataset.justified = 'true';
+    });
+  });
   var themeButton = links.querySelector('.themeToggle') || row.querySelector('.themeToggle');
   if (!row.querySelector('.menuToggle')) {
     var menuButton = document.createElement('button');
@@ -51,6 +63,8 @@
       '<nav class="mobileNavLinks" aria-label="Mobile navigation">',
       '<a href="index.html#kawasan">Kawasan</a>',
       '<a href="index.html#kenapa">Kenapa Kami</a>',
+      '<a href="index.html#tentang">Tentang Kami</a>',
+      '<a href="index.html#pakej">Tambang</a>',
       '<a href="index.html#daftar">Cara Daftar</a>',
       '<a href="index.html#faq">FAQ</a>',
       '<a href="index.html#contact">Hubungi</a>',
@@ -172,18 +186,19 @@
     });
   }
   function nextHeroSlide(){ showHeroSlide(heroIndex + 1); }
-  function resetHeroTimer(){
-    if (!heroSlides.length) return;
+  function stopHeroTimer(){
     window.clearInterval(heroTimer);
-    heroTimer = window.setInterval(nextHeroSlide, 5200);
+    heroTimer = null;
   }
   if (heroSlides.length) {
-    if (heroPrev) heroPrev.addEventListener('click', function(){ showHeroSlide(heroIndex - 1); resetHeroTimer(); });
-    if (heroNext) heroNext.addEventListener('click', function(){ showHeroSlide(heroIndex + 1); resetHeroTimer(); });
+    if (heroPrev) heroPrev.addEventListener('click', function(){ showHeroSlide(heroIndex - 1); stopHeroTimer(); });
+    if (heroNext) heroNext.addEventListener('click', function(){ showHeroSlide(heroIndex + 1); stopHeroTimer(); });
     heroDots.forEach(function(dot, dotIndex){
-      dot.addEventListener('click', function(){ showHeroSlide(dotIndex); resetHeroTimer(); });
+      dot.addEventListener('click', function(){ showHeroSlide(dotIndex); stopHeroTimer(); });
     });
-    resetHeroTimer();
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      heroTimer = window.setInterval(function(){ if (!document.hidden) nextHeroSlide(); }, 6500);
+    }
   }
 
   document.querySelectorAll('.whatsappForm').forEach(function(form){
@@ -497,7 +512,7 @@
       '<div class="chatHead">',
       '<div class="chatIdentity">',
       '<span class="chatAvatar" aria-hidden="true"><img src="assets/logo.png" alt=""><i></i></span>',
-      '<span><strong>Salut Transport</strong><small>Balas dalam ~1 jam waktu operasi</small></span>',
+      '<span><strong><span>Salut</span> <span class="transport">Transport</span></strong><small class="chatAvailability">Online</small></span>',
       '</div>',
       '<button type="button" class="chatClose" aria-label="Tutup chat">×</button>',
       '</div>',
@@ -508,11 +523,27 @@
       '<button type="button" data-message-key="price">Tanya harga pakej</button>',
       '<button type="button" data-message-key="area">Tanya kawasan diliputi</button>',
       '</div>',
+      '<label for="chatCustomMessage">Atau tulis mesej sendiri</label>',
+      '<textarea id="chatCustomMessage" rows="3" maxlength="1000" placeholder="Tulis pertanyaan anda di sini…"></textarea>',
       '</div>',
       '<div class="chatFooter">',
       '<a class="chatSend" href="' + whatsappUrl(whatsappDefaultMessage) + '" target="_blank" rel="noopener"><span aria-hidden="true"></span>Buka WhatsApp</a>',
       '</div>'
     ].join('');
+    var customMessage = chatBox.querySelector('#chatCustomMessage');
+    var availability = chatBox.querySelector('.chatAvailability');
+    function updateAvailability(){
+      if (!availability) return;
+      var parts = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Kuala_Lumpur', weekday:'short', hour:'2-digit', minute:'2-digit', hour12:false }).formatToParts(new Date());
+      var values = {};
+      parts.forEach(function(part){ values[part.type] = part.value; });
+      var minutes = Number(values.hour) * 60 + Number(values.minute);
+      var open = ['Mon','Tue','Wed','Thu','Fri'].includes(values.weekday) && minutes >= 360 && minutes < 1170;
+      availability.textContent = open ? 'Online' : 'Luar waktu operasi';
+      availability.classList.toggle('isOffline', !open);
+    }
+    updateAvailability();
+    window.setInterval(updateAvailability, 60000);
     var closeChat = chatBox.querySelector('.chatClose');
     var sendChat = chatBox.querySelector('.chatSend');
     var quickReplies = Array.prototype.slice.call(chatBox.querySelectorAll('.chatQuickReplies button'));
@@ -560,8 +591,13 @@
         var key = reply.dataset.messageKey;
         var message = whatsappMessages[key] || whatsappDefaultMessage;
         quickReplies.forEach(function(item){ item.classList.toggle('isSelected', item === reply); });
+        if (customMessage) customMessage.value = message;
         if (sendChat) sendChat.href = whatsappUrl(message);
       });
+    });
+    if (customMessage) customMessage.addEventListener('input', function(){
+      if (sendChat) sendChat.href = whatsappUrl(customMessage.value.trim());
+      quickReplies.forEach(function(item){ item.classList.remove('isSelected'); });
     });
     chatBox.addEventListener('keydown', function(event){
       if (event.key === 'Escape') {
