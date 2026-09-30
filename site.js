@@ -52,7 +52,7 @@
     mobileMenu.inert = true;
     mobileMenu.innerHTML = [
       '<div class="mobileNavScrim" data-menu-close></div>',
-      '<div class="mobileNavPanel" role="dialog" aria-label="Menu mudah alih">',
+      '<div class="mobileNavPanel" role="dialog" aria-modal="true" aria-label="Menu mudah alih">',
       '<div class="mobileNavPanelHead">',
       '<a class="mobileNavBrand" href="index.html" aria-label="Salut Transport Home">',
       '<span class="mobileNavLogo"><img src="assets/logo.png" alt=""></span>',
@@ -117,7 +117,30 @@
     mobilePanel.addEventListener('click', function(event){ event.stopPropagation(); });
   }
   document.addEventListener('click', function(event){ if (nav.classList.contains('menuOpen') && !nav.contains(event.target)) closeMenu(true); });
-  document.addEventListener('keydown', function(event){ if (event.key === 'Escape') closeMenu(true); });
+  function containDialogFocus(event, dialog){
+    if (event.key !== 'Tab' || !dialog) return;
+    var items = Array.from(dialog.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')).filter(function(item){
+      return !item.disabled && item.tabIndex >= 0 && item.getClientRects().length > 0;
+    });
+    if (!items.length) return;
+    var first = items[0];
+    var last = items[items.length - 1];
+    if (!dialog.contains(document.activeElement) || (event.shiftKey && document.activeElement === first)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+  document.addEventListener('keydown', function(event){
+    if (!nav.classList.contains('menuOpen')) return;
+    if (event.key === 'Escape') closeMenu(true);
+    else containDialogFocus(event, mobilePanel);
+  });
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 980 && nav.classList.contains('menuOpen')) closeMenu(false);
+  });
 
   var key = 'theme';
   var buttons = document.querySelectorAll('.themeToggle');
@@ -633,11 +656,13 @@
   var fleetLightbox = document.getElementById('fleetLightbox');
   var fleetLightboxImage = fleetLightbox ? fleetLightbox.querySelector('.fleetLightboxImage') : null;
   var fleetLightboxClose = fleetLightbox ? fleetLightbox.querySelector('.fleetLightboxClose') : null;
+  if (fleetLightbox) fleetLightbox.inert = true;
   var lastFleetTrigger = null;
   function closeFleetPreview(){
     if (!fleetLightbox) return;
     fleetLightbox.classList.remove('isOpen');
     fleetLightbox.setAttribute('aria-hidden', 'true');
+    fleetLightbox.inert = true;
     document.body.style.overflow = '';
     if (lastFleetTrigger) lastFleetTrigger.focus();
   }
@@ -649,6 +674,7 @@
       fleetLightboxImage.alt = button.querySelector('img')?.alt || 'Van Salut Transport';
       fleetLightbox.classList.add('isOpen');
       fleetLightbox.setAttribute('aria-hidden', 'false');
+      fleetLightbox.inert = false;
       document.body.style.overflow = 'hidden';
       if (fleetLightboxClose) fleetLightboxClose.focus();
     });
@@ -660,6 +686,8 @@
     });
   }
   document.addEventListener('keydown', function(event){
-    if (event.key === 'Escape' && fleetLightbox && fleetLightbox.classList.contains('isOpen')) closeFleetPreview();
+    if (!fleetLightbox || !fleetLightbox.classList.contains('isOpen')) return;
+    if (event.key === 'Escape') closeFleetPreview();
+    else containDialogFocus(event, fleetLightbox);
   });
 })();
