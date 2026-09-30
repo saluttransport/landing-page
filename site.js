@@ -410,7 +410,7 @@
       }
       payload.icIbu = normalizeIc(payload.icIbu);
       payload.icAyah = normalizeIc(payload.icAyah);
-      setStatus('Pendaftaran sedang dihantar — biasanya siap dalam 1–2 saat. Jangan refresh halaman ini.', '');
+      setStatus('Pendaftaran sedang dihantar. Tunggu pengesahan dan jangan refresh halaman ini.', '');
       form.dataset.submitting = 'true';
       var submitLabel = submitButton ? submitButton.textContent : '';
       if (submitButton) {
@@ -418,7 +418,7 @@
         submitButton.textContent = 'Sedang dihantar…';
       }
       var reassuranceTimer = window.setTimeout(function(){
-        if (form.dataset.submitting === 'true') setStatus('Pendaftaran sudah diterima dan sedang disahkan. Jangan refresh atau tekan semula.', '');
+        if (form.dataset.submitting === 'true') setStatus('Masih menunggu pengesahan pendaftaran. Jangan refresh atau tekan semula.', '');
       }, 1800);
       function sendRegistration(attempt){
         return fetch(endpoint, {
