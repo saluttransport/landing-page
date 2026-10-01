@@ -30,6 +30,7 @@ Plain static site. No framework, no bundler, no `package.json`, no build step
 | `chrome.css` | Shared header, mobile drawer and footer on every page (classes prefixed `st-`). The markup is repeated in all 8 HTML files, so change it everywhere together |
 | `home.css` | Homepage sections (`index.html` only). Classes are prefixed `st-` so older CSS layers cannot reach them |
 | `reg.css` | Registration page look (`pendaftaran.html` only), classes prefixed `st-reg` |
+| `policy.css` | Policy pages and `contact.html` (classes prefixed `st-sub`, `st-policy`, `st-contact`). The policy text inside is official: change layout only |
 | `mobile-fixes.css` | Minified mobile overrides, **injected by `site.js`** (not linked in HTML) |
 | `site.js` | All client JS: theme toggle, nav menu, WhatsApp chat, school map, form logic |
 | `netlify/functions/registration.ts` | `POST /api/registration`: validates form data and forwards it to a Google Apps Script |
@@ -108,6 +109,10 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/policy-prototype` gives the 5 policy pages and `contact.html` the prototype
+  layout (`policy.css`). The policy wording, its order and its links are unchanged (checked against `main` by
+  script); only the "1)" numbering moved into the page layout. The contact page keeps every official detail,
+  including the business name. `content-fixes.css` no longer styles these pages' main content.
 - 2026-10-02 (claude): Branch `claude/registration-prototype` gives `pendaftaran.html` the prototype look
   (`reg.css`) and shows the form one part at a time (block after the registration code in `site.js`).
   The 25 field names, types, options, `required` flags and `/api/registration` are unchanged; the form is
