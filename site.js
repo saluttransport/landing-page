@@ -16,16 +16,19 @@
   var goLiveSheet = document.querySelector('link[href="go-live.css"]');
   if (goLiveSheet) document.head.appendChild(goLiveSheet);
 
-  document.querySelectorAll('.brandText').forEach(function(wordmark){
-    ['strong','small'].forEach(function(tag){
-      var word = wordmark.querySelector(tag);
-      if (!word || word.dataset.justified) return;
-      var letters = word.textContent.trim();
-      word.setAttribute('aria-label', letters);
-      word.innerHTML = Array.from(letters).map(function(letter){ return '<span aria-hidden="true">' + letter + '</span>'; }).join('');
-      word.dataset.justified = 'true';
+  function justifyWordmarks(){
+    document.querySelectorAll('.brandText').forEach(function(wordmark){
+      ['strong','small'].forEach(function(tag){
+        var word = wordmark.querySelector(tag);
+        if (!word || word.dataset.justified) return;
+        var letters = word.textContent.trim();
+        word.setAttribute('aria-label', letters);
+        word.innerHTML = Array.from(letters).map(function(letter){ return '<span aria-hidden="true">' + letter + '</span>'; }).join('');
+        word.dataset.justified = 'true';
+      });
     });
-  });
+  }
+  justifyWordmarks();
   var themeButton = links.querySelector('.themeToggle') || row.querySelector('.themeToggle');
   if (!row.querySelector('.menuToggle')) {
     var menuButton = document.createElement('button');
@@ -56,7 +59,7 @@
       '<div class="mobileNavPanelHead">',
       '<a class="mobileNavBrand" href="index.html" aria-label="Salut Transport Home">',
       '<span class="mobileNavLogo"><img src="assets/logo.png" alt=""></span>',
-      '<span><strong>SALUT</strong><small>TRANSPORT</small></span>',
+      '<span class="brandText"><strong>SALUT</strong><small>TRANSPORT</small></span>',
       '</a>',
       '<button class="mobileNavClose" type="button" aria-label="Tutup menu" data-menu-close>×</button>',
       '</div>',
@@ -79,6 +82,10 @@
   } else if (mobileMenu.parentElement !== document.body) {
     document.body.appendChild(mobileMenu);
   }
+
+  justifyWordmarks();
+  mobileMenu.id = 'salut-mobile-menu';
+  menuToggle.setAttribute('aria-controls', mobileMenu.id);
 
   var lastMenuFocus = null;
   function setMenu(open, restoreFocus){
