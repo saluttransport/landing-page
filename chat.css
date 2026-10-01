@@ -1,8 +1,8 @@
 /* WhatsApp-style chat panel opened by the floating WhatsApp button (built in site.js).
    Classes are prefixed st-chat so the older chat rules in style.css and mobile-fixes.css cannot reach it.
    Colours follow WhatsApp's own light and dark palette so the panel feels familiar to parents. */
-.st-chat{--wa-head:#008069;--wa-head-text:#fff;--wa-wall:#efeae2;--wa-in:#fff;--wa-text:#111b21;--wa-meta:#667781;--wa-button:#027eb5;--wa-line:#e9edef;--wa-bar:#f0f2f5;--wa-field:#fff;--wa-send:#00a884;--wa-chip:#fff;--wa-doodle:rgba(84,101,111,.07)}
-html[data-theme="dark"] .st-chat{--wa-head:#202c33;--wa-head-text:#e9edef;--wa-wall:#0b141a;--wa-in:#202c33;--wa-text:#e9edef;--wa-meta:#8696a0;--wa-button:#53bdeb;--wa-line:#2a3942;--wa-bar:#202c33;--wa-field:#2a3942;--wa-send:#00a884;--wa-chip:#182229;--wa-doodle:rgba(233,237,239,.035)}
+.st-chat{--wa-head:#008069;--wa-head-text:#fff;--wa-wall:#efeae2;--wa-in:#fff;--wa-text:#111b21;--wa-meta:#667781;--wa-reply:#008069;--wa-press:rgba(0,128,105,.08);--wa-line:#e9edef;--wa-bar:#f0f2f5;--wa-field:#fff;--wa-send:#00a884;--wa-chip:#fff;--wa-doodle:rgba(84,101,111,.07)}
+html[data-theme="dark"] .st-chat{--wa-head:#202c33;--wa-head-text:#e9edef;--wa-wall:#0b141a;--wa-in:#202c33;--wa-text:#e9edef;--wa-meta:#8696a0;--wa-reply:#21c063;--wa-press:rgba(33,192,99,.1);--wa-line:#2a3942;--wa-bar:#202c33;--wa-field:#2a3942;--wa-send:#00a884;--wa-chip:#182229;--wa-doodle:rgba(233,237,239,.035)}
 .st-chat{position:fixed;right:16px;bottom:88px;z-index:91;display:flex;flex-direction:column;width:min(360px,calc(100vw - 32px));max-height:min(620px,calc(100dvh - 112px));overflow:hidden;color:var(--wa-text);background:var(--wa-wall);border-radius:16px;box-shadow:0 24px 70px rgba(11,20,26,.35);font:400 14.2px/1.4 'Open Sans',-apple-system,'Segoe UI',Arial,sans-serif;opacity:0;pointer-events:none;transform:translateY(12px) scale(.98);transform-origin:bottom right;transition:opacity .22s ease,transform .22s ease}
 .st-chat.isOpen{opacity:1;pointer-events:auto;transform:none}
 .st-chat *,.st-chat *::before,.st-chat *::after{box-sizing:border-box}
@@ -24,18 +24,18 @@ html[data-theme="dark"] .st-chat{--wa-head:#202c33;--wa-head-text:#e9edef;--wa-w
 
 /* Conversation area with the familiar beige wallpaper */
 .st-chat-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:12px 14px 14px;background-color:var(--wa-wall);background-image:radial-gradient(var(--wa-doodle) 1.2px,transparent 1.3px),radial-gradient(var(--wa-doodle) 1.2px,transparent 1.3px);background-size:22px 22px;background-position:0 0,11px 11px}
-.st-chat-day{display:table;margin:0 auto 10px;padding:4px 11px;color:var(--wa-meta);background:var(--wa-chip);border-radius:7.5px;box-shadow:0 1px .5px rgba(11,20,26,.13);font-size:11.5px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
-.st-chat-message{max-width:88%;margin-left:8px}
-.st-chat-bubble{position:relative;margin:0;padding:6px 9px 8px;color:var(--wa-text);background:var(--wa-in);border-radius:0 7.5px 7.5px 7.5px;box-shadow:0 1px .5px rgba(11,20,26,.13)}
-.st-chat-bubble::before{content:"";position:absolute;top:0;left:-8px;width:8px;height:13px;background:var(--wa-in);clip-path:polygon(0 0,100% 0,100% 100%)}
-.st-chat-time{float:right;margin:7px 0 -4px 10px;color:var(--wa-meta);font-size:11px;line-height:15px}
+.st-chat-day{display:table;margin:0 auto 12px;padding:4px 12px;color:var(--wa-meta);background:var(--wa-chip);border-radius:999px;box-shadow:0 1px .5px rgba(11,20,26,.13);font-size:12px;font-weight:600}
 
-/* Reply buttons under the message, in the style of WhatsApp Business buttons */
-.st-chat-replies{display:grid;gap:2px;margin-top:2px}
-.st-chat-replies button{display:flex;justify-content:center;align-items:center;gap:7px;width:100%;min-height:42px;padding:8px 10px;color:var(--wa-button);background:var(--wa-in);border:0;border-radius:7.5px;box-shadow:0 1px .5px rgba(11,20,26,.13);font-size:14px;font-weight:600;line-height:1.3;text-align:center}
-.st-chat-replies button:hover{filter:brightness(.97)}
-html[data-theme="dark"] .st-chat-replies button:hover{filter:brightness(1.15)}
-.st-chat-replies button[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--wa-button)}
+/* One card holding the message and its reply buttons, as WhatsApp shows business messages */
+.st-chat-message{position:relative;max-width:88%;margin-left:8px;background:var(--wa-in);border-radius:18px 18px 18px 4px;box-shadow:0 1px .5px rgba(11,20,26,.13)}
+.st-chat-message::before{content:"";position:absolute;bottom:0;left:-8px;width:12px;height:14px;background:var(--wa-in);-webkit-mask:radial-gradient(circle at 0 0,transparent 11.5px,#000 12px);mask:radial-gradient(circle at 0 0,transparent 11.5px,#000 12px)}
+.st-chat-bubble{margin:0;padding:9px 12px 7px;color:var(--wa-text);font-size:15px;line-height:1.4}
+.st-chat-time{float:right;margin:8px 0 -3px 12px;color:var(--wa-meta);font-size:11px;line-height:15px}
+.st-chat-replies{display:grid}
+.st-chat-replies button{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;min-height:46px;padding:10px 12px;color:var(--wa-reply);background:transparent;border:0;border-top:1px solid var(--wa-line);border-radius:0;font-size:15px;font-weight:500;line-height:1.3;text-align:center}
+.st-chat-replies button:last-child{border-radius:0 0 18px 4px}
+.st-chat-replies button:hover{background:var(--wa-press)}
+.st-chat-replies button[aria-pressed="true"]{background:var(--wa-press);font-weight:700}
 .st-chat-replies svg{flex:0 0 auto}
 
 /* Message bar: rounded field and round green send button */
@@ -48,8 +48,9 @@ html[data-theme="dark"] .st-chat-replies button:hover{filter:brightness(1.15)}
 .st-chat-send svg{margin-left:3px}
 .st-chat-note{margin:0;padding:0 14px 9px;color:var(--wa-meta);background:var(--wa-bar);font-size:11.5px;line-height:1.4;text-align:center}
 
-@media (max-width:420px){
-  .st-chat{right:12px;width:calc(100vw - 24px)}
+/* On phones the panel stays narrower than the screen, leaving the page visible on the left. */
+@media (max-width:480px){
+  .st-chat{right:12px;width:calc(100vw - 64px);max-height:min(560px,calc(100dvh - 140px))}
 }
 @media (prefers-reduced-motion:reduce){
   .st-chat,.st-chat-send{transition:none}

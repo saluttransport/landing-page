@@ -694,12 +694,25 @@
     if (chatOverlay) {
       chatOverlay.addEventListener('click', function(){ setChat(false, true); });
     }
+    // Close only on a tap or click outside the panel. A swipe or scroll outside it leaves the chat open.
+    var outsideTap = null;
+    function isOutsideChat(target){
+      if (chatBox.contains(target) || floatingWhatsapp.contains(target)) return false;
+      return !(target.closest && target.closest('.st-theme-toggle'));
+    }
     document.addEventListener('pointerdown', function(event){
-      if (!chatBox.classList.contains('isOpen')) return;
-      if (chatBox.contains(event.target)) return;
-      if (floatingWhatsapp.contains(event.target)) return;
-      if (event.target.closest && event.target.closest('.st-theme-toggle')) return;
-      setChat(false, true);
+      outsideTap = chatBox.classList.contains('isOpen') && event.isPrimary && isOutsideChat(event.target)
+        ? {x: event.clientX, y: event.clientY, time: Date.now()}
+        : null;
+    });
+    document.addEventListener('pointercancel', function(){ outsideTap = null; });
+    window.addEventListener('scroll', function(){ outsideTap = null; }, {passive: true});
+    document.addEventListener('pointerup', function(event){
+      var start = outsideTap;
+      outsideTap = null;
+      if (!start || !chatBox.classList.contains('isOpen') || !isOutsideChat(event.target)) return;
+      var moved = Math.abs(event.clientX - start.x) + Math.abs(event.clientY - start.y);
+      if (moved < 12 && Date.now() - start.time < 700) setChat(false, true);
     });
     quickReplies.forEach(function(reply){
       reply.addEventListener('click', function(){
