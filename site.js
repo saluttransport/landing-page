@@ -407,7 +407,9 @@
     var shell = form.closest('.st-reg-shell') || document;
     var layout = shell.querySelector('[data-reg-layout]');
     var complete = shell.querySelector('[data-reg-complete]');
-    var asideItems = Array.prototype.slice.call(shell.querySelectorAll('[data-reg-steps] li'));
+    // Two step lists: the full one beside the form and the short one in the sticky bar on phones.
+    var stepLists = Array.prototype.slice.call(shell.querySelectorAll('[data-reg-steps]'));
+    var stickyBar = shell.querySelector('[data-reg-sticky]');
     var topline = shell.querySelector('[data-reg-topline]');
     var count = shell.querySelector('[data-reg-count]');
     var percent = shell.querySelector('[data-reg-percent]');
@@ -416,6 +418,8 @@
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var current = 0;
     form.classList.add('st-reg-js');
+    shell.classList.add('st-reg-ready');
+    if (stickyBar) stickyBar.hidden = false;
     if (topline) topline.hidden = false;
     if (progress) progress.hidden = false;
     if (summary) summary.hidden = false;
@@ -444,11 +448,13 @@
     function showStep(index, moveFocus){
       current = Math.max(0, Math.min(steps.length - 1, index));
       steps.forEach(function(step, stepIndex){ step.hidden = stepIndex !== current; });
-      asideItems.forEach(function(item, itemIndex){
-        item.classList.toggle('current', itemIndex === current);
-        item.classList.toggle('finished', itemIndex < current);
-        if (itemIndex === current) item.setAttribute('aria-current', 'step');
-        else item.removeAttribute('aria-current');
+      stepLists.forEach(function(list){
+        Array.prototype.forEach.call(list.children, function(item, itemIndex){
+          item.classList.toggle('current', itemIndex === current);
+          item.classList.toggle('finished', itemIndex < current);
+          if (itemIndex === current) item.setAttribute('aria-current', 'step');
+          else item.removeAttribute('aria-current');
+        });
       });
       var share = Math.round((current + 1) / steps.length * 100);
       if (count) count.textContent = 'BAHAGIAN ' + pad(current + 1) + ' / ' + pad(steps.length);
@@ -462,7 +468,7 @@
       if (current === steps.length - 1) fillSummary();
       if (moveFocus) {
         var card = form.closest('.st-reg-card');
-        if (card && card.getBoundingClientRect().top < 0) card.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
+        if (card && card.getBoundingClientRect().top < 90) card.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
         var heading = steps[current].querySelector('h2');
         if (heading) heading.focus({preventScroll: true});
       }
@@ -473,8 +479,10 @@
       });
       for (var i = 0; i < fields.length; i++) {
         if (!fields[i].checkValidity()) {
+          // Centre the field so it is not hidden under the sticky header and step bar.
+          fields[i].scrollIntoView({block: 'center'});
+          fields[i].focus({preventScroll: true});
           fields[i].reportValidity();
-          fields[i].focus();
           return false;
         }
       }
@@ -520,6 +528,21 @@
       showStep(0, true);
     });
     showStep(0, false);
+
+    // Add a shadow under the step bar once it is stuck below the header.
+    if (stickyBar) {
+      var stuckTicking = false;
+      var updateStuck = function(){
+        stuckTicking = false;
+        var top = parseFloat(getComputedStyle(stickyBar).top) || 0;
+        var card = stickyBar.parentElement.getBoundingClientRect();
+        stickyBar.classList.toggle('isStuck', card.top < top - 1 && card.bottom > top + stickyBar.offsetHeight);
+      };
+      window.addEventListener('scroll', function(){
+        if (!stuckTicking) { stuckTicking = true; requestAnimationFrame(updateStuck); }
+      }, {passive: true});
+      updateStuck();
+    }
   });
 
   var mapFrame = document.getElementById('schoolMap');
