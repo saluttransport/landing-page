@@ -53,11 +53,16 @@ Plain static site. No framework, no bundler, no `package.json`, no build step
 
 ### Design
 - Mobile first. Test at ~375px wide and at desktop width. Most visitors are on phones.
-- Keep the existing identity: dark green/ink + gold (`var(--yellow)`), fonts **Fraunces** (headings)
-  and **Nunito Sans** (body). Light and dark mode must both work (`data-theme` / `body.darkMode`).
-- The hero section always keeps its dark photo styling, even in light mode.
+- **Source of truth for design:** the owner's approved prototype at
+  https://salut-transport-bangi.saluttransport.chatgpt.site/ (behind the owner's OpenAI login; ask the
+  owner to open it). Follow its layout, copy, colours and components. Two exceptions, which the
+  prototype itself marks as previews: keep the real registration fields and `/api/registration`, and keep
+  the official policy text word for word (only its layout follows the prototype).
+- Identity: navy `#102b3c` + yellow `#f5c84e`, teal accents, fonts **Poppins** (headings) and
+  **Open Sans** (body). Light and dark mode must both work (`data-theme` / `body.darkMode`).
+- The hero is light (cream overlay on the photo) in light mode and dark navy in dark mode, as in the prototype.
 - CSS is layered: later files and later sections override earlier ones. Before adding a new
-  override, search all four CSS files (including `mobile-fixes.css`) for the selector
+  override, search all five CSS files (including `mobile-fixes.css` and `go-live.css`) for the selector
   so you don't fight an existing rule. Prefer editing the existing rule over stacking another `!important`.
 - Watch out: any ancestor with `overflow: hidden` breaks `position: sticky`
   (this already caused a bug in the registration header).
