@@ -1,9 +1,4 @@
 (function(){
-  var nav = document.querySelector('.nav');
-  var row = document.querySelector('.navRow');
-  var links = document.querySelector('.links');
-  if (!nav || !row || !links) return;
-
   function ensureStylesheet(href){
     if (document.querySelector('link[href="' + href + '"]')) return;
     var sheet = document.createElement('link');
@@ -13,119 +8,11 @@
   }
   ensureStylesheet('mobile-fixes.css');
   ensureStylesheet('content-fixes.css');
-  ['go-live.css', 'home.css'].forEach(function(href){
+  ['go-live.css', 'chrome.css', 'home.css'].forEach(function(href){
     var lateSheet = document.querySelector('link[href="' + href + '"]');
     if (lateSheet) document.head.appendChild(lateSheet);
   });
 
-  function justifyWordmarks(){
-    document.querySelectorAll('.brandText').forEach(function(wordmark){
-      ['strong','small'].forEach(function(tag){
-        var word = wordmark.querySelector(tag);
-        if (!word || word.dataset.justified) return;
-        var letters = word.textContent.trim();
-        word.setAttribute('aria-label', letters);
-        word.innerHTML = Array.from(letters).map(function(letter){ return '<span aria-hidden="true">' + letter + '</span>'; }).join('');
-        word.dataset.justified = 'true';
-      });
-    });
-  }
-  justifyWordmarks();
-  var themeButton = links.querySelector('.themeToggle') || row.querySelector('.themeToggle');
-  if (!row.querySelector('.menuToggle')) {
-    var menuButton = document.createElement('button');
-    menuButton.className = 'menuToggle';
-    menuButton.type = 'button';
-    menuButton.setAttribute('aria-label', 'Buka menu');
-    menuButton.setAttribute('aria-expanded', 'false');
-    menuButton.innerHTML = '<span></span><span></span><span></span>';
-    row.appendChild(menuButton);
-  }
-  var menuToggle = row.querySelector('.menuToggle');
-  if (themeButton && !row.querySelector('.mobileHeaderThemeToggle')) {
-    var mobileThemeButton = document.createElement('button');
-    mobileThemeButton.className = 'themeToggle mobileHeaderThemeToggle';
-    mobileThemeButton.type = 'button';
-    mobileThemeButton.setAttribute('aria-label', 'Toggle light and dark mode');
-    row.insertBefore(mobileThemeButton, row.querySelector('.navCta') || menuToggle);
-  }
-  var mobileMenu = document.querySelector('.mobileNavMenu');
-  if (!mobileMenu) {
-    mobileMenu = document.createElement('div');
-    mobileMenu.className = 'mobileNavMenu';
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    mobileMenu.inert = true;
-    mobileMenu.innerHTML = [
-      '<div class="mobileNavScrim" data-menu-close></div>',
-      '<div class="mobileNavPanel" role="dialog" aria-modal="true" aria-label="Menu mudah alih">',
-      '<div class="mobileNavPanelHead">',
-      '<a class="mobileNavBrand" href="index.html" aria-label="Salut Transport Home">',
-      '<span class="mobileNavLogo"><img src="assets/logo.png" alt=""></span>',
-      '<span class="brandText"><strong>SALUT</strong><small>TRANSPORT</small></span>',
-      '</a>',
-      '<button class="mobileNavClose" type="button" aria-label="Tutup menu" data-menu-close>×</button>',
-      '</div>',
-      '<nav class="mobileNavLinks" aria-label="Mobile navigation">',
-      '<a href="index.html#kawasan">Kawasan</a>',
-      '<a href="index.html#kenapa">Kenapa Kami</a>',
-      '<a href="index.html#tentang">Tentang Kami</a>',
-      '<a href="index.html#pakej">Tambang</a>',
-      '<a href="index.html#daftar">Cara Daftar</a>',
-      '<a href="index.html#faq">FAQ</a>',
-      '<a href="index.html#contact">Hubungi</a>',
-      '</nav>',
-      '<div class="mobileNavActions">',
-      '<div class="mobileThemeRow"><span>Tema</span><button class="themeToggle mobileThemeToggle" type="button" aria-label="Toggle light and dark mode"></button></div>',
-      '<a class="mobileNavPrimary" href="index.html#contact">Semak Slot</a>',
-      '</div>',
-      '</div>'
-    ].join('');
-    document.body.appendChild(mobileMenu);
-  } else if (mobileMenu.parentElement !== document.body) {
-    document.body.appendChild(mobileMenu);
-  }
-
-  justifyWordmarks();
-  mobileMenu.id = 'salut-mobile-menu';
-  menuToggle.setAttribute('aria-controls', mobileMenu.id);
-
-  var lastMenuFocus = null;
-  function setMenu(open, restoreFocus){
-    if (open) lastMenuFocus = document.activeElement;
-    nav.classList.toggle('menuOpen', open);
-    document.body.classList.toggle('mobileMenuLocked', open);
-    document.body.classList.toggle('mobileMenuOpen', open);
-    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    menuToggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
-    if (mobileMenu) {
-      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
-      mobileMenu.inert = !open;
-    }
-    if (open) {
-      window.requestAnimationFrame(function(){
-        var closeButton = mobileMenu ? mobileMenu.querySelector('.mobileNavClose') : null;
-        if (closeButton) closeButton.focus({preventScroll:true});
-      });
-    } else if (restoreFocus !== false && lastMenuFocus && document.contains(lastMenuFocus)) {
-      lastMenuFocus.focus({preventScroll:true});
-    }
-  }
-  function closeMenu(restoreFocus){
-    setMenu(false, restoreFocus);
-  }
-  menuToggle.addEventListener('click', function(event){
-    event.stopPropagation();
-    var shouldOpen = !nav.classList.contains('menuOpen');
-    setMenu(shouldOpen, true);
-  });
-  links.querySelectorAll('a').forEach(function(link){ link.addEventListener('click', closeMenu); });
-  mobileMenu.querySelectorAll('a').forEach(function(item){ item.addEventListener('click', function(){ closeMenu(false); }); });
-  mobileMenu.querySelectorAll('[data-menu-close]').forEach(function(item){ item.addEventListener('click', function(){ closeMenu(true); }); });
-  var mobilePanel = mobileMenu.querySelector('.mobileNavPanel');
-  if (mobilePanel) {
-    mobilePanel.addEventListener('click', function(event){ event.stopPropagation(); });
-  }
-  document.addEventListener('click', function(event){ if (nav.classList.contains('menuOpen') && !nav.contains(event.target)) closeMenu(true); });
   function containDialogFocus(event, dialog){
     if (event.key !== 'Tab' || !dialog) return;
     var items = Array.from(dialog.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')).filter(function(item){
@@ -142,43 +29,77 @@
       first.focus();
     }
   }
-  document.addEventListener('keydown', function(event){
-    if (!nav.classList.contains('menuOpen')) return;
-    if (event.key === 'Escape') closeMenu(true);
-    else containDialogFocus(event, mobilePanel);
-  });
-  window.addEventListener('resize', function(){
-    if (window.innerWidth > 980 && nav.classList.contains('menuOpen')) closeMenu(false);
-  });
 
+  // Header: the mobile drawer opens from the right, under the sticky header, so the
+  // menu button stays visible and turns into a close button.
+  var menuButton = document.querySelector('.st-menu-button');
+  var drawer = document.getElementById('st-mobile-menu');
+  var backdrop = document.querySelector('.st-backdrop');
+  function menuIsOpen(){ return !!(drawer && drawer.classList.contains('show')); }
+  function setMenu(open, restoreFocus){
+    if (!menuButton || !drawer) return;
+    drawer.classList.toggle('show', open);
+    if (backdrop) backdrop.classList.toggle('show', open);
+    menuButton.classList.toggle('open', open);
+    menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuButton.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    drawer.inert = !open;
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open && restoreFocus !== false) menuButton.focus({preventScroll: true});
+  }
+  if (menuButton && drawer) {
+    menuButton.addEventListener('click', function(){ setMenu(!menuIsOpen(), true); });
+    if (backdrop) backdrop.addEventListener('click', function(){ setMenu(false, true); });
+    drawer.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){ setMenu(false, false); });
+    });
+    document.addEventListener('keydown', function(event){
+      if (!menuIsOpen()) return;
+      if (event.key === 'Escape') {
+        setMenu(false, true);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      var items = [menuButton].concat(Array.from(drawer.querySelectorAll('a[href]')));
+      var index = items.indexOf(document.activeElement);
+      if (index === -1 || (event.shiftKey && index === 0) || (!event.shiftKey && index === items.length - 1)) {
+        event.preventDefault();
+        items[event.shiftKey ? (index <= 0 ? items.length - 1 : index - 1) : (index === items.length - 1 ? 0 : index + 1)].focus();
+      }
+    });
+    window.addEventListener('resize', function(){
+      if (window.innerWidth > 980 && menuIsOpen()) setMenu(false, false);
+    });
+  }
+
+  // Theme: the switch shows the sun in light mode and slides to the moon in dark mode.
   var key = 'theme';
-  var buttons = document.querySelectorAll('.themeToggle');
+  var buttons = document.querySelectorAll('.st-theme-toggle');
+  function storedTheme(){
+    try { return localStorage.getItem(key) || localStorage.getItem('salut-theme'); } catch (error) { return null; }
+  }
   function preferredTheme(){
-    var stored = localStorage.getItem(key) || localStorage.getItem('salut-theme');
+    var stored = storedTheme();
     if (stored === 'light' || stored === 'dark') return stored;
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
     return 'dark';
-  }
-  function upgradeThemeButton(button){
-    button.setAttribute('role', 'switch');
-    button.setAttribute('aria-label', 'Toggle light and dark mode');
-    button.innerHTML = '<span class="themeTrack" aria-hidden="true"><span class="themeThumb"><svg class="themeIcon themeMoon" viewBox="0 0 24 24" fill="none"><path d="M20 15.4A7.8 7.8 0 0 1 8.6 4a8.2 8.2 0 1 0 11.4 11.4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="themeIcon themeSun" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></span>';
   }
   function apply(mode){
     var dark = mode === 'dark';
     document.documentElement.setAttribute('data-theme', mode);
     document.body.classList.toggle('darkMode', dark);
     buttons.forEach(function(button){
-      button.setAttribute('aria-checked', mode === 'light' ? 'true' : 'false');
+      button.setAttribute('aria-checked', dark ? 'true' : 'false');
+      button.setAttribute('title', dark ? 'Tukar ke mod cerah' : 'Tukar ke mod gelap');
     });
-    localStorage.setItem(key, mode);
-    localStorage.setItem('salut-theme', mode);
+    try {
+      localStorage.setItem(key, mode);
+      localStorage.setItem('salut-theme', mode);
+    } catch (error) {}
   }
-  buttons.forEach(upgradeThemeButton);
   apply(preferredTheme());
   buttons.forEach(function(button){
-    if (button.dataset.themeBound === 'true') return;
-    button.dataset.themeBound = 'true';
     button.addEventListener('click', function(){ apply(document.body.classList.contains('darkMode') ? 'light' : 'dark'); });
   });
 
@@ -615,7 +536,7 @@
       if (!chatBox.classList.contains('isOpen')) return;
       if (chatBox.contains(event.target)) return;
       if (floatingWhatsapp.contains(event.target)) return;
-      if (event.target.closest && event.target.closest('.themeToggle')) return;
+      if (event.target.closest && event.target.closest('.st-theme-toggle')) return;
       setChat(false, true);
     });
     quickReplies.forEach(function(reply){
