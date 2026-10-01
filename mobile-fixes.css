@@ -1029,8 +1029,8 @@ html[data-theme="light"] .themeToggle .themeThumb{transform:translateX(20px)}
 html[data-theme="light"] .themeToggle .themeSun{opacity:1}
 html[data-theme="light"] .themeToggle .themeMoon{opacity:0}
 html[data-theme="light"] .themeToggle .themeTrack{
-  background:rgba(15,46,34,.08);
-  border-color:rgba(15,46,34,.18);
+  background:rgba(255,255,255,.16);
+  border-color:rgba(255,255,255,.32);
 }
 
 .themeToggle:focus-visible{

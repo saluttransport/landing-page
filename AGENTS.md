@@ -27,6 +27,11 @@ Plain static site. No framework, no bundler, no `package.json`, no build step
 | `style.css` | Base design system (large; many layered "refinement" sections) |
 | `concept.css` | Overrides for `index.html` + `pendaftaran.html` |
 | `content-fixes.css` | Overrides for the policy/content pages |
+| `chrome.css` | Shared header, mobile drawer and footer on every page (classes prefixed `st-`). The markup is repeated in all 8 HTML files, so change it everywhere together |
+| `home.css` | Homepage sections (`index.html` only). Classes are prefixed `st-` so older CSS layers cannot reach them |
+| `reg.css` | Registration page look (`pendaftaran.html` only), classes prefixed `st-reg` |
+| `chat.css` | WhatsApp-style chat panel opened by the floating WhatsApp button on every page (classes prefixed `st-chat`). Loaded by `site.js`, which also builds the panel's markup |
+| `policy.css` | Policy pages and `contact.html` (classes prefixed `st-sub`, `st-policy`, `st-contact`). The policy text inside is official: change layout only |
 | `mobile-fixes.css` | Minified mobile overrides, **injected by `site.js`** (not linked in HTML) |
 | `site.js` | All client JS: theme toggle, nav menu, WhatsApp chat, school map, form logic |
 | `netlify/functions/registration.ts` | `POST /api/registration`: validates form data and forwards it to a Google Apps Script |
@@ -52,11 +57,16 @@ Plain static site. No framework, no bundler, no `package.json`, no build step
 
 ### Design
 - Mobile first. Test at ~375px wide and at desktop width. Most visitors are on phones.
-- Keep the existing identity: dark green/ink + gold (`var(--yellow)`), fonts **Fraunces** (headings)
-  and **Nunito Sans** (body). Light and dark mode must both work (`data-theme` / `body.darkMode`).
-- The hero section always keeps its dark photo styling, even in light mode.
+- **Source of truth for design:** the owner's approved prototype at
+  https://salut-transport-bangi.saluttransport.chatgpt.site/ (behind the owner's OpenAI login; ask the
+  owner to open it). Follow its layout, copy, colours and components. Two exceptions, which the
+  prototype itself marks as previews: keep the real registration fields and `/api/registration`, and keep
+  the official policy text word for word (only its layout follows the prototype).
+- Identity: navy `#102b3c` + yellow `#f5c84e`, teal accents, fonts **Poppins** (headings) and
+  **Open Sans** (body). Light and dark mode must both work (`data-theme` / `body.darkMode`).
+- The hero is light (cream overlay on the photo) in light mode and dark navy in dark mode, as in the prototype.
 - CSS is layered: later files and later sections override earlier ones. Before adding a new
-  override, search all four CSS files (including `mobile-fixes.css`) for the selector
+  override, search all five CSS files (including `mobile-fixes.css` and `go-live.css`) for the selector
   so you don't fight an existing rule. Prefer editing the existing rule over stacking another `!important`.
 - Watch out: any ancestor with `overflow: hidden` breaks `position: sticky`
   (this already caused a bug in the registration header).
@@ -77,7 +87,7 @@ The list of covered schools lives in **three places**. Change all three together
 - **This repo is public.** Never commit `.env` files, keys, spreadsheets, or customer data.
 
 ### Don't touch without asking the owner
-- `robots.txt`, `sitemap.xml`, canonical tags (SEO: see Known issues)
+- `robots.txt`, `sitemap.xml`, canonical tags (SEO: Google indexing)
 - `netlify.toml` headers / caching
 - Deleting images in `assets/` (some are kept on purpose; see `.netlifyignore`)
 - Anything in `.gitignore`d sibling projects (`salut-platform/`, automation folders, etc.)
@@ -91,12 +101,37 @@ There is no test suite. Before opening a PR:
   PR exactly what needs to be tested on the Deploy Preview.
 
 ## Known issues / backlog
-- `robots.txt` still blocks all crawlers (`Disallow: /`), left over from the "salut-ten-concept"
-  preview build, and the canonical tag in `index.html` is commented out. salut.my is therefore
-  not being indexed by Google. Fix only when the owner approves.
 - `concept.css` still has unused `.conceptRibbon` styles from the preview build (safe to remove later).
 
 ## Handoff notes
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/chat-whatsapp-style` restyles the chat panel to look like WhatsApp (`chat.css`,
+  new `st-chat-*` markup in `site.js`). Texts, the three quick replies and the wa.me links are unchanged; the old
+  `.mobileWhatsAppChat` rules in `style.css` / `mobile-fixes.css` / `go-live.css` no longer match anything.
+- 2026-10-02 (claude): Branch `claude/reg-mobile-polish` makes the step bar on `pendaftaran.html` sticky
+  (`.st-reg-sticky` inside the form card; its `top` matches the header height 80/70/67px) and adds a short
+  1–4 step list to it on screens up to 800px. Both step lists use `[data-reg-steps]`. It also stops iPhone
+  Safari drawing the date-of-birth box wider than the other fields.
+- 2026-10-02 (claude): Branch `claude/seo-indexing` adds a canonical tag to every page (homepage already had one),
+  matching the URLs in `sitemap.xml`, and removes the stale "robots.txt blocks crawlers" note: `robots.txt` on
+  `main` and salut.my already allows crawling.
+- 2026-10-02 (claude): Branch `claude/policy-prototype` gives the 5 policy pages and `contact.html` the prototype
+  layout (`policy.css`). The policy wording, its order and its links are unchanged (checked against `main` by
+  script); only the "1)" numbering moved into the page layout. The contact page keeps every official detail,
+  including the business name. `content-fixes.css` no longer styles these pages' main content.
+- 2026-10-02 (claude): Branch `claude/registration-prototype` gives `pendaftaran.html` the prototype look
+  (`reg.css`) and shows the form one part at a time (block after the registration code in `site.js`).
+  The 25 field names, types, options, `required` flags and `/api/registration` are unchanged; the form is
+  now found by `[data-registration-form]` and its status by `[data-form-status]`. Without JavaScript all
+  four parts stay visible. IC fields now check for 12 digits in the browser.
+- 2026-10-02 (claude): Branch `claude/header-footer-prototype` replaces the header and footer on all 8
+  pages with the prototype version (`chrome.css`, plus the header and theme code at the top of `site.js`).
+  The old `.nav` / `.menuToggle` / `.mobileNavMenu` / `.footerGrid` markup and its JS are gone. On the
+  homepage, links use `#section`; on other pages they use `index.html#section`. Please avoid editing the
+  HTML files, `site.js` and `chrome.css` until it is merged.
+- 2026-10-02 (claude): Branch `claude/homepage-prototype` rebuilds the homepage body (hero to the
+  "Semak slot" form) to match the owner's approved prototype, in `index.html`, `home.css` and a new
+  homepage block at the end of `site.js`. Section ids are unchanged so links from other pages still work.
+  Header, footer and the other pages are not touched yet. Please avoid editing these files until it is merged.

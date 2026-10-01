@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+:root{--yellow:#f5c84e;--black:#102b3c;--black2:#173440;--ink:#153341;--cream:#f6f8f7;--max:1236px}
+html{scroll-padding-top:90px}body{font-family:'Open Sans',Arial,sans-serif;background:#fff;color:var(--ink)}
+h1,h2,h3,.sectionTitle,.contactInfo h2,.contentPage h1,.contentPage h2{font-family:Poppins,Arial,sans-serif;letter-spacing:-.035em;text-transform:none}
+.container{max-width:1236px;padding-inline:28px}
+.nav{position:sticky;top:0;background:#102b3c;border-bottom:1px solid rgba(255,255,255,.12);backdrop-filter:none;box-shadow:none}
+.navRow{min-height:79px;gap:20px}.brand{gap:10px}.logo{width:42px;height:42px;padding:0;background:none;border:0;border-radius:0;overflow:visible}.logo img{width:100%;height:100%;object-fit:contain}
+.brandText{display:flex;flex-direction:column;justify-content:center;width:82px;gap:3px;line-height:1}.brandText strong,.brandText small{display:flex;justify-content:space-between;width:100%;white-space:nowrap;letter-spacing:0!important}.brandText strong{font:800 21px/1 Poppins,Arial;color:#ef3340!important}.brandText small{font:700 9px/1.2 'Open Sans',Arial;color:#86b5ff!important}
+.links{margin-left:auto;gap:20px;font-size:13px;text-transform:none;font-weight:700}.links a{color:#d6e3e5;opacity:1}.links a:hover{color:var(--yellow)}
+.navCta{min-height:45px;padding:0 19px;border-radius:8px;background:var(--yellow);box-shadow:none;font-size:13px;text-transform:none;white-space:nowrap}
+.themeToggle{width:76px;height:44px;border:0;background:transparent;padding:0}
+.btn,.navCta,.mobileNavPrimary{border-radius:8px}
+.btn{min-height:54px;padding:14px 23px;font:800 14px/1.3 'Open Sans',Arial,sans-serif;box-shadow:none}
+.btnPrimary{background:var(--yellow);color:#102b3c!important;box-shadow:none}.btnGhost{box-shadow:none}
+.photoHero{min-height:690px;background:#eee9dc!important;color:#102b3c!important;isolation:isolate;overflow:hidden}
+.heroGallery{z-index:0;background:#eee9dc}.heroSlide{object-fit:cover;object-position:57% 52%}
+.heroShade{z-index:1;background:linear-gradient(90deg,rgba(251,248,237,.98) 0%,rgba(251,248,237,.94) 31%,rgba(251,248,237,.66) 53%,rgba(251,248,237,.09) 100%),linear-gradient(0deg,rgba(42,60,56,.25),transparent 42%);transition:background .4s}
+html[data-theme="dark"] .photoHero{background:#0c2533!important;color:#fff!important}
+html[data-theme="dark"] .heroShade{background:linear-gradient(90deg,rgba(5,25,36,.97) 0%,rgba(5,25,36,.91) 32%,rgba(5,25,36,.61) 61%,rgba(5,25,36,.23) 100%),linear-gradient(0deg,rgba(5,25,36,.55),transparent 44%)}
+.heroContent{z-index:2;min-height:690px;display:flex;align-items:center;padding:76px 28px 116px}.heroCopy{max-width:670px}.hero .eyebrow{color:#29434b;font:800 12px/1.5 'Open Sans',Arial;letter-spacing:.14em;text-transform:uppercase}.hero .eyebrow:before{content:"";display:inline-block;width:7px;height:7px;margin-right:10px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 5px rgba(245,200,78,.18);vertical-align:2px;animation:salutDot 2.6s ease-out infinite}
+@keyframes salutDot{50%{box-shadow:0 0 0 9px rgba(245,200,78,0)}100%{box-shadow:0 0 0 5px rgba(245,200,78,.18)}}
+.hero h1{max-width:650px;margin:22px 0;font:700 clamp(3.3rem,5.2vw,5.7rem)/1.12 Poppins,Arial;letter-spacing:-.055em;text-transform:none;color:#102b3c}.hero h1 span{color:#98600c}
+.hero .lead{max-width:535px;margin:0;color:#304750;font:400 17px/1.75 'Open Sans',Arial;text-shadow:none}.heroActions{margin-top:33px;gap:12px}.heroActions .btnGhost{color:#102b3c!important;border:1px solid rgba(16,43,60,.5)!important;background:rgba(255,255,255,.49)!important}
+.heroTrustLine{margin-top:35px;color:#304750;font:400 13px/1.5 'Open Sans',Arial}.heroTrustLine span{font-weight:800;color:#102b3c}
+html[data-theme="dark"] .hero .eyebrow,html[data-theme="dark"] .hero h1,html[data-theme="dark"] .heroTrustLine,html[data-theme="dark"] .heroTrustLine span{color:#e9f2f3}
+html[data-theme="dark"] .hero h1 span{color:var(--yellow)}html[data-theme="dark"] .hero .lead{color:#e1eaeb}html[data-theme="dark"] .heroActions .btnGhost{color:#fff!important;border-color:rgba(255,255,255,.55)!important;background:rgba(7,33,45,.28)!important}
+.heroSlideButton{top:auto!important;bottom:21px!important;width:34px!important;height:34px!important;background:rgba(255,255,255,.38)!important;border:1px solid currentColor!important;color:#243d46!important;backdrop-filter:none!important;transform:none!important}.heroSlidePrev{left:max(28px,calc((100vw - 1180px)/2))!important;right:auto!important}.heroSlideNext{left:max(174px,calc((100vw - 1180px)/2 + 146px))!important;right:auto!important}.heroSlideButton:before{font-size:22px!important}.heroSlideDots{z-index:3!important;top:auto!important;bottom:34px!important;left:max(76px,calc((100vw - 1180px)/2 + 48px))!important;right:auto!important;transform:none!important}
+html[data-theme="dark"] .heroSlideButton{color:#e9f2f3!important;background:rgba(7,33,45,.55)!important}
+.trustStrip{background:#eaf1f1;color:#102b3c;border:0}.trustStripRow{padding:28px 0}.trustStripItem{padding:0 24px;border-color:#cedddf}.trustStripItem svg{display:none}.trustStripItem b{font:700 29px/1 Poppins,Arial;color:#102b3c}.trustStripItem span{font-size:12px;color:#64777c}
+html[data-theme="dark"] .trustStrip{background:#16323f;color:#e7f1f3}html[data-theme="dark"] .trustStripItem{border-color:#36525e}html[data-theme="dark"] .trustStripItem b{color:#e7f1f3}html[data-theme="dark"] .trustStripItem span{color:#b9ced2}
+.section{padding:104px 0}.sectionKicker{color:#166579;font-size:12px;letter-spacing:.16em}.sectionTitle{font-size:clamp(2.35rem,4.2vw,4.1rem);line-height:1.16;font-weight:700}.sectionLead{font-size:16px;line-height:1.7;font-weight:400}.splitIntro{align-items:end;margin-bottom:42px}.lightBand{background:#f6f8f7}.darkBand{background:#102b3c}
+.card{border-radius:12px;box-shadow:none}.card h3{font-size:20px;line-height:1.2}.card p,.card li{font-size:14px;line-height:1.7;font-weight:400}.featureCards{gap:18px}.featureCards .card{padding:30px;min-height:280px}.featureCards .icon{margin-bottom:25px;border-radius:14px}
+.aboutSection{background:#fff}.aboutBrief{align-items:center;gap:8%}.aboutFleetGrid{display:grid;grid-template-columns:1fr;gap:12px}.aboutImage.fleetAbout{min-height:0;background:transparent;border:0;padding:0;box-shadow:none}.aboutImage.fleetAbout .hoursBox,.aboutImage.fleetAbout .fleetCount{display:none}.fleetPreview{display:block;width:100%;height:259px;padding:0;border:0;border-radius:12px;overflow:hidden;cursor:zoom-in;background:#d7e6e8}.aboutFleetGrid img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:center 52%;border:0;border-radius:12px;box-shadow:none;transition:transform .35s}.fleetPreview:hover img{transform:scale(1.04)}
+.aboutCopyBlock p{font-size:16px;line-height:1.8}.aboutCopyBlock .sectionTitle{margin-bottom:21px}.aboutCopyBlock .inlineCta{color:#166579}
+.serviceCards{gap:18px}.serviceCards .card{min-height:290px}.faqList{max-width:1100px}.faqList summary{font-family:Poppins,Arial;font-size:16px}
+.contactBand{background:#e9f1f1}.contactInfo h2{font-size:clamp(2.35rem,4.2vw,4.1rem)}.contactInfo p{font-size:16px}.contactForm{border-radius:14px;box-shadow:0 25px 70px rgba(13,55,67,.08)}.contactForm input,.contactForm select,.contactForm textarea{border-radius:7px}
+.footer{background:#0b2433}.footerBrand p{max-width:300px}
+/* Official registration form retains its existing field names and /api/registration endpoint. */
+.registrationOnlyPage{background:#f6f8f7}.sheetRegistrationForm{max-width:1180px;margin:auto}.registrationHeader{background:#102b3c;color:#fff;border-radius:12px}.registrationHeader h1{font-size:clamp(2.3rem,5vw,4.2rem);letter-spacing:-.05em}.formCard{border-radius:12px;box-shadow:0 20px 60px rgba(13,51,62,.05)}.formCardTitle h2{font-size:24px}.formProgress a{font-family:'Open Sans',Arial}.sheetRegistrationForm input,.sheetRegistrationForm select,.sheetRegistrationForm textarea{font-family:'Open Sans',Arial;border-radius:7px}
+/* Official policy content is kept verbatim; only its frame is restyled. */
+.pageHero{background:#102b3c;color:#fff}.contentPage{max-width:1180px;margin:0 auto 80px;border:1px solid #dbe4e5;border-radius:12px;background:#fff;padding:35px 45px;box-shadow:0 20px 60px rgba(13,51,62,.045)}.contentPage h1{font-size:clamp(2.3rem,5vw,4rem)}.contentPage h2{font-size:22px}.contentPage p,.contentPage li{font-size:15px;line-height:1.8}
+html[data-theme="dark"] .contentPage{background:#193946;border-color:#36525e;color:#e7f1f3}
+.mobileWhatsAppChat .chatHead{background:#102b3c;color:#fff}.chatAvatar{background:none!important;padding:0!important;border:0!important}.chatAvatar i{display:none!important}.chatIdentity strong{color:#ef3340}.chatIdentity strong .transport{color:#86b5ff}.chatIdentity small{display:flex;align-items:center;gap:6px}.chatIdentity small:before{content:"";width:7px;height:7px;border-radius:50%;background:#27d476;box-shadow:0 0 0 2px rgba(39,212,118,.16)}.chatBody textarea{width:100%;min-height:82px;margin-top:10px;padding:10px;border:1px solid #dce5e5;border-radius:9px;background:#fff;color:#153341;font:500 16px/1.5 'Open Sans',Arial;resize:vertical}.chatBody label{display:block;margin-top:12px;font-size:12px;font-weight:800}.mobileWhatsAppChat .chatSend{border-radius:10px}
+.chatIdentity small.isOffline:before{background:#a9bac0;box-shadow:none}
+html[data-theme="dark"] .chatBody textarea{background:#102b39;border-color:#496671;color:#e7f1f3}
+@media(max-width:1050px){.links{gap:13px;font-size:12px}.navRow{gap:10px}}
+@media(max-width:980px){.navRow{min-height:69px}.heroContent{min-height:0;padding:72px 20px 70px}.photoHero{min-height:0}.heroShade{background:linear-gradient(90deg,rgba(251,248,237,.97),rgba(251,248,237,.81) 62%,rgba(251,248,237,.35))}html[data-theme="dark"] .heroShade{background:linear-gradient(90deg,rgba(5,25,36,.94),rgba(5,25,36,.67) 62%,rgba(5,25,36,.33))}.hero h1{font-size:clamp(3.2rem,8vw,5.2rem)}.trustStripRow{grid-template-columns:repeat(2,1fr);gap:22px 0}.aboutFleetGrid{grid-template-columns:1fr 1fr}.fleetPreview{height:240px}}
+@media(max-width:650px){html{scroll-padding-top:78px}.container{padding-inline:18px}.navRow{min-height:66px;padding:8px 18px}.logo{width:37px;height:37px}.brandText{width:72px;gap:2px}.brandText strong{font-size:18px}.brandText small{font-size:8px}.heroContent{padding:60px 18px 75px}.heroShade{background:linear-gradient(180deg,rgba(251,248,237,.97),rgba(251,248,237,.87) 56%,rgba(251,248,237,.73))}html[data-theme="dark"] .heroShade{background:linear-gradient(180deg,rgba(5,25,36,.94),rgba(5,25,36,.83) 57%,rgba(5,25,36,.64))}.hero h1{font-size:clamp(2.85rem,11.4vw,4.3rem);margin:20px 0}.hero .lead{font-size:16px}.heroActions{display:grid;grid-template-columns:1fr}.heroActions .btn{width:100%}.heroSlideButton{bottom:19px!important}.heroSlidePrev{left:calc(50% - 85px)!important}.heroSlideNext{left:calc(50% + 49px)!important}.heroSlideDots{left:50%!important;transform:translateX(-50%)!important;bottom:32px!important}.trustStripRow{grid-template-columns:repeat(2,1fr);gap:18px 0;padding-block:23px}.trustStripItem{display:block;padding:0 8px 0 15px}.trustStripItem:first-child,.trustStripItem:nth-child(3){padding-left:0}.trustStripItem b{font-size:26px}.section{padding:72px 0}.sectionTitle{font-size:clamp(2.15rem,9vw,3.1rem)}.splitIntro{gap:18px;margin-bottom:30px}.aboutFleetGrid{grid-template-columns:1fr}.fleetPreview{height:210px}.contentPage{margin:0 18px 60px;padding:20px}.contactForm{padding:22px}.mobileWhatsAppChat{right:16px;width:min(350px,calc(100vw - 32px))}}
+@media(prefers-reduced-motion:reduce){.hero .eyebrow:before{animation:none}.aboutFleetGrid img{transition:none}}
+/* Existing theme guards in style.css use important rules; these keep the new palette coherent. */
+html[data-theme="dark"] body{background:#0c202d!important;color:#e7f1f3!important}
+html[data-theme="dark"] .nav{background:#102b3c!important;border-bottom-color:rgba(255,255,255,.12)!important}
+html[data-theme="dark"] .darkBand{background:#102b3c!important}
+html[data-theme="dark"] .lightBand,html[data-theme="dark"] .contactBand,html[data-theme="dark"] .finalBand{background:#122c39!important;color:#e7f1f3!important}
+html[data-theme="dark"] .card,html[data-theme="dark"] .darkBand .card,html[data-theme="dark"] .lightBand .card,html[data-theme="dark"] .step,html[data-theme="dark"] .faqList details,html[data-theme="dark"] .contactForm,html[data-theme="dark"] .contentPage,html[data-theme="dark"] .reviewCard,html[data-theme="dark"] .contactPanel,html[data-theme="dark"] .finalCta{background:#193946!important;color:#e7f1f3!important;border-color:#36525e!important}
+html[data-theme="dark"] .field input,html[data-theme="dark"] .field select,html[data-theme="dark"] .field textarea{background:#102b39!important;color:#e7f1f3!important;border-color:#496671!important}
+.mobileWhatsAppChat{max-height:min(600px,calc(100dvh - 112px))!important}
+.mobileWhatsAppChat .chatHead{background:#102b3c!important;color:#fff!important;border-bottom-color:rgba(255,255,255,.14)!important}
+.chatIdentity strong{color:#ef3340!important}.chatIdentity strong .transport{color:#86b5ff!important}.chatIdentity small{color:#d5e5e8!important}
+.chatBody{min-height:0;overflow-y:auto;gap:9px}.chatBody textarea{margin-top:0}
+/* Override the earlier campaign typography and retain a readable light hero. */
+.hero h1,.sectionTitle,.centered .sectionTitle,.contactInfo h2,.finalCta h2,.contentPage h1{font-family:Poppins,Arial,sans-serif!important;font-weight:700!important;letter-spacing:-.045em!important}
+.brandText strong{font-family:Poppins,Arial,sans-serif!important;font-size:21px!important;font-weight:800!important;letter-spacing:0!important}
+.brandText small{font-family:'Open Sans',Arial,sans-serif!important;font-size:9px!important;font-weight:700!important;letter-spacing:0!important;color:#86b5ff!important}
+.heroSlideButton:before{color:#243d46!important}html[data-theme="dark"] .heroSlideButton:before{color:#e9f2f3!important}
+.mobileWhatsAppChat{--chat-card:#f1f6f5;--chat-border:#d7e4e5;--chat-text:#153341;--chat-muted:#52676f}
+html[data-theme="dark"] .mobileWhatsAppChat{--chat-card:#193946;--chat-border:#36525e;--chat-text:#e7f1f3;--chat-muted:#b9ced2}
+/* Shared mobile navigation: the same navy, yellow and typography as the site. */
+.mobileNavMenu{--menu-surface:#f6f8f7;--menu-text:#153341;--menu-border:#d7e4e5;--menu-hover:#eaf1f1;--menu-wordmark-blue:#1f5fbf}
+html[data-theme="dark"] .mobileNavMenu{--menu-surface:#122c39;--menu-text:#e7f1f3;--menu-border:#36525e;--menu-hover:#193946;--menu-wordmark-blue:#86b5ff}
+@media(max-width:980px){
+  .mobileNavPanel{background:var(--menu-surface)!important;color:var(--menu-text)!important;border-right:1px solid var(--menu-border)!important;border-radius:0 16px 16px 0!important;box-shadow:16px 0 48px rgba(5,25,36,.24)!important;padding:calc(env(safe-area-inset-top,0px) + 18px) 18px calc(env(safe-area-inset-bottom,0px) + 18px)!important;touch-action:pan-y}
+  .mobileNavScrim{background:rgba(5,25,36,.5)!important}
+  .mobileNavPanelHead{border-bottom-color:var(--menu-border)!important;gap:12px}
+  .mobileNavBrand{gap:10px!important}
+  .mobileNavLogo{width:37px!important;height:37px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;overflow:visible!important}
+  .mobileNavBrand .brandText{display:flex!important;width:72px!important;gap:2px!important}
+  .mobileNavBrand strong,.mobileNavBrand small{display:flex!important;justify-content:space-between!important;letter-spacing:0!important;font-style:normal!important;transform:none!important;margin:0!important}
+  .mobileNavBrand strong{color:#ef3340!important;font:800 18px/1 Poppins,Arial,sans-serif!important}
+  .mobileNavBrand small{color:var(--menu-wordmark-blue)!important;font:700 8px/1.2 'Open Sans',Arial,sans-serif!important}
+  .mobileNavPanelHead .brandText,.mobileNavPanelHead .brandText span{color:inherit!important;font-size:inherit!important;font-weight:inherit!important;letter-spacing:0!important}
+  .mobileNavLinks{gap:6px!important;padding:18px 0!important}
+  .mobileNavLinks a{min-height:46px!important;padding:10px 12px!important;border-radius:8px!important;color:var(--menu-text)!important;font:600 16px/1.4 'Open Sans',Arial,sans-serif!important;text-transform:none!important}
+  .mobileNavLinks a:hover,.mobileNavLinks a:focus-visible{padding-left:12px!important;background:var(--menu-hover)!important;color:var(--menu-text)!important}
+  .mobileNavLinks a:focus-visible{outline:2px solid var(--yellow)!important;outline-offset:0!important}
+  .mobileNavClose{background:var(--menu-hover)!important;color:var(--menu-text)!important;border:1px solid var(--menu-border)!important;border-radius:8px!important;box-shadow:none!important}
+  .mobileNavActions{border-top:1px solid var(--menu-border)!important;padding-top:16px!important}
+  .mobileNavPrimary{min-height:50px!important;border-radius:8px!important;background:var(--yellow)!important;color:#102b3c!important;box-shadow:none!important;font:800 14px/1.3 'Open Sans',Arial,sans-serif!important}
+  .nav .menuToggle{width:44px!important;height:44px!important;min-width:44px!important;border-radius:8px!important;background:transparent!important;border:1px solid rgba(255,255,255,.22)!important;box-shadow:none!important}
+  .nav .menuToggle:focus-visible{outline:2px solid var(--yellow)!important;outline-offset:3px!important}
+}
+
+@media(max-width:650px){.brandText strong{font-size:18px!important}.brandText small{font-size:8px!important}.hero h1{font-size:clamp(2.85rem,11.4vw,4.3rem)!important}}
+body:not(.darkMode) .nav{background:#102b3c!important;color:#fff!important;border-bottom-color:rgba(255,255,255,.12)!important;box-shadow:none!important}
+body:not(.darkMode) .nav .links a{color:#d6e3e5!important;text-shadow:none!important}body:not(.darkMode) .nav .links a:hover{color:var(--yellow)!important}
+html[data-theme="light"] .hero .heroActions .btnGhost{color:#102b3c!important;border-color:rgba(16,43,60,.5)!important;background:rgba(255,255,255,.55)!important}
+body:not(.darkMode) .darkBand,body:not(.darkMode) #pakej{background:#102b3c!important;color:#fff!important}
+body:not(.darkMode) .darkBand .sectionLead{color:#d8e5e8!important}body:not(.darkMode) .darkBand .sectionTitle{color:#fff!important}
+.aboutCopyBlock p{font-weight:400!important}.aboutCopyBlock .inlineCta{display:inline-flex!important;width:auto!important;min-height:46px!important;border-radius:8px!important;padding:12px 18px!important;align-items:center!important}
+html[data-theme="dark"] .mobileWhatsAppChat{--chat-bg:#102b39;background:#102b39!important}
+/* The form introduction scrolls away while the site navigation stays sticky. */
+.registrationFormSection{background:#f6f8f7!important}.registrationHeader{position:static!important;background:#102b3c!important;box-shadow:none!important;border-radius:12px 12px 0 0!important;padding-bottom:10px!important}.registrationTop{background:#102b3c!important;color:#fff!important;padding:26px 28px 18px!important;border-radius:12px 12px 0 0!important}.registrationTop h1{font-family:Poppins,Arial,sans-serif!important;font-size:clamp(2rem,4.3vw,3.6rem)!important;font-weight:700!important;line-height:1.12!important;letter-spacing:-.045em!important;color:#fff!important}.registrationTop span{color:#d8e5e8!important}.registrationMeta{color:#d8e5e8!important}.formCard{scroll-margin-top:96px!important}
+html[data-theme="dark"]{--reg-page-bg:#0c202d;--reg-shell-bg:#102b39;--reg-top-bg:#102b3c;--reg-card-bg:#193946;--reg-card-soft:#163440;--reg-input-bg:#102b39;--reg-disabled-bg:#163440;--reg-border:#36525e;--reg-input-border:#496671}
+html[data-theme="dark"] .registrationFormSection{background:#0c202d!important}html[data-theme="dark"] .registrationShell{background:#102b39!important;border-color:#36525e!important}
+@media(max-width:650px){.registrationTop{padding:22px 18px 16px!important}.registrationTop h1{font-size:clamp(1.85rem,8vw,2.5rem)!important}.registrationHeader{border-radius:10px!important}.formCard{scroll-margin-top:82px!important}}
+
+/* Coverage shares the same surfaces and typography as the rest of the site. */
+#kawasan{--coverage-card:#f6f8f7;--coverage-text:#153341;--coverage-muted:#52676f;--coverage-border:#d7e4e5;--coverage-active:#fff3c9}
+html[data-theme="dark"] #kawasan{--coverage-card:#193946;--coverage-text:#e7f1f3;--coverage-muted:#b9ced2;--coverage-border:#36525e;--coverage-active:#264854}
+#kawasan .sectionKicker{color:var(--yellow)}
+#kawasan .schoolLocator{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;align-items:start;margin-top:38px}
+#kawasan .schoolList{display:grid;gap:10px;max-height:630px;overflow-y:auto;padding:3px 6px 3px 3px;scrollbar-width:thin;scrollbar-color:#66828c transparent}
+#kawasan .schoolCard{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:10px;min-width:0;padding:14px;background:var(--coverage-card)!important;border:1px solid var(--coverage-border)!important;border-radius:12px;box-shadow:none!important;transform:none!important;transition:background .2s,border-color .2s}
+#kawasan .schoolCard:hover,#kawasan .schoolCard.isActive{background:var(--coverage-active)!important;border-color:var(--yellow)!important}
+#kawasan .schoolSelect{display:grid;grid-template-columns:42px minmax(0,1fr);gap:12px;min-width:0;width:100%;padding:0;border:0;border-radius:0;background:transparent!important;box-shadow:none!important;color:var(--coverage-text)!important;font-family:'Open Sans',Arial,sans-serif}
+#kawasan .schoolSelect>span{display:grid;width:42px;min-width:42px;height:42px;border:0;border-radius:8px;background:rgba(245,200,78,.16);color:var(--coverage-text);font-size:14px;font-weight:800}
+#kawasan .schoolSelect>div{display:block;min-width:0}
+#kawasan .schoolSelect strong{color:var(--coverage-text)!important;font:600 15px/1.45 Poppins,Arial,sans-serif;letter-spacing:-.015em;overflow-wrap:anywhere}
+#kawasan .schoolSelect small{color:var(--coverage-muted)!important;font:400 14px/1.5 'Open Sans',Arial,sans-serif;margin-top:3px}
+#kawasan .schoolSelect:after{display:none}
+#kawasan .schoolMapIcon{display:flex!important;min-width:44px;min-height:44px;padding:0!important;border:1px solid var(--coverage-border);border-radius:8px;background:transparent!important;color:var(--coverage-text)!important;transform:none}
+#kawasan .schoolMapIcon svg{width:20px;height:20px}
+#kawasan .schoolMapIcon:hover{background:rgba(245,200,78,.2)!important}
+#kawasan .schoolSelect:focus-visible,#kawasan .schoolMapIcon:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
+#kawasan .schoolMapPanel{min-width:0;align-self:start;border-radius:12px;background:var(--coverage-card)!important;border:1px solid var(--coverage-border)!important;box-shadow:none!important}
+#kawasan .schoolMapPanel iframe{height:370px;background:var(--coverage-card)}
+#kawasan .schoolMapInfo{display:grid;gap:18px;padding:22px;border-top:1px solid var(--coverage-border);text-align:left}
+#kawasan .schoolMapInfo h3{color:var(--coverage-text)!important;font:600 20px/1.4 Poppins,Arial,sans-serif;letter-spacing:-.025em;overflow-wrap:anywhere}
+#kawasan .schoolMapInfo p{color:var(--coverage-muted)!important;font:400 14px/1.6 'Open Sans',Arial,sans-serif}
+#kawasan .coveredBadge{margin-bottom:10px;padding:0;background:transparent;color:var(--coverage-muted);font:700 12px/1.5 'Open Sans',Arial,sans-serif;letter-spacing:.06em}
+#kawasan .schoolMapInfoActions{gap:10px}
+#kawasan .schoolMapInfoActions .btn{min-height:46px;padding:12px 16px;font:700 14px/1.4 'Open Sans',Arial,sans-serif;border-radius:8px;white-space:normal;text-align:center}
+#kawasan .schoolMapInfoActions .btnSecondary{background:transparent!important;color:var(--coverage-text)!important;border:1px solid var(--coverage-border)!important;box-shadow:none}
+@media(max-width:980px){
+  #kawasan .schoolLocator{grid-template-columns:1fr;gap:20px}
+  #kawasan .schoolList{grid-template-columns:repeat(2,minmax(0,1fr));max-height:360px}
+  #kawasan .schoolMapPanel iframe{height:330px}
+}
+@media(max-width:560px){
+  #kawasan .schoolLocator{margin-top:28px;gap:18px}
+  #kawasan .schoolList{grid-template-columns:1fr;gap:10px;max-height:380px;padding:3px 6px 3px 3px}
+  #kawasan .schoolCard{display:grid;grid-template-columns:minmax(0,1fr) 44px;padding:12px!important;border-radius:12px}
+  #kawasan .schoolSelect{display:grid;grid-template-columns:38px minmax(0,1fr);min-height:44px;padding:0!important;text-align:left}
+  #kawasan .schoolSelect>span{display:grid!important;width:38px;min-width:38px;height:38px}
+  #kawasan .schoolSelect>div{display:block!important}
+  #kawasan .schoolSelect:after{display:none}
+  #kawasan .schoolMapIcon{display:flex!important}
+  #kawasan .schoolSelect strong{font-size:14px}
+  #kawasan .schoolSelect small{font-size:13px}
+  #kawasan .schoolMapPanel iframe{height:275px}
+  #kawasan .schoolMapInfo{padding:18px;gap:16px}
+  #kawasan .schoolMapInfo h3{font-size:18px}
+  #kawasan .schoolMapInfoActions{display:grid;grid-template-columns:1fr;width:100%}
+}
+@media(prefers-reduced-motion:reduce){#kawasan .schoolCard{transition:none}}

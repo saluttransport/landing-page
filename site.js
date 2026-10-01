@@ -1,9 +1,4 @@
-﻿(function(){
-  var nav = document.querySelector('.nav');
-  var row = document.querySelector('.navRow');
-  var links = document.querySelector('.links');
-  if (!nav || !row || !links) return;
-
+(function(){
   function ensureStylesheet(href){
     if (document.querySelector('link[href="' + href + '"]')) return;
     var sheet = document.createElement('link');
@@ -13,126 +8,99 @@
   }
   ensureStylesheet('mobile-fixes.css');
   ensureStylesheet('content-fixes.css');
-
-  var themeButton = links.querySelector('.themeToggle') || row.querySelector('.themeToggle');
-  if (!row.querySelector('.menuToggle')) {
-    var menuButton = document.createElement('button');
-    menuButton.className = 'menuToggle';
-    menuButton.type = 'button';
-    menuButton.setAttribute('aria-label', 'Buka menu');
-    menuButton.setAttribute('aria-expanded', 'false');
-    menuButton.innerHTML = '<span></span><span></span><span></span>';
-    row.appendChild(menuButton);
-  }
-  var menuToggle = row.querySelector('.menuToggle');
-  if (themeButton && !row.querySelector('.mobileHeaderThemeToggle')) {
-    var mobileThemeButton = document.createElement('button');
-    mobileThemeButton.className = 'themeToggle mobileHeaderThemeToggle';
-    mobileThemeButton.type = 'button';
-    mobileThemeButton.setAttribute('aria-label', 'Toggle light and dark mode');
-    row.insertBefore(mobileThemeButton, row.querySelector('.navCta') || menuToggle);
-  }
-  var mobileMenu = document.querySelector('.mobileNavMenu');
-  if (!mobileMenu) {
-    mobileMenu = document.createElement('div');
-    mobileMenu.className = 'mobileNavMenu';
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    mobileMenu.inert = true;
-    mobileMenu.innerHTML = [
-      '<div class="mobileNavScrim" data-menu-close></div>',
-      '<div class="mobileNavPanel" role="dialog" aria-label="Menu mudah alih">',
-      '<div class="mobileNavPanelHead">',
-      '<a class="mobileNavBrand" href="index.html" aria-label="Salut Transport Home">',
-      '<span class="mobileNavLogo"><img src="assets/logo.png" alt=""></span>',
-      '<span><strong>SALUT</strong><small>TRANSPORT</small></span>',
-      '</a>',
-      '<button class="mobileNavClose" type="button" aria-label="Tutup menu" data-menu-close>×</button>',
-      '</div>',
-      '<nav class="mobileNavLinks" aria-label="Mobile navigation">',
-      '<a href="index.html#kawasan">Kawasan</a>',
-      '<a href="index.html#kenapa">Kenapa Kami</a>',
-      '<a href="index.html#daftar">Cara Daftar</a>',
-      '<a href="index.html#faq">FAQ</a>',
-      '<a href="index.html#contact">Hubungi</a>',
-      '</nav>',
-      '<div class="mobileNavActions">',
-      '<div class="mobileThemeRow"><span>Tema</span><button class="themeToggle mobileThemeToggle" type="button" aria-label="Toggle light and dark mode"></button></div>',
-      '<a class="mobileNavPrimary" href="index.html#contact">Semak Slot</a>',
-      '</div>',
-      '</div>'
-    ].join('');
-    document.body.appendChild(mobileMenu);
-  } else if (mobileMenu.parentElement !== document.body) {
-    document.body.appendChild(mobileMenu);
-  }
-
-  var lastMenuFocus = null;
-  function setMenu(open, restoreFocus){
-    if (open) lastMenuFocus = document.activeElement;
-    nav.classList.toggle('menuOpen', open);
-    document.body.classList.toggle('mobileMenuLocked', open);
-    document.body.classList.toggle('mobileMenuOpen', open);
-    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    menuToggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
-    if (mobileMenu) {
-      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
-      mobileMenu.inert = !open;
-    }
-    if (open) {
-      window.requestAnimationFrame(function(){
-        var closeButton = mobileMenu ? mobileMenu.querySelector('.mobileNavClose') : null;
-        if (closeButton) closeButton.focus({preventScroll:true});
-      });
-    } else if (restoreFocus !== false && lastMenuFocus && document.contains(lastMenuFocus)) {
-      lastMenuFocus.focus({preventScroll:true});
-    }
-  }
-  function closeMenu(restoreFocus){
-    setMenu(false, restoreFocus);
-  }
-  menuToggle.addEventListener('click', function(event){
-    event.stopPropagation();
-    var shouldOpen = !nav.classList.contains('menuOpen');
-    setMenu(shouldOpen, true);
+  ensureStylesheet('chat.css');
+  ['go-live.css', 'chrome.css', 'home.css', 'reg.css', 'policy.css', 'chat.css'].forEach(function(href){
+    var lateSheet = document.querySelector('link[href="' + href + '"]');
+    if (lateSheet) document.head.appendChild(lateSheet);
   });
-  links.querySelectorAll('a').forEach(function(link){ link.addEventListener('click', closeMenu); });
-  mobileMenu.querySelectorAll('a').forEach(function(item){ item.addEventListener('click', function(){ closeMenu(false); }); });
-  mobileMenu.querySelectorAll('[data-menu-close]').forEach(function(item){ item.addEventListener('click', function(){ closeMenu(true); }); });
-  var mobilePanel = mobileMenu.querySelector('.mobileNavPanel');
-  if (mobilePanel) {
-    mobilePanel.addEventListener('click', function(event){ event.stopPropagation(); });
-  }
-  document.addEventListener('click', function(event){ if (nav.classList.contains('menuOpen') && !nav.contains(event.target)) closeMenu(true); });
-  document.addEventListener('keydown', function(event){ if (event.key === 'Escape') closeMenu(true); });
 
+  function containDialogFocus(event, dialog){
+    if (event.key !== 'Tab' || !dialog) return;
+    var items = Array.from(dialog.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')).filter(function(item){
+      return !item.disabled && item.tabIndex >= 0 && item.getClientRects().length > 0;
+    });
+    if (!items.length) return;
+    var first = items[0];
+    var last = items[items.length - 1];
+    if (!dialog.contains(document.activeElement) || (event.shiftKey && document.activeElement === first)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  // Header: the mobile drawer opens from the right, under the sticky header, so the
+  // menu button stays visible and turns into a close button.
+  var menuButton = document.querySelector('.st-menu-button');
+  var drawer = document.getElementById('st-mobile-menu');
+  var backdrop = document.querySelector('.st-backdrop');
+  function menuIsOpen(){ return !!(drawer && drawer.classList.contains('show')); }
+  function setMenu(open, restoreFocus){
+    if (!menuButton || !drawer) return;
+    drawer.classList.toggle('show', open);
+    if (backdrop) backdrop.classList.toggle('show', open);
+    menuButton.classList.toggle('open', open);
+    menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuButton.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    drawer.inert = !open;
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (!open && restoreFocus !== false) menuButton.focus({preventScroll: true});
+  }
+  if (menuButton && drawer) {
+    menuButton.addEventListener('click', function(){ setMenu(!menuIsOpen(), true); });
+    if (backdrop) backdrop.addEventListener('click', function(){ setMenu(false, true); });
+    drawer.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){ setMenu(false, false); });
+    });
+    document.addEventListener('keydown', function(event){
+      if (!menuIsOpen()) return;
+      if (event.key === 'Escape') {
+        setMenu(false, true);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      var items = [menuButton].concat(Array.from(drawer.querySelectorAll('a[href]')));
+      var index = items.indexOf(document.activeElement);
+      if (index === -1 || (event.shiftKey && index === 0) || (!event.shiftKey && index === items.length - 1)) {
+        event.preventDefault();
+        items[event.shiftKey ? (index <= 0 ? items.length - 1 : index - 1) : (index === items.length - 1 ? 0 : index + 1)].focus();
+      }
+    });
+    window.addEventListener('resize', function(){
+      if (window.innerWidth > 980 && menuIsOpen()) setMenu(false, false);
+    });
+  }
+
+  // Theme: the switch shows the sun in light mode and slides to the moon in dark mode.
   var key = 'theme';
-  var buttons = document.querySelectorAll('.themeToggle');
+  var buttons = document.querySelectorAll('.st-theme-toggle');
+  function storedTheme(){
+    try { return localStorage.getItem(key) || localStorage.getItem('salut-theme'); } catch (error) { return null; }
+  }
   function preferredTheme(){
-    var stored = localStorage.getItem(key) || localStorage.getItem('salut-theme');
+    var stored = storedTheme();
     if (stored === 'light' || stored === 'dark') return stored;
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
     return 'dark';
-  }
-  function upgradeThemeButton(button){
-    button.setAttribute('role', 'switch');
-    button.setAttribute('aria-label', 'Toggle light and dark mode');
-    button.innerHTML = '<span class="themeTrack" aria-hidden="true"><span class="themeThumb"><svg class="themeIcon themeMoon" viewBox="0 0 24 24" fill="none"><path d="M20 15.4A7.8 7.8 0 0 1 8.6 4a8.2 8.2 0 1 0 11.4 11.4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="themeIcon themeSun" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></span>';
   }
   function apply(mode){
     var dark = mode === 'dark';
     document.documentElement.setAttribute('data-theme', mode);
     document.body.classList.toggle('darkMode', dark);
     buttons.forEach(function(button){
-      button.setAttribute('aria-checked', mode === 'light' ? 'true' : 'false');
+      button.setAttribute('aria-checked', dark ? 'true' : 'false');
+      button.setAttribute('title', dark ? 'Tukar ke mod cerah' : 'Tukar ke mod gelap');
     });
-    localStorage.setItem(key, mode);
-    localStorage.setItem('salut-theme', mode);
+    try {
+      localStorage.setItem(key, mode);
+      localStorage.setItem('salut-theme', mode);
+    } catch (error) {}
   }
-  buttons.forEach(upgradeThemeButton);
   apply(preferredTheme());
   buttons.forEach(function(button){
-    if (button.dataset.themeBound === 'true') return;
-    button.dataset.themeBound = 'true';
     button.addEventListener('click', function(){ apply(document.body.classList.contains('darkMode') ? 'light' : 'dark'); });
   });
 
@@ -172,18 +140,19 @@
     });
   }
   function nextHeroSlide(){ showHeroSlide(heroIndex + 1); }
-  function resetHeroTimer(){
-    if (!heroSlides.length) return;
+  function stopHeroTimer(){
     window.clearInterval(heroTimer);
-    heroTimer = window.setInterval(nextHeroSlide, 5200);
+    heroTimer = null;
   }
   if (heroSlides.length) {
-    if (heroPrev) heroPrev.addEventListener('click', function(){ showHeroSlide(heroIndex - 1); resetHeroTimer(); });
-    if (heroNext) heroNext.addEventListener('click', function(){ showHeroSlide(heroIndex + 1); resetHeroTimer(); });
+    if (heroPrev) heroPrev.addEventListener('click', function(){ showHeroSlide(heroIndex - 1); stopHeroTimer(); });
+    if (heroNext) heroNext.addEventListener('click', function(){ showHeroSlide(heroIndex + 1); stopHeroTimer(); });
     heroDots.forEach(function(dot, dotIndex){
-      dot.addEventListener('click', function(){ showHeroSlide(dotIndex); resetHeroTimer(); });
+      dot.addEventListener('click', function(){ showHeroSlide(dotIndex); stopHeroTimer(); });
     });
-    resetHeroTimer();
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      heroTimer = window.setInterval(function(){ if (!document.hidden) nextHeroSlide(); }, 6500);
+    }
   }
 
   document.querySelectorAll('.whatsappForm').forEach(function(form){
@@ -195,8 +164,8 @@
     });
   });
 
-  document.querySelectorAll('.sheetRegistrationForm').forEach(function(form){
-    var status = form.querySelector('.sheetFormStatus');
+  document.querySelectorAll('.sheetRegistrationForm, [data-registration-form]').forEach(function(form){
+    var status = form.querySelector('.sheetFormStatus, [data-form-status]');
     var birthInput = form.querySelector('input[name="tarikhLahir"]');
     var ageInput = form.querySelector('input[name="umur"]');
     var schoolLevelInput = form.querySelector('select[name="darjahTingkatan2027"]');
@@ -372,7 +341,7 @@
       }
       payload.icIbu = normalizeIc(payload.icIbu);
       payload.icAyah = normalizeIc(payload.icAyah);
-      setStatus('Pendaftaran sedang dihantar — biasanya siap dalam 1–2 saat. Jangan refresh halaman ini.', '');
+      setStatus('Pendaftaran sedang dihantar. Tunggu pengesahan dan jangan refresh halaman ini.', '');
       form.dataset.submitting = 'true';
       var submitLabel = submitButton ? submitButton.textContent : '';
       if (submitButton) {
@@ -380,7 +349,7 @@
         submitButton.textContent = 'Sedang dihantar…';
       }
       var reassuranceTimer = window.setTimeout(function(){
-        if (form.dataset.submitting === 'true') setStatus('Pendaftaran sudah diterima dan sedang disahkan. Jangan refresh atau tekan semula.', '');
+        if (form.dataset.submitting === 'true') setStatus('Masih menunggu pengesahan pendaftaran. Jangan refresh atau tekan semula.', '');
       }, 1800);
       function sendRegistration(attempt){
         return fetch(endpoint, {
@@ -416,6 +385,7 @@
         var message = 'Pendaftaran berjaya dihantar. ID rujukan: ' + data.submissionId;
         setStatus(message, 'success');
         refreshProgress();
+        form.dispatchEvent(new CustomEvent('registrationsuccess', {detail: {submissionId: data.submissionId}}));
       }).catch(function(){
         setStatus('Pendaftaran belum dapat disahkan. Jangan isi borang baharu — tekan Hantar Pendaftaran sekali lagi atau hubungi WhatsApp.', 'error');
       }).finally(function(){
@@ -427,6 +397,153 @@
         }
       });
     });
+  });
+
+  // Registration page: show the official form one part at a time. The fields, their
+  // names and the submit code above are unchanged; without this block all four parts
+  // simply stay visible.
+  document.querySelectorAll('[data-registration-form]').forEach(function(form){
+    var steps = Array.prototype.slice.call(form.querySelectorAll('[data-step]'));
+    if (!steps.length) return;
+    var shell = form.closest('.st-reg-shell') || document;
+    var layout = shell.querySelector('[data-reg-layout]');
+    var complete = shell.querySelector('[data-reg-complete]');
+    // Two step lists: the full one beside the form and the short one in the sticky bar on phones.
+    var stepLists = Array.prototype.slice.call(shell.querySelectorAll('[data-reg-steps]'));
+    var stickyBar = shell.querySelector('[data-reg-sticky]');
+    var topline = shell.querySelector('[data-reg-topline]');
+    var count = shell.querySelector('[data-reg-count]');
+    var percent = shell.querySelector('[data-reg-percent]');
+    var progress = shell.querySelector('[data-reg-progress]');
+    var summary = form.querySelector('[data-reg-summary]');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var current = 0;
+    form.classList.add('st-reg-js');
+    shell.classList.add('st-reg-ready');
+    if (stickyBar) stickyBar.hidden = false;
+    if (topline) topline.hidden = false;
+    if (progress) progress.hidden = false;
+    if (summary) summary.hidden = false;
+
+    ['icAyah', 'icIbu'].forEach(function(name){
+      var field = form.elements[name];
+      if (!field) return;
+      field.addEventListener('input', function(){
+        var digits = field.value.replace(/[\s-]/g, '');
+        field.setCustomValidity(field.value && !/^\d{12}$/.test(digits) ? 'Masukkan 12 digit No. IC, contoh 800101145678.' : '');
+      });
+    });
+    function pad(number){ return number < 10 ? '0' + number : String(number); }
+    function fieldValue(name){
+      var field = form.elements[name];
+      return field && field.value ? String(field.value).trim() : '';
+    }
+    function fillSummary(){
+      if (!summary) return;
+      var trip = [fieldValue('sesiSekolah'), fieldValue('pilihanPerjalanan')].filter(Boolean).join(' · ');
+      var values = {namaAnak: fieldValue('namaAnak'), sekolah: fieldValue('sekolah'), perjalanan: trip, alamatRumah: fieldValue('alamatRumah')};
+      summary.querySelectorAll('[data-summary]').forEach(function(cell){
+        cell.textContent = values[cell.dataset.summary] || '-';
+      });
+    }
+    function showStep(index, moveFocus){
+      current = Math.max(0, Math.min(steps.length - 1, index));
+      steps.forEach(function(step, stepIndex){ step.hidden = stepIndex !== current; });
+      stepLists.forEach(function(list){
+        Array.prototype.forEach.call(list.children, function(item, itemIndex){
+          item.classList.toggle('current', itemIndex === current);
+          item.classList.toggle('finished', itemIndex < current);
+          if (itemIndex === current) item.setAttribute('aria-current', 'step');
+          else item.removeAttribute('aria-current');
+        });
+      });
+      var share = Math.round((current + 1) / steps.length * 100);
+      if (count) count.textContent = 'BAHAGIAN ' + pad(current + 1) + ' / ' + pad(steps.length);
+      if (percent) percent.textContent = share + '% diisi';
+      if (progress) {
+        progress.setAttribute('aria-valuenow', String(current + 1));
+        progress.setAttribute('aria-label', 'Bahagian ' + (current + 1) + ' daripada ' + steps.length);
+        var bar = progress.querySelector('span');
+        if (bar) bar.style.width = share + '%';
+      }
+      if (current === steps.length - 1) fillSummary();
+      if (moveFocus) {
+        var card = form.closest('.st-reg-card');
+        if (card && card.getBoundingClientRect().top < 90) card.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
+        var heading = steps[current].querySelector('h2');
+        if (heading) heading.focus({preventScroll: true});
+      }
+    }
+    function stepIsValid(step){
+      var fields = Array.prototype.slice.call(step.querySelectorAll('input,select,textarea')).filter(function(field){
+        return !field.disabled && field.type !== 'hidden' && field.name !== 'website';
+      });
+      for (var i = 0; i < fields.length; i++) {
+        if (!fields[i].checkValidity()) {
+          // Centre the field so it is not hidden under the sticky header and step bar.
+          fields[i].scrollIntoView({block: 'center'});
+          fields[i].focus({preventScroll: true});
+          fields[i].reportValidity();
+          return false;
+        }
+      }
+      return true;
+    }
+    form.querySelectorAll('[data-step-next]').forEach(function(button){
+      button.addEventListener('click', function(){
+        if (stepIsValid(steps[current])) showStep(current + 1, true);
+      });
+    });
+    form.querySelectorAll('[data-step-back]').forEach(function(button){
+      button.addEventListener('click', function(){ showStep(current - 1, true); });
+    });
+    // Enter in a text field moves to the next part instead of submitting early.
+    form.addEventListener('keydown', function(event){
+      if (event.key !== 'Enter' || current === steps.length - 1) return;
+      if (event.target.tagName === 'TEXTAREA' || event.target.tagName === 'BUTTON') return;
+      event.preventDefault();
+      if (stepIsValid(steps[current])) showStep(current + 1, true);
+    });
+    // If the browser blocks submit because of a field in another part, open that part.
+    form.addEventListener('invalid', function(event){
+      var owner = event.target.closest('[data-step]');
+      var index = steps.indexOf(owner);
+      if (index !== -1 && index !== current) showStep(index, false);
+    }, true);
+    form.addEventListener('registrationsuccess', function(event){
+      if (!complete || !layout) return;
+      var idCell = complete.querySelector('[data-reg-complete-id]');
+      if (idCell) idCell.textContent = event.detail && event.detail.submissionId ? event.detail.submissionId : '-';
+      layout.hidden = true;
+      complete.hidden = false;
+      complete.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
+      var title = complete.querySelector('[data-reg-complete-title]');
+      if (title) title.focus({preventScroll: true});
+    });
+    var again = complete ? complete.querySelector('[data-reg-again]') : null;
+    if (again) again.addEventListener('click', function(){
+      complete.hidden = true;
+      layout.hidden = false;
+      var status = form.querySelector('[data-form-status]');
+      if (status) status.textContent = '';
+      showStep(0, true);
+    });
+    showStep(0, false);
+
+    // Add a shadow under the step bar once it is stuck below the header.
+    if (stickyBar) {
+      var stuckTicking = false;
+      var updateStuck = function(){
+        stuckTicking = false;
+        var top = parseFloat(getComputedStyle(stickyBar).top) || 0;
+        var card = stickyBar.parentElement.getBoundingClientRect();
+        stickyBar.classList.toggle('isStuck', card.top < top - 1 && card.bottom > top + stickyBar.offsetHeight);
+      };
+      window.addEventListener('scroll', function(){
+        if (!stuckTicking) { stuckTicking = true; requestAnimationFrame(updateStuck); }
+      }, {passive: true});
+      updateStuck();
+    }
   });
 
   var mapFrame = document.getElementById('schoolMap');
@@ -460,7 +577,7 @@
   }
 
   var floatingWhatsapp = document.querySelector('.whatsappBox');
-  var chatBox = document.querySelector('.mobileWhatsAppChat');
+  var chatBox = document.querySelector('.st-chat');
   var chatOverlay = document.querySelector('.whatsappChatOverlay');
   var whatsappDefaultMessage = 'Assalamualaikum! Saya nak tanya tentang servis van sekolah Salut Transport.';
   var whatsappMessages = {
@@ -473,7 +590,7 @@
   }
   if (floatingWhatsapp && !chatBox) {
     chatBox = document.createElement('div');
-    chatBox.className = 'mobileWhatsAppChat';
+    chatBox.className = 'st-chat';
     chatBox.setAttribute('aria-hidden', 'true');
     document.body.insertBefore(chatBox, floatingWhatsapp.nextSibling);
   }
@@ -493,29 +610,58 @@
     chatBox.setAttribute('role', 'dialog');
     chatBox.setAttribute('aria-modal', 'false');
     chatBox.setAttribute('aria-label', 'Chat WhatsApp Salut Transport');
+    var replyIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 18v-2a4 4 0 0 0-4-4H4"/><path d="m9 17-5-5 5-5"/></svg>';
     chatBox.innerHTML = [
-      '<div class="chatHead">',
-      '<div class="chatIdentity">',
-      '<span class="chatAvatar" aria-hidden="true"><img src="assets/logo.png" alt=""><i></i></span>',
-      '<span><strong>Salut Transport</strong><small>Balas dalam ~1 jam waktu operasi</small></span>',
+      '<div class="st-chat-head">',
+      '<span class="st-chat-avatar" aria-hidden="true"><img src="assets/logo.png" alt=""><i></i></span>',
+      '<span class="st-chat-identity"><strong>Salut Transport</strong><small class="chatAvailability">Online</small></span>',
+      '<button type="button" class="st-chat-close" aria-label="Tutup chat"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>',
       '</div>',
-      '<button type="button" class="chatClose" aria-label="Tutup chat">×</button>',
+      '<div class="st-chat-body">',
+      '<span class="st-chat-day">Hari ini</span>',
+      '<div class="st-chat-message">',
+      '<p class="st-chat-bubble">Assalamualaikum! Ada apa yang boleh kami bantu untuk perjalanan sekolah anak?<span class="st-chat-time" data-chat-time></span></p>',
+      '<div class="st-chat-replies" role="group" aria-label="Pilihan mesej pantas">',
+      '<button type="button" data-message-key="slot" aria-pressed="false">' + replyIcon + 'Semak slot van sekolah</button>',
+      '<button type="button" data-message-key="price" aria-pressed="false">' + replyIcon + 'Tanya harga pakej</button>',
+      '<button type="button" data-message-key="area" aria-pressed="false">' + replyIcon + 'Tanya kawasan diliputi</button>',
       '</div>',
-      '<div class="chatBody">',
-      '<p class="chatBubble">Assalamualaikum! Ada apa yang boleh kami bantu untuk perjalanan sekolah anak?</p>',
-      '<div class="chatQuickReplies" aria-label="Pilihan mesej pantas">',
-      '<button type="button" data-message-key="slot">Semak slot van sekolah</button>',
-      '<button type="button" data-message-key="price">Tanya harga pakej</button>',
-      '<button type="button" data-message-key="area">Tanya kawasan diliputi</button>',
       '</div>',
       '</div>',
-      '<div class="chatFooter">',
-      '<a class="chatSend" href="' + whatsappUrl(whatsappDefaultMessage) + '" target="_blank" rel="noopener"><span aria-hidden="true"></span>Buka WhatsApp</a>',
-      '</div>'
+      '<div class="st-chat-bar">',
+      '<label class="st-chat-sr" for="chatCustomMessage">Atau tulis mesej sendiri</label>',
+      '<textarea id="chatCustomMessage" rows="1" maxlength="1000" placeholder="Tulis pertanyaan anda di sini…"></textarea>',
+      '<a class="st-chat-send" href="' + whatsappUrl(whatsappDefaultMessage) + '" target="_blank" rel="noopener" aria-label="Buka WhatsApp untuk hantar mesej"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1.101 21.757 23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"/></svg></a>',
+      '</div>',
+      '<p class="st-chat-note">Mesej akan dibuka dalam WhatsApp untuk dihantar.</p>'
     ].join('');
-    var closeChat = chatBox.querySelector('.chatClose');
-    var sendChat = chatBox.querySelector('.chatSend');
-    var quickReplies = Array.prototype.slice.call(chatBox.querySelectorAll('.chatQuickReplies button'));
+    var customMessage = chatBox.querySelector('#chatCustomMessage');
+    var availability = chatBox.querySelector('.chatAvailability');
+    function updateAvailability(){
+      if (!availability) return;
+      var parts = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Kuala_Lumpur', weekday:'short', hour:'2-digit', minute:'2-digit', hour12:false }).formatToParts(new Date());
+      var values = {};
+      parts.forEach(function(part){ values[part.type] = part.value; });
+      var minutes = Number(values.hour) * 60 + Number(values.minute);
+      var open = ['Mon','Tue','Wed','Thu','Fri'].includes(values.weekday) && minutes >= 360 && minutes < 1170;
+      availability.textContent = open ? 'Online' : 'Luar waktu operasi';
+      availability.classList.toggle('isOffline', !open);
+      var avatar = chatBox.querySelector('.st-chat-avatar');
+      if (avatar) avatar.classList.toggle('isOffline', !open);
+      var stamp = chatBox.querySelector('[data-chat-time]');
+      if (stamp) stamp.textContent = values.hour + ':' + values.minute;
+    }
+    updateAvailability();
+    window.setInterval(updateAvailability, 60000);
+    var closeChat = chatBox.querySelector('.st-chat-close');
+    var sendChat = chatBox.querySelector('.st-chat-send');
+    var quickReplies = Array.prototype.slice.call(chatBox.querySelectorAll('.st-chat-replies button'));
+    // Grow the message field with its text, like WhatsApp, up to the CSS max-height.
+    function fitMessageField(){
+      if (!customMessage) return;
+      customMessage.style.height = 'auto';
+      customMessage.style.height = customMessage.scrollHeight + 'px';
+    }
     var lastChatFocus = null;
     function focusableChatItems(){
       return Array.prototype.slice.call(chatBox.querySelectorAll('button,a[href],textarea,input,select,[tabindex]:not([tabindex="-1"])')).filter(function(item){
@@ -552,16 +698,29 @@
       if (!chatBox.classList.contains('isOpen')) return;
       if (chatBox.contains(event.target)) return;
       if (floatingWhatsapp.contains(event.target)) return;
-      if (event.target.closest && event.target.closest('.themeToggle')) return;
+      if (event.target.closest && event.target.closest('.st-theme-toggle')) return;
       setChat(false, true);
     });
     quickReplies.forEach(function(reply){
       reply.addEventListener('click', function(){
         var key = reply.dataset.messageKey;
         var message = whatsappMessages[key] || whatsappDefaultMessage;
-        quickReplies.forEach(function(item){ item.classList.toggle('isSelected', item === reply); });
+        quickReplies.forEach(function(item){
+          item.classList.toggle('isSelected', item === reply);
+          item.setAttribute('aria-pressed', item === reply ? 'true' : 'false');
+        });
+        if (customMessage) customMessage.value = message;
+        fitMessageField();
         if (sendChat) sendChat.href = whatsappUrl(message);
       });
+    });
+    if (customMessage) customMessage.addEventListener('input', function(){
+      if (sendChat) sendChat.href = whatsappUrl(customMessage.value.trim());
+      quickReplies.forEach(function(item){
+        item.classList.remove('isSelected');
+        item.setAttribute('aria-pressed', 'false');
+      });
+      fitMessageField();
     });
     chatBox.addEventListener('keydown', function(event){
       if (event.key === 'Escape') {
@@ -597,15 +756,17 @@
   var fleetLightbox = document.getElementById('fleetLightbox');
   var fleetLightboxImage = fleetLightbox ? fleetLightbox.querySelector('.fleetLightboxImage') : null;
   var fleetLightboxClose = fleetLightbox ? fleetLightbox.querySelector('.fleetLightboxClose') : null;
+  if (fleetLightbox) fleetLightbox.inert = true;
   var lastFleetTrigger = null;
   function closeFleetPreview(){
     if (!fleetLightbox) return;
     fleetLightbox.classList.remove('isOpen');
     fleetLightbox.setAttribute('aria-hidden', 'true');
+    fleetLightbox.inert = true;
     document.body.style.overflow = '';
     if (lastFleetTrigger) lastFleetTrigger.focus();
   }
-  document.querySelectorAll('.fleetPreview').forEach(function(button){
+  document.querySelectorAll('.fleetPreview, .st-fleet-photo').forEach(function(button){
     button.addEventListener('click', function(){
       if (!fleetLightbox || !fleetLightboxImage) return;
       lastFleetTrigger = button;
@@ -613,6 +774,7 @@
       fleetLightboxImage.alt = button.querySelector('img')?.alt || 'Van Salut Transport';
       fleetLightbox.classList.add('isOpen');
       fleetLightbox.setAttribute('aria-hidden', 'false');
+      fleetLightbox.inert = false;
       document.body.style.overflow = 'hidden';
       if (fleetLightboxClose) fleetLightboxClose.focus();
     });
@@ -624,6 +786,117 @@
     });
   }
   document.addEventListener('keydown', function(event){
-    if (event.key === 'Escape' && fleetLightbox && fleetLightbox.classList.contains('isOpen')) closeFleetPreview();
+    if (!fleetLightbox || !fleetLightbox.classList.contains('isOpen')) return;
+    if (event.key === 'Escape') closeFleetPreview();
+    else containDialogFocus(event, fleetLightbox);
+  });
+
+  // Homepage (index.html): hero photos, school finder and the "Semak slot" form.
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var stBackdrops = Array.prototype.slice.call(document.querySelectorAll('.st-hero-backdrop'));
+  var stDots = Array.prototype.slice.call(document.querySelectorAll('.st-hero-gallery-dots button'));
+  var stHeroIndex = 0;
+  var stHeroTimer = null;
+  function showStHero(index){
+    if (!stBackdrops.length) return;
+    stHeroIndex = (index + stBackdrops.length) % stBackdrops.length;
+    stBackdrops.forEach(function(image, imageIndex){ image.classList.toggle('active', imageIndex === stHeroIndex); });
+    stDots.forEach(function(dot, dotIndex){
+      dot.classList.toggle('active', dotIndex === stHeroIndex);
+      if (dotIndex === stHeroIndex) dot.setAttribute('aria-current', 'true');
+      else dot.removeAttribute('aria-current');
+    });
+  }
+  function stopStHero(){ window.clearInterval(stHeroTimer); stHeroTimer = null; }
+  if (stBackdrops.length > 1) {
+    var stPrev = document.querySelector('[data-hero-prev]');
+    var stNext = document.querySelector('[data-hero-next]');
+    if (stPrev) stPrev.addEventListener('click', function(){ showStHero(stHeroIndex - 1); stopStHero(); });
+    if (stNext) stNext.addEventListener('click', function(){ showStHero(stHeroIndex + 1); stopStHero(); });
+    stDots.forEach(function(dot, dotIndex){
+      dot.addEventListener('click', function(){ showStHero(dotIndex); stopStHero(); });
+    });
+    if (!reduceMotion) {
+      stHeroTimer = window.setInterval(function(){ if (!document.hidden) showStHero(stHeroIndex + 1); }, 6500);
+    }
+  }
+
+  var stForm = document.getElementById('stSlotForm');
+  function goToSlotForm(values){
+    if (!stForm) return;
+    Object.keys(values || {}).forEach(function(name){
+      var field = stForm.elements[name];
+      if (field) field.value = values[name];
+    });
+    var section = document.getElementById('contact');
+    if (section) section.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
+    var firstEmpty = Array.prototype.slice.call(stForm.querySelectorAll('input[required], select[required]')).filter(function(field){ return !field.value; })[0];
+    if (firstEmpty) window.setTimeout(function(){ firstEmpty.focus({preventScroll: true}); }, reduceMotion ? 0 : 450);
+  }
+
+  var stSchools = Array.prototype.slice.call(document.querySelectorAll('.st-school'));
+  var stMap = document.getElementById('stSchoolMap');
+  var stMapName = document.getElementById('stMapName');
+  var stMapArea = document.getElementById('stMapArea');
+  var stMapLink = document.getElementById('stMapLink');
+  var stMapCheck = document.getElementById('stMapCheck');
+  var stSelectedSchool = stSchools[0] || null;
+  stSchools.forEach(function(school){
+    school.addEventListener('click', function(){
+      stSelectedSchool = school;
+      stSchools.forEach(function(item){
+        item.classList.toggle('selected', item === school);
+        item.setAttribute('aria-pressed', item === school ? 'true' : 'false');
+      });
+      var name = school.dataset.name;
+      var query = school.dataset.query || name;
+      if (stMapName) stMapName.textContent = name;
+      if (stMapArea) stMapArea.textContent = school.dataset.area || '';
+      if (stMapLink) stMapLink.href = school.dataset.mapUrl || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query));
+      if (stMap) {
+        stMap.src = 'https://maps.google.com/maps?q=' + encodeURIComponent(query) + '&output=embed';
+        stMap.title = 'Peta lokasi ' + name;
+      }
+    });
+  });
+  if (stMapCheck) stMapCheck.addEventListener('click', function(){
+    if (stSelectedSchool) goToSlotForm({school: stSelectedSchool.dataset.name});
+  });
+
+  var stSearch = document.getElementById('stSchoolSearch');
+  var stCount = document.getElementById('stSchoolCount');
+  var stNoResults = document.getElementById('stNoResults');
+  if (stSearch) stSearch.addEventListener('input', function(){
+    var term = stSearch.value.trim().toLowerCase();
+    var shown = 0;
+    stSchools.forEach(function(school){
+      var match = !term || (school.dataset.name + ' ' + school.dataset.area).toLowerCase().indexOf(term) !== -1;
+      school.hidden = !match;
+      if (match) shown += 1;
+    });
+    if (stCount) stCount.textContent = shown + ' sekolah ditemui';
+    if (stNoResults) stNoResults.hidden = shown > 0;
+  });
+
+  document.querySelectorAll('.st-fare-card [data-trip]').forEach(function(button){
+    button.addEventListener('click', function(){ goToSlotForm({trip: button.dataset.trip}); });
+  });
+
+  if (stForm) stForm.addEventListener('submit', function(event){
+    event.preventDefault();
+    var field = function(name){ return (stForm.elements[name].value || '').trim(); };
+    var lines = [
+      'Assalamualaikum Salut Transport. Saya ingin semak slot & tambang van sekolah.',
+      'Nama penjaga: ' + field('name'),
+      'No. telefon: ' + field('phone'),
+      'Sekolah anak: ' + field('school'),
+      'Kawasan rumah: ' + field('area'),
+      'Sesi sekolah: ' + field('session'),
+      'Perjalanan: ' + field('trip')
+    ];
+    if (field('notes')) lines.push('Maklumat tambahan: ' + field('notes'));
+    window.open('https://wa.me/60123539977?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+    var note = document.getElementById('stFormNote');
+    if (note) note.textContent = 'WhatsApp dibuka dengan mesej yang disediakan. Sila tekan hantar di WhatsApp.';
   });
 })();
