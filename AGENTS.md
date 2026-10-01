@@ -27,6 +27,7 @@ Plain static site. No framework, no bundler, no `package.json`, no build step
 | `style.css` | Base design system (large; many layered "refinement" sections) |
 | `concept.css` | Overrides for `index.html` + `pendaftaran.html` |
 | `content-fixes.css` | Overrides for the policy/content pages |
+| `chrome.css` | Shared header, mobile drawer and footer on every page (classes prefixed `st-`). The markup is repeated in all 8 HTML files, so change it everywhere together |
 | `home.css` | Homepage sections (`index.html` only). Classes are prefixed `st-` so older CSS layers cannot reach them |
 | `mobile-fixes.css` | Minified mobile overrides, **injected by `site.js`** (not linked in HTML) |
 | `site.js` | All client JS: theme toggle, nav menu, WhatsApp chat, school map, form logic |
@@ -106,6 +107,11 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/header-footer-prototype` replaces the header and footer on all 8
+  pages with the prototype version (`chrome.css`, plus the header and theme code at the top of `site.js`).
+  The old `.nav` / `.menuToggle` / `.mobileNavMenu` / `.footerGrid` markup and its JS are gone. On the
+  homepage, links use `#section`; on other pages they use `index.html#section`. Please avoid editing the
+  HTML files, `site.js` and `chrome.css` until it is merged.
 - 2026-10-02 (claude): Branch `claude/homepage-prototype` rebuilds the homepage body (hero to the
   "Semak slot" form) to match the owner's approved prototype, in `index.html`, `home.css` and a new
   homepage block at the end of `site.js`. Section ids are unchanged so links from other pages still work.

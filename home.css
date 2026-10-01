@@ -15,8 +15,7 @@ html[data-theme="dark"] .st-home{--st-navy:#0c2533;--st-ink:#e7f1f3;--st-teal:#7
 :where(.st-home) h3{font-weight:700}
 .st-home h2 em{color:var(--st-teal);font-style:normal}
 .st-home :focus-visible{outline:3px solid #f0b700!important;outline-offset:3px}
-.st-icon{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
-.st-container{width:min(1180px,100% - 48px);margin-inline:auto}
+/* .st-container and .st-icon live in chrome.css, which every page loads. */
 
 /* Buttons */
 .st-button{border:0;border-radius:8px;justify-content:center;align-items:center;gap:12px;min-height:55px;padding:0 23px;font-size:.9rem;font-weight:800;line-height:1.65;transition:transform .2s,background .2s;display:inline-flex}
@@ -293,7 +292,6 @@ html[data-theme="dark"] .st-form select:invalid{color:var(--st-ink)!important}
   .st-fleet-gallery{height:480px}
 }
 @media (max-width:650px){
-  .st-container{width:min(100% - 36px,1180px)}
   .st-eyebrow{font-size:.66rem}
   .st-hero-backdrop{object-position:68% 55%}
   .st-hero::before{background:linear-gradient(rgba(251,248,237,.97) 0%,rgba(251,248,237,.87) 56%,rgba(251,248,237,.73) 100%)}
