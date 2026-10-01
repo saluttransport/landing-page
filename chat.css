@@ -3,7 +3,7 @@
    Colours follow WhatsApp's own light and dark palette so the panel feels familiar to parents. */
 .st-chat{--wa-head:#008069;--wa-head-text:#fff;--wa-wall:#efeae2;--wa-in:#fff;--wa-text:#111b21;--wa-meta:#667781;--wa-reply:#008069;--wa-press:rgba(0,128,105,.08);--wa-line:#e9edef;--wa-bar:#f0f2f5;--wa-field:#fff;--wa-send:#00a884;--wa-chip:#fff;--wa-doodle:rgba(84,101,111,.07)}
 html[data-theme="dark"] .st-chat{--wa-head:#202c33;--wa-head-text:#e9edef;--wa-wall:#0b141a;--wa-in:#202c33;--wa-text:#e9edef;--wa-meta:#8696a0;--wa-reply:#21c063;--wa-press:rgba(33,192,99,.1);--wa-line:#2a3942;--wa-bar:#202c33;--wa-field:#2a3942;--wa-send:#00a884;--wa-chip:#182229;--wa-doodle:rgba(233,237,239,.035)}
-.st-chat{position:fixed;right:16px;bottom:88px;z-index:91;display:flex;flex-direction:column;width:min(360px,calc(100vw - 32px));max-height:min(620px,calc(100dvh - 112px));overflow:hidden;color:var(--wa-text);background:var(--wa-wall);border-radius:16px;box-shadow:0 24px 70px rgba(11,20,26,.35);font:400 14.2px/1.4 'Open Sans',-apple-system,'Segoe UI',Arial,sans-serif;opacity:0;pointer-events:none;transform:translateY(12px) scale(.98);transform-origin:bottom right;transition:opacity .22s ease,transform .22s ease}
+.st-chat{overscroll-behavior:contain;position:fixed;right:16px;bottom:88px;z-index:91;display:flex;flex-direction:column;width:min(360px,calc(100vw - 32px));max-height:min(620px,calc(100dvh - 112px));overflow:hidden;color:var(--wa-text);background:var(--wa-wall);border-radius:16px;box-shadow:0 24px 70px rgba(11,20,26,.35);font:400 14.2px/1.4 'Open Sans',-apple-system,'Segoe UI',Arial,sans-serif;opacity:0;pointer-events:none;transform:translateY(12px) scale(.98);transform-origin:bottom right;transition:opacity .22s ease,transform .22s ease}
 .st-chat.isOpen{opacity:1;pointer-events:auto;transform:none}
 .st-chat *,.st-chat *::before,.st-chat *::after{box-sizing:border-box}
 .st-chat button{font:inherit;cursor:pointer}
@@ -23,7 +23,7 @@ html[data-theme="dark"] .st-chat{--wa-head:#202c33;--wa-head-text:#e9edef;--wa-w
 .st-chat-close:hover{background:rgba(255,255,255,.12)}
 
 /* Conversation area with the familiar beige wallpaper */
-.st-chat-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:12px 14px 14px;background-color:var(--wa-wall);background-image:radial-gradient(var(--wa-doodle) 1.2px,transparent 1.3px),radial-gradient(var(--wa-doodle) 1.2px,transparent 1.3px);background-size:22px 22px;background-position:0 0,11px 11px}
+.st-chat-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:12px 14px 14px;background-color:var(--wa-wall);background-image:radial-gradient(var(--wa-doodle) 1.2px,transparent 1.3px),radial-gradient(var(--wa-doodle) 1.2px,transparent 1.3px);background-size:22px 22px;background-position:0 0,11px 11px}
 .st-chat-day{display:table;margin:0 auto 12px;padding:4px 12px;color:var(--wa-meta);background:var(--wa-chip);border-radius:999px;box-shadow:0 1px .5px rgba(11,20,26,.13);font-size:12px;font-weight:600}
 
 /* One card holding the message and its reply buttons, as WhatsApp shows business messages */
@@ -40,7 +40,7 @@ html[data-theme="dark"] .st-chat{--wa-head:#202c33;--wa-head-text:#e9edef;--wa-w
 
 /* Message bar: rounded field and round green send button */
 .st-chat-bar{display:flex;align-items:flex-end;gap:8px;padding:8px 10px 6px;background:var(--wa-bar)}
-.st-chat-bar textarea{flex:1 1 auto;display:block;width:auto;min-width:0;min-height:42px;max-height:120px;margin:0;padding:10px 15px;color:var(--wa-text);background:var(--wa-field);border:0;border-radius:21px;outline:0;box-shadow:none;resize:none;font:400 16px/22px 'Open Sans',-apple-system,'Segoe UI',Arial,sans-serif}
+.st-chat-bar textarea{flex:1 1 auto;display:block;width:auto;min-width:0;min-height:42px;max-height:120px;margin:0;padding:10px 15px;color:var(--wa-text);background:var(--wa-field);border:0;border-radius:21px;outline:0;box-shadow:none;resize:none;overscroll-behavior:contain;font:400 16px/22px 'Open Sans',-apple-system,'Segoe UI',Arial,sans-serif}
 .st-chat-bar textarea::placeholder{color:var(--wa-meta);opacity:1}
 .st-chat-bar textarea:focus-visible{outline:2px solid var(--wa-send);outline-offset:0}
 .st-chat-send{display:grid;place-items:center;flex:0 0 auto;width:42px;height:42px;color:#fff;background:var(--wa-send);border-radius:50%;text-decoration:none;transition:transform .15s,background .15s}

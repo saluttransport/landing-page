@@ -694,6 +694,35 @@
     if (chatOverlay) {
       chatOverlay.addEventListener('click', function(){ setChat(false, true); });
     }
+    // Scrolling inside the panel must not move the page behind it. Only the message list or the
+    // message field may scroll, and only while it still has room to move in that direction.
+    function chatScroller(target, deltaY){
+      var node = target;
+      while (node && node !== chatBox) {
+        if (node.scrollHeight > node.clientHeight + 1 && /(auto|scroll)/.test(getComputedStyle(node).overflowY)) {
+          var atTop = node.scrollTop <= 0;
+          var atBottom = node.scrollTop + node.clientHeight >= node.scrollHeight - 1;
+          if ((deltaY < 0 && !atTop) || (deltaY > 0 && !atBottom)) return node;
+        }
+        node = node.parentElement;
+      }
+      return null;
+    }
+    var chatTouchY = 0;
+    chatBox.addEventListener('touchstart', function(event){
+      if (event.touches.length === 1) chatTouchY = event.touches[0].clientY;
+    }, {passive: true});
+    chatBox.addEventListener('touchmove', function(event){
+      if (event.touches.length !== 1) return;
+      var y = event.touches[0].clientY;
+      var deltaY = chatTouchY - y;
+      chatTouchY = y;
+      if (!chatScroller(event.target, deltaY) && event.cancelable) event.preventDefault();
+    }, {passive: false});
+    chatBox.addEventListener('wheel', function(event){
+      if (!chatScroller(event.target, event.deltaY)) event.preventDefault();
+    }, {passive: false});
+
     // Close only on a tap or click outside the panel. A swipe or scroll outside it leaves the chat open.
     var outsideTap = null;
     function isOutsideChat(target){
