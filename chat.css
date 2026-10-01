@@ -48,8 +48,9 @@ html[data-theme="dark"] .st-chat-replies button:hover{filter:brightness(1.15)}
 .st-chat-send svg{margin-left:3px}
 .st-chat-note{margin:0;padding:0 14px 9px;color:var(--wa-meta);background:var(--wa-bar);font-size:11.5px;line-height:1.4;text-align:center}
 
-@media (max-width:420px){
-  .st-chat{right:12px;width:calc(100vw - 24px)}
+/* On phones the panel stays narrower than the screen, leaving the page visible on the left. */
+@media (max-width:480px){
+  .st-chat{right:12px;width:calc(100vw - 64px);max-height:min(560px,calc(100dvh - 140px))}
 }
 @media (prefers-reduced-motion:reduce){
   .st-chat,.st-chat-send{transition:none}
