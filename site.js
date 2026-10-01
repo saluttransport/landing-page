@@ -8,7 +8,7 @@
   }
   ensureStylesheet('mobile-fixes.css');
   ensureStylesheet('content-fixes.css');
-  ['go-live.css', 'chrome.css', 'home.css', 'reg.css'].forEach(function(href){
+  ['go-live.css', 'chrome.css', 'home.css', 'reg.css', 'policy.css'].forEach(function(href){
     var lateSheet = document.querySelector('link[href="' + href + '"]');
     if (lateSheet) document.head.appendChild(lateSheet);
   });
