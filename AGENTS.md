@@ -86,7 +86,7 @@ The list of covered schools lives in **three places**. Change all three together
 - **This repo is public.** Never commit `.env` files, keys, spreadsheets, or customer data.
 
 ### Don't touch without asking the owner
-- `robots.txt`, `sitemap.xml`, canonical tags (SEO: see Known issues)
+- `robots.txt`, `sitemap.xml`, canonical tags (SEO: Google indexing)
 - `netlify.toml` headers / caching
 - Deleting images in `assets/` (some are kept on purpose; see `.netlifyignore`)
 - Anything in `.gitignore`d sibling projects (`salut-platform/`, automation folders, etc.)
@@ -100,15 +100,15 @@ There is no test suite. Before opening a PR:
   PR exactly what needs to be tested on the Deploy Preview.
 
 ## Known issues / backlog
-- `robots.txt` still blocks all crawlers (`Disallow: /`), left over from the "salut-ten-concept"
-  preview build, and the canonical tag in `index.html` is commented out. salut.my is therefore
-  not being indexed by Google. Fix only when the owner approves.
 - `concept.css` still has unused `.conceptRibbon` styles from the preview build (safe to remove later).
 
 ## Handoff notes
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/seo-indexing` adds a canonical tag to every page (homepage already had one),
+  matching the URLs in `sitemap.xml`, and removes the stale "robots.txt blocks crawlers" note: `robots.txt` on
+  `main` and salut.my already allows crawling.
 - 2026-10-02 (claude): Branch `claude/policy-prototype` gives the 5 policy pages and `contact.html` the prototype
   layout (`policy.css`). The policy wording, its order and its links are unchanged (checked against `main` by
   script); only the "1)" numbering moved into the page layout. The contact page keeps every official detail,
