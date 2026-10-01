@@ -30,6 +30,7 @@ Plain static site. No framework, no bundler, no `package.json`, no build step
 | `chrome.css` | Shared header, mobile drawer and footer on every page (classes prefixed `st-`). The markup is repeated in all 8 HTML files, so change it everywhere together |
 | `home.css` | Homepage sections (`index.html` only). Classes are prefixed `st-` so older CSS layers cannot reach them |
 | `reg.css` | Registration page look (`pendaftaran.html` only), classes prefixed `st-reg` |
+| `chat.css` | WhatsApp-style chat panel opened by the floating WhatsApp button on every page (classes prefixed `st-chat`). Loaded by `site.js`, which also builds the panel's markup |
 | `policy.css` | Policy pages and `contact.html` (classes prefixed `st-sub`, `st-policy`, `st-contact`). The policy text inside is official: change layout only |
 | `mobile-fixes.css` | Minified mobile overrides, **injected by `site.js`** (not linked in HTML) |
 | `site.js` | All client JS: theme toggle, nav menu, WhatsApp chat, school map, form logic |
@@ -106,6 +107,9 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/chat-whatsapp-style` restyles the chat panel to look like WhatsApp (`chat.css`,
+  new `st-chat-*` markup in `site.js`). Texts, the three quick replies and the wa.me links are unchanged; the old
+  `.mobileWhatsAppChat` rules in `style.css` / `mobile-fixes.css` / `go-live.css` no longer match anything.
 - 2026-10-02 (claude): Branch `claude/reg-mobile-polish` makes the step bar on `pendaftaran.html` sticky
   (`.st-reg-sticky` inside the form card; its `top` matches the header height 80/70/67px) and adds a short
   1–4 step list to it on screens up to 800px. Both step lists use `[data-reg-steps]`. It also stops iPhone

@@ -1,0 +1,56 @@
+/* WhatsApp-style chat panel opened by the floating WhatsApp button (built in site.js).
+   Classes are prefixed st-chat so the older chat rules in style.css and mobile-fixes.css cannot reach it.
+   Colours follow WhatsApp's own light and dark palette so the panel feels familiar to parents. */
+.st-chat{--wa-head:#008069;--wa-head-text:#fff;--wa-wall:#efeae2;--wa-in:#fff;--wa-text:#111b21;--wa-meta:#667781;--wa-button:#027eb5;--wa-line:#e9edef;--wa-bar:#f0f2f5;--wa-field:#fff;--wa-send:#00a884;--wa-chip:#fff;--wa-doodle:rgba(84,101,111,.07)}
+html[data-theme="dark"] .st-chat{--wa-head:#202c33;--wa-head-text:#e9edef;--wa-wall:#0b141a;--wa-in:#202c33;--wa-text:#e9edef;--wa-meta:#8696a0;--wa-button:#53bdeb;--wa-line:#2a3942;--wa-bar:#202c33;--wa-field:#2a3942;--wa-send:#00a884;--wa-chip:#182229;--wa-doodle:rgba(233,237,239,.035)}
+.st-chat{position:fixed;right:16px;bottom:88px;z-index:91;display:flex;flex-direction:column;width:min(360px,calc(100vw - 32px));max-height:min(620px,calc(100dvh - 112px));overflow:hidden;color:var(--wa-text);background:var(--wa-wall);border-radius:16px;box-shadow:0 24px 70px rgba(11,20,26,.35);font:400 14.2px/1.4 'Open Sans',-apple-system,'Segoe UI',Arial,sans-serif;opacity:0;pointer-events:none;transform:translateY(12px) scale(.98);transform-origin:bottom right;transition:opacity .22s ease,transform .22s ease}
+.st-chat.isOpen{opacity:1;pointer-events:auto;transform:none}
+.st-chat *,.st-chat *::before,.st-chat *::after{box-sizing:border-box}
+.st-chat button{font:inherit;cursor:pointer}
+.st-chat :focus-visible{outline:3px solid #f0b700;outline-offset:2px}
+.st-chat-sr{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important}
+
+/* Header, like a WhatsApp conversation header */
+.st-chat-head{display:flex;align-items:center;gap:11px;padding:10px 8px 10px 14px;color:var(--wa-head-text);background:var(--wa-head)}
+.st-chat-avatar{position:relative;flex:0 0 auto;width:40px;height:40px}
+.st-chat-avatar img{display:block;width:40px;height:40px;padding:4px;object-fit:contain;background:#fff;border-radius:50%}
+.st-chat-avatar i{position:absolute;right:0;bottom:1px;width:11px;height:11px;background:#25d366;border:2px solid var(--wa-head);border-radius:50%}
+.st-chat-avatar.isOffline i{background:#8696a0}
+.st-chat-identity{flex:1 1 auto;min-width:0}
+.st-chat-identity strong{display:block;overflow:hidden;font:600 16px/1.25 'Open Sans',-apple-system,'Segoe UI',Arial,sans-serif;white-space:nowrap;text-overflow:ellipsis}
+.st-chat-identity small{display:block;font-size:12.5px;line-height:1.3;opacity:.85}
+.st-chat-close{display:grid;place-items:center;flex:0 0 auto;width:40px;height:40px;padding:0;color:inherit;background:transparent;border:0;border-radius:50%}
+.st-chat-close:hover{background:rgba(255,255,255,.12)}
+
+/* Conversation area with the familiar beige wallpaper */
+.st-chat-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:12px 14px 14px;background-color:var(--wa-wall);background-image:radial-gradient(var(--wa-doodle) 1.2px,transparent 1.3px),radial-gradient(var(--wa-doodle) 1.2px,transparent 1.3px);background-size:22px 22px;background-position:0 0,11px 11px}
+.st-chat-day{display:table;margin:0 auto 10px;padding:4px 11px;color:var(--wa-meta);background:var(--wa-chip);border-radius:7.5px;box-shadow:0 1px .5px rgba(11,20,26,.13);font-size:11.5px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.st-chat-message{max-width:88%;margin-left:8px}
+.st-chat-bubble{position:relative;margin:0;padding:6px 9px 8px;color:var(--wa-text);background:var(--wa-in);border-radius:0 7.5px 7.5px 7.5px;box-shadow:0 1px .5px rgba(11,20,26,.13)}
+.st-chat-bubble::before{content:"";position:absolute;top:0;left:-8px;width:8px;height:13px;background:var(--wa-in);clip-path:polygon(0 0,100% 0,100% 100%)}
+.st-chat-time{float:right;margin:7px 0 -4px 10px;color:var(--wa-meta);font-size:11px;line-height:15px}
+
+/* Reply buttons under the message, in the style of WhatsApp Business buttons */
+.st-chat-replies{display:grid;gap:2px;margin-top:2px}
+.st-chat-replies button{display:flex;justify-content:center;align-items:center;gap:7px;width:100%;min-height:42px;padding:8px 10px;color:var(--wa-button);background:var(--wa-in);border:0;border-radius:7.5px;box-shadow:0 1px .5px rgba(11,20,26,.13);font-size:14px;font-weight:600;line-height:1.3;text-align:center}
+.st-chat-replies button:hover{filter:brightness(.97)}
+html[data-theme="dark"] .st-chat-replies button:hover{filter:brightness(1.15)}
+.st-chat-replies button[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--wa-button)}
+.st-chat-replies svg{flex:0 0 auto}
+
+/* Message bar: rounded field and round green send button */
+.st-chat-bar{display:flex;align-items:flex-end;gap:8px;padding:8px 10px 6px;background:var(--wa-bar)}
+.st-chat-bar textarea{flex:1 1 auto;display:block;width:auto;min-width:0;min-height:42px;max-height:120px;margin:0;padding:10px 15px;color:var(--wa-text);background:var(--wa-field);border:0;border-radius:21px;outline:0;box-shadow:none;resize:none;font:400 16px/22px 'Open Sans',-apple-system,'Segoe UI',Arial,sans-serif}
+.st-chat-bar textarea::placeholder{color:var(--wa-meta);opacity:1}
+.st-chat-bar textarea:focus-visible{outline:2px solid var(--wa-send);outline-offset:0}
+.st-chat-send{display:grid;place-items:center;flex:0 0 auto;width:42px;height:42px;color:#fff;background:var(--wa-send);border-radius:50%;text-decoration:none;transition:transform .15s,background .15s}
+.st-chat-send:hover{background:#06cf9c;transform:scale(1.05)}
+.st-chat-send svg{margin-left:3px}
+.st-chat-note{margin:0;padding:0 14px 9px;color:var(--wa-meta);background:var(--wa-bar);font-size:11.5px;line-height:1.4;text-align:center}
+
+@media (max-width:420px){
+  .st-chat{right:12px;width:calc(100vw - 24px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .st-chat,.st-chat-send{transition:none}
+}
