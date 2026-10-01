@@ -27,6 +27,7 @@ Plain static site. No framework, no bundler, no `package.json`, no build step
 | `style.css` | Base design system (large; many layered "refinement" sections) |
 | `concept.css` | Overrides for `index.html` + `pendaftaran.html` |
 | `content-fixes.css` | Overrides for the policy/content pages |
+| `home.css` | Homepage sections (`index.html` only). Classes are prefixed `st-` so older CSS layers cannot reach them |
 | `mobile-fixes.css` | Minified mobile overrides, **injected by `site.js`** (not linked in HTML) |
 | `site.js` | All client JS: theme toggle, nav menu, WhatsApp chat, school map, form logic |
 | `netlify/functions/registration.ts` | `POST /api/registration`: validates form data and forwards it to a Google Apps Script |
@@ -100,3 +101,7 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/homepage-prototype` rebuilds the homepage body (hero to the
+  "Semak slot" form) to match the owner's approved prototype, in `index.html`, `home.css` and a new
+  homepage block at the end of `site.js`. Section ids are unchanged so links from other pages still work.
+  Header, footer and the other pages are not touched yet. Please avoid editing these files until it is merged.

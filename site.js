@@ -13,8 +13,10 @@
   }
   ensureStylesheet('mobile-fixes.css');
   ensureStylesheet('content-fixes.css');
-  var goLiveSheet = document.querySelector('link[href="go-live.css"]');
-  if (goLiveSheet) document.head.appendChild(goLiveSheet);
+  ['go-live.css', 'home.css'].forEach(function(href){
+    var lateSheet = document.querySelector('link[href="' + href + '"]');
+    if (lateSheet) document.head.appendChild(lateSheet);
+  });
 
   function justifyWordmarks(){
     document.querySelectorAll('.brandText').forEach(function(wordmark){
@@ -673,7 +675,7 @@
     document.body.style.overflow = '';
     if (lastFleetTrigger) lastFleetTrigger.focus();
   }
-  document.querySelectorAll('.fleetPreview').forEach(function(button){
+  document.querySelectorAll('.fleetPreview, .st-fleet-photo').forEach(function(button){
     button.addEventListener('click', function(){
       if (!fleetLightbox || !fleetLightboxImage) return;
       lastFleetTrigger = button;
@@ -696,5 +698,114 @@
     if (!fleetLightbox || !fleetLightbox.classList.contains('isOpen')) return;
     if (event.key === 'Escape') closeFleetPreview();
     else containDialogFocus(event, fleetLightbox);
+  });
+
+  // Homepage (index.html): hero photos, school finder and the "Semak slot" form.
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var stBackdrops = Array.prototype.slice.call(document.querySelectorAll('.st-hero-backdrop'));
+  var stDots = Array.prototype.slice.call(document.querySelectorAll('.st-hero-gallery-dots button'));
+  var stHeroIndex = 0;
+  var stHeroTimer = null;
+  function showStHero(index){
+    if (!stBackdrops.length) return;
+    stHeroIndex = (index + stBackdrops.length) % stBackdrops.length;
+    stBackdrops.forEach(function(image, imageIndex){ image.classList.toggle('active', imageIndex === stHeroIndex); });
+    stDots.forEach(function(dot, dotIndex){
+      dot.classList.toggle('active', dotIndex === stHeroIndex);
+      if (dotIndex === stHeroIndex) dot.setAttribute('aria-current', 'true');
+      else dot.removeAttribute('aria-current');
+    });
+  }
+  function stopStHero(){ window.clearInterval(stHeroTimer); stHeroTimer = null; }
+  if (stBackdrops.length > 1) {
+    var stPrev = document.querySelector('[data-hero-prev]');
+    var stNext = document.querySelector('[data-hero-next]');
+    if (stPrev) stPrev.addEventListener('click', function(){ showStHero(stHeroIndex - 1); stopStHero(); });
+    if (stNext) stNext.addEventListener('click', function(){ showStHero(stHeroIndex + 1); stopStHero(); });
+    stDots.forEach(function(dot, dotIndex){
+      dot.addEventListener('click', function(){ showStHero(dotIndex); stopStHero(); });
+    });
+    if (!reduceMotion) {
+      stHeroTimer = window.setInterval(function(){ if (!document.hidden) showStHero(stHeroIndex + 1); }, 6500);
+    }
+  }
+
+  var stForm = document.getElementById('stSlotForm');
+  function goToSlotForm(values){
+    if (!stForm) return;
+    Object.keys(values || {}).forEach(function(name){
+      var field = stForm.elements[name];
+      if (field) field.value = values[name];
+    });
+    var section = document.getElementById('contact');
+    if (section) section.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
+    var firstEmpty = Array.prototype.slice.call(stForm.querySelectorAll('input[required], select[required]')).filter(function(field){ return !field.value; })[0];
+    if (firstEmpty) window.setTimeout(function(){ firstEmpty.focus({preventScroll: true}); }, reduceMotion ? 0 : 450);
+  }
+
+  var stSchools = Array.prototype.slice.call(document.querySelectorAll('.st-school'));
+  var stMap = document.getElementById('stSchoolMap');
+  var stMapName = document.getElementById('stMapName');
+  var stMapArea = document.getElementById('stMapArea');
+  var stMapLink = document.getElementById('stMapLink');
+  var stMapCheck = document.getElementById('stMapCheck');
+  var stSelectedSchool = stSchools[0] || null;
+  stSchools.forEach(function(school){
+    school.addEventListener('click', function(){
+      stSelectedSchool = school;
+      stSchools.forEach(function(item){
+        item.classList.toggle('selected', item === school);
+        item.setAttribute('aria-pressed', item === school ? 'true' : 'false');
+      });
+      var name = school.dataset.name;
+      var query = school.dataset.query || name;
+      if (stMapName) stMapName.textContent = name;
+      if (stMapArea) stMapArea.textContent = school.dataset.area || '';
+      if (stMapLink) stMapLink.href = school.dataset.mapUrl || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query));
+      if (stMap) {
+        stMap.src = 'https://maps.google.com/maps?q=' + encodeURIComponent(query) + '&output=embed';
+        stMap.title = 'Peta lokasi ' + name;
+      }
+    });
+  });
+  if (stMapCheck) stMapCheck.addEventListener('click', function(){
+    if (stSelectedSchool) goToSlotForm({school: stSelectedSchool.dataset.name});
+  });
+
+  var stSearch = document.getElementById('stSchoolSearch');
+  var stCount = document.getElementById('stSchoolCount');
+  var stNoResults = document.getElementById('stNoResults');
+  if (stSearch) stSearch.addEventListener('input', function(){
+    var term = stSearch.value.trim().toLowerCase();
+    var shown = 0;
+    stSchools.forEach(function(school){
+      var match = !term || (school.dataset.name + ' ' + school.dataset.area).toLowerCase().indexOf(term) !== -1;
+      school.hidden = !match;
+      if (match) shown += 1;
+    });
+    if (stCount) stCount.textContent = shown + ' sekolah ditemui';
+    if (stNoResults) stNoResults.hidden = shown > 0;
+  });
+
+  document.querySelectorAll('.st-fare-card [data-trip]').forEach(function(button){
+    button.addEventListener('click', function(){ goToSlotForm({trip: button.dataset.trip}); });
+  });
+
+  if (stForm) stForm.addEventListener('submit', function(event){
+    event.preventDefault();
+    var field = function(name){ return (stForm.elements[name].value || '').trim(); };
+    var lines = [
+      'Assalamualaikum Salut Transport. Saya ingin semak slot & tambang van sekolah.',
+      'Nama penjaga: ' + field('name'),
+      'No. telefon: ' + field('phone'),
+      'Sekolah anak: ' + field('school'),
+      'Kawasan rumah: ' + field('area'),
+      'Sesi sekolah: ' + field('session'),
+      'Perjalanan: ' + field('trip')
+    ];
+    if (field('notes')) lines.push('Maklumat tambahan: ' + field('notes'));
+    window.open('https://wa.me/60123539977?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+    var note = document.getElementById('stFormNote');
+    if (note) note.textContent = 'WhatsApp dibuka dengan mesej yang disediakan. Sila tekan hantar di WhatsApp.';
   });
 })();
