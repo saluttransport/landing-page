@@ -29,6 +29,7 @@ Plain static site. No framework, no bundler, no `package.json`, no build step
 | `content-fixes.css` | Overrides for the policy/content pages |
 | `chrome.css` | Shared header, mobile drawer and footer on every page (classes prefixed `st-`). The markup is repeated in all 8 HTML files, so change it everywhere together |
 | `home.css` | Homepage sections (`index.html` only). Classes are prefixed `st-` so older CSS layers cannot reach them |
+| `reg.css` | Registration page look (`pendaftaran.html` only), classes prefixed `st-reg` |
 | `mobile-fixes.css` | Minified mobile overrides, **injected by `site.js`** (not linked in HTML) |
 | `site.js` | All client JS: theme toggle, nav menu, WhatsApp chat, school map, form logic |
 | `netlify/functions/registration.ts` | `POST /api/registration`: validates form data and forwards it to a Google Apps Script |
@@ -107,6 +108,11 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/registration-prototype` gives `pendaftaran.html` the prototype look
+  (`reg.css`) and shows the form one part at a time (block after the registration code in `site.js`).
+  The 25 field names, types, options, `required` flags and `/api/registration` are unchanged; the form is
+  now found by `[data-registration-form]` and its status by `[data-form-status]`. Without JavaScript all
+  four parts stay visible. IC fields now check for 12 digits in the browser.
 - 2026-10-02 (claude): Branch `claude/header-footer-prototype` replaces the header and footer on all 8
   pages with the prototype version (`chrome.css`, plus the header and theme code at the top of `site.js`).
   The old `.nav` / `.menuToggle` / `.mobileNavMenu` / `.footerGrid` markup and its JS are gone. On the

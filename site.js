@@ -8,7 +8,7 @@
   }
   ensureStylesheet('mobile-fixes.css');
   ensureStylesheet('content-fixes.css');
-  ['go-live.css', 'chrome.css', 'home.css'].forEach(function(href){
+  ['go-live.css', 'chrome.css', 'home.css', 'reg.css'].forEach(function(href){
     var lateSheet = document.querySelector('link[href="' + href + '"]');
     if (lateSheet) document.head.appendChild(lateSheet);
   });
@@ -163,8 +163,8 @@
     });
   });
 
-  document.querySelectorAll('.sheetRegistrationForm').forEach(function(form){
-    var status = form.querySelector('.sheetFormStatus');
+  document.querySelectorAll('.sheetRegistrationForm, [data-registration-form]').forEach(function(form){
+    var status = form.querySelector('.sheetFormStatus, [data-form-status]');
     var birthInput = form.querySelector('input[name="tarikhLahir"]');
     var ageInput = form.querySelector('input[name="umur"]');
     var schoolLevelInput = form.querySelector('select[name="darjahTingkatan2027"]');
@@ -384,6 +384,7 @@
         var message = 'Pendaftaran berjaya dihantar. ID rujukan: ' + data.submissionId;
         setStatus(message, 'success');
         refreshProgress();
+        form.dispatchEvent(new CustomEvent('registrationsuccess', {detail: {submissionId: data.submissionId}}));
       }).catch(function(){
         setStatus('Pendaftaran belum dapat disahkan. Jangan isi borang baharu — tekan Hantar Pendaftaran sekali lagi atau hubungi WhatsApp.', 'error');
       }).finally(function(){
@@ -395,6 +396,130 @@
         }
       });
     });
+  });
+
+  // Registration page: show the official form one part at a time. The fields, their
+  // names and the submit code above are unchanged; without this block all four parts
+  // simply stay visible.
+  document.querySelectorAll('[data-registration-form]').forEach(function(form){
+    var steps = Array.prototype.slice.call(form.querySelectorAll('[data-step]'));
+    if (!steps.length) return;
+    var shell = form.closest('.st-reg-shell') || document;
+    var layout = shell.querySelector('[data-reg-layout]');
+    var complete = shell.querySelector('[data-reg-complete]');
+    var asideItems = Array.prototype.slice.call(shell.querySelectorAll('[data-reg-steps] li'));
+    var topline = shell.querySelector('[data-reg-topline]');
+    var count = shell.querySelector('[data-reg-count]');
+    var percent = shell.querySelector('[data-reg-percent]');
+    var progress = shell.querySelector('[data-reg-progress]');
+    var summary = form.querySelector('[data-reg-summary]');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var current = 0;
+    form.classList.add('st-reg-js');
+    if (topline) topline.hidden = false;
+    if (progress) progress.hidden = false;
+    if (summary) summary.hidden = false;
+
+    ['icAyah', 'icIbu'].forEach(function(name){
+      var field = form.elements[name];
+      if (!field) return;
+      field.addEventListener('input', function(){
+        var digits = field.value.replace(/[\s-]/g, '');
+        field.setCustomValidity(field.value && !/^\d{12}$/.test(digits) ? 'Masukkan 12 digit No. IC, contoh 800101145678.' : '');
+      });
+    });
+    function pad(number){ return number < 10 ? '0' + number : String(number); }
+    function fieldValue(name){
+      var field = form.elements[name];
+      return field && field.value ? String(field.value).trim() : '';
+    }
+    function fillSummary(){
+      if (!summary) return;
+      var trip = [fieldValue('sesiSekolah'), fieldValue('pilihanPerjalanan')].filter(Boolean).join(' · ');
+      var values = {namaAnak: fieldValue('namaAnak'), sekolah: fieldValue('sekolah'), perjalanan: trip, alamatRumah: fieldValue('alamatRumah')};
+      summary.querySelectorAll('[data-summary]').forEach(function(cell){
+        cell.textContent = values[cell.dataset.summary] || '-';
+      });
+    }
+    function showStep(index, moveFocus){
+      current = Math.max(0, Math.min(steps.length - 1, index));
+      steps.forEach(function(step, stepIndex){ step.hidden = stepIndex !== current; });
+      asideItems.forEach(function(item, itemIndex){
+        item.classList.toggle('current', itemIndex === current);
+        item.classList.toggle('finished', itemIndex < current);
+        if (itemIndex === current) item.setAttribute('aria-current', 'step');
+        else item.removeAttribute('aria-current');
+      });
+      var share = Math.round((current + 1) / steps.length * 100);
+      if (count) count.textContent = 'BAHAGIAN ' + pad(current + 1) + ' / ' + pad(steps.length);
+      if (percent) percent.textContent = share + '% diisi';
+      if (progress) {
+        progress.setAttribute('aria-valuenow', String(current + 1));
+        progress.setAttribute('aria-label', 'Bahagian ' + (current + 1) + ' daripada ' + steps.length);
+        var bar = progress.querySelector('span');
+        if (bar) bar.style.width = share + '%';
+      }
+      if (current === steps.length - 1) fillSummary();
+      if (moveFocus) {
+        var card = form.closest('.st-reg-card');
+        if (card && card.getBoundingClientRect().top < 0) card.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
+        var heading = steps[current].querySelector('h2');
+        if (heading) heading.focus({preventScroll: true});
+      }
+    }
+    function stepIsValid(step){
+      var fields = Array.prototype.slice.call(step.querySelectorAll('input,select,textarea')).filter(function(field){
+        return !field.disabled && field.type !== 'hidden' && field.name !== 'website';
+      });
+      for (var i = 0; i < fields.length; i++) {
+        if (!fields[i].checkValidity()) {
+          fields[i].reportValidity();
+          fields[i].focus();
+          return false;
+        }
+      }
+      return true;
+    }
+    form.querySelectorAll('[data-step-next]').forEach(function(button){
+      button.addEventListener('click', function(){
+        if (stepIsValid(steps[current])) showStep(current + 1, true);
+      });
+    });
+    form.querySelectorAll('[data-step-back]').forEach(function(button){
+      button.addEventListener('click', function(){ showStep(current - 1, true); });
+    });
+    // Enter in a text field moves to the next part instead of submitting early.
+    form.addEventListener('keydown', function(event){
+      if (event.key !== 'Enter' || current === steps.length - 1) return;
+      if (event.target.tagName === 'TEXTAREA' || event.target.tagName === 'BUTTON') return;
+      event.preventDefault();
+      if (stepIsValid(steps[current])) showStep(current + 1, true);
+    });
+    // If the browser blocks submit because of a field in another part, open that part.
+    form.addEventListener('invalid', function(event){
+      var owner = event.target.closest('[data-step]');
+      var index = steps.indexOf(owner);
+      if (index !== -1 && index !== current) showStep(index, false);
+    }, true);
+    form.addEventListener('registrationsuccess', function(event){
+      if (!complete || !layout) return;
+      var idCell = complete.querySelector('[data-reg-complete-id]');
+      if (idCell) idCell.textContent = event.detail && event.detail.submissionId ? event.detail.submissionId : '-';
+      layout.hidden = true;
+      complete.hidden = false;
+      complete.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
+      var title = complete.querySelector('[data-reg-complete-title]');
+      if (title) title.focus({preventScroll: true});
+    });
+    var again = complete ? complete.querySelector('[data-reg-again]') : null;
+    if (again) again.addEventListener('click', function(){
+      complete.hidden = true;
+      layout.hidden = false;
+      var status = form.querySelector('[data-form-status]');
+      if (status) status.textContent = '';
+      showStep(0, true);
+    });
+    showStep(0, false);
   });
 
   var mapFrame = document.getElementById('schoolMap');
