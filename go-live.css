@@ -114,11 +114,15 @@ html[data-theme="dark"] #kawasan{--coverage-card:#193946;--coverage-text:#e7f1f3
 }
 @media(max-width:560px){
   #kawasan .schoolLocator{margin-top:28px;gap:18px}
-  #kawasan .schoolList{gap:8px;max-height:300px;padding:3px}
-  #kawasan .schoolCard{display:block;padding:0!important;border-radius:10px}
-  #kawasan .schoolSelect{display:flex;min-height:56px;height:100%;padding:12px!important;border:0!important;border-radius:10px;justify-content:flex-start;text-align:left}
-  #kawasan .schoolSelect>span,#kawasan .schoolSelect>div,#kawasan .schoolMapIcon{display:none!important}
-  #kawasan .schoolSelect:after{display:block;content:attr(data-short);font:600 14px/1.45 Poppins,Arial,sans-serif;white-space:normal;overflow-wrap:anywhere}
+  #kawasan .schoolList{grid-template-columns:1fr;gap:10px;max-height:380px;padding:3px 6px 3px 3px}
+  #kawasan .schoolCard{display:grid;grid-template-columns:minmax(0,1fr) 44px;padding:12px!important;border-radius:12px}
+  #kawasan .schoolSelect{display:grid;grid-template-columns:38px minmax(0,1fr);min-height:44px;padding:0!important;text-align:left}
+  #kawasan .schoolSelect>span{display:grid!important;width:38px;min-width:38px;height:38px}
+  #kawasan .schoolSelect>div{display:block!important}
+  #kawasan .schoolSelect:after{display:none}
+  #kawasan .schoolMapIcon{display:flex!important}
+  #kawasan .schoolSelect strong{font-size:14px}
+  #kawasan .schoolSelect small{font-size:13px}
   #kawasan .schoolMapPanel iframe{height:275px}
   #kawasan .schoolMapInfo{padding:18px;gap:16px}
   #kawasan .schoolMapInfo h3{font-size:18px}
