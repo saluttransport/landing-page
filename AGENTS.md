@@ -103,6 +103,10 @@ There is no test suite. Before opening a PR:
 - `concept.css` still has unused `.conceptRibbon` styles from the preview build (safe to remove later).
 
 ## Handoff notes
+- 2026-10-02 (claude): Branch `claude/reg-mobile-polish` makes the step bar on `pendaftaran.html` sticky
+  (`.st-reg-sticky` inside the form card; its `top` matches the header height 80/70/67px) and adds a short
+  1–4 step list to it on screens up to 800px. Both step lists use `[data-reg-steps]`. It also stops iPhone
+  Safari drawing the date-of-birth box wider than the other fields.
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->

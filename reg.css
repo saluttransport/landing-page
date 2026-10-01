@@ -46,10 +46,15 @@ html[data-theme="dark"] .st-reg-body{background:#0c202d}
 .st-reg-aside li small{display:block;letter-spacing:.13em;font-size:.61rem;font-weight:800}
 .st-reg-aside li strong{display:block;font:600 .93rem Poppins,Arial}
 .st-reg-help{display:flex;align-items:flex-start;gap:10px;margin-top:20px;padding-top:22px;color:#416a73;border-top:1px solid #ccdcde;font-size:.75rem;line-height:1.5}
-.st-reg-card{padding:32px 39px 38px;background:#fff;border:1px solid var(--st-line);border-radius:12px;box-shadow:0 20px 60px rgba(13,51,62,.05)}
+.st-reg-card{--st-card-pt:32px;--st-card-px:39px;padding:var(--st-card-pt) var(--st-card-px) 38px;background:#fff;border:1px solid var(--st-line);border-radius:12px;box-shadow:0 20px 60px rgba(13,51,62,.05)}
 .st-reg-topline{display:flex;justify-content:space-between;color:#617d84;letter-spacing:.11em;font-size:.68rem;font-weight:800}
 .st-reg-topline[hidden],.st-reg-progress[hidden],.st-reg-summary[hidden]{display:none}
-.st-reg-progress{height:5px;margin:14px 0 39px;overflow:hidden;background:#dfebeb;border-radius:8px}
+/* Step bar: stays under the site header while the form scrolls, so parents always see which part they are on. */
+.st-reg-sticky{position:sticky;top:80px;z-index:5;margin:calc(-1 * var(--st-card-pt)) calc(-1 * var(--st-card-px)) 39px;padding:var(--st-card-pt) var(--st-card-px) 16px;background:#fff;border-radius:12px 12px 0 0;transition:box-shadow .2s}
+.st-reg-sticky[hidden]{display:none}
+.st-reg-sticky.isStuck{border-radius:0;box-shadow:0 10px 18px -12px rgba(13,51,62,.35)}
+.st-reg-mini{display:none}
+.st-reg-progress{height:5px;margin:14px 0 0;overflow:hidden;background:#dfebeb;border-radius:8px}
 .st-reg-progress span{display:block;height:100%;background:var(--st-teal);transition:width .25s}
 
 /* Steps. Without JavaScript every part stays visible, one after another. */
@@ -72,6 +77,14 @@ html[data-theme="dark"] .st-reg-body{background:#0c202d}
 .st-reg-field select{height:49px!important;line-height:normal!important;appearance:none!important;-webkit-appearance:none!important;padding-right:40px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364818a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 13px center!important;background-size:16px 16px!important}
 .st-reg-field select:invalid,.st-reg-field select:disabled{color:var(--st-ink)!important;opacity:1!important}
 .st-reg-field textarea{resize:vertical}
+/* iPhone Safari draws date boxes with its own minimum width and centred text, so the box looked longer than the rest. */
+.st-reg-field input[type="date"]{-webkit-appearance:none!important;appearance:none!important;min-width:0!important;max-width:100%!important;height:49px!important;text-align:left}
+.st-reg-field input[type="date"]::-webkit-date-and-time-value{margin:0;text-align:left}
+@supports (-webkit-touch-callout:none){
+  .st-reg-field input[type="date"]{padding-right:40px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364818a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 13px center!important;background-size:16px 16px!important}
+}
+/* Keeps a field that the browser jumps to clear of the header and the step bar. */
+.st-reg-field input,.st-reg-field select,.st-reg-field textarea,.st-reg-choice,.st-reg-consent{scroll-margin-top:190px}
 .st-reg-field input:focus,.st-reg-field select:focus,.st-reg-field textarea:focus{border-color:var(--st-teal)!important;box-shadow:0 0 0 3px rgba(22,101,121,.13)!important}
 .st-reg-field .st-reg-output,.st-reg-field .st-reg-output:focus{color:var(--st-muted)!important;background-color:#f4f7f7!important;border-color:#cedddf!important;box-shadow:none!important;cursor:default}
 .st-reg-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -115,6 +128,11 @@ html[data-theme="dark"] .st-reg-body{background:#0c202d}
 
 /* Dark theme */
 html[data-theme="dark"] .st-reg-card,html[data-theme="dark"] .st-reg-complete{background:#193946;box-shadow:none}
+html[data-theme="dark"] .st-reg-sticky{background:#193946}
+html[data-theme="dark"] .st-reg-sticky.isStuck{box-shadow:0 10px 18px -12px rgba(0,0,0,.6)}
+html[data-theme="dark"] .st-reg-mini li{color:#aec6cb}
+html[data-theme="dark"] .st-reg-mini span{border-color:#496671}
+html[data-theme="dark"] .st-reg-mini li.current{color:#e7f1f3}
 html[data-theme="dark"] .st-reg-aside{background:#122e3b}
 html[data-theme="dark"] .st-reg-topline,html[data-theme="dark"] .st-reg-aside li{color:#aec6cb}
 html[data-theme="dark"] .st-reg-help{color:#b8d0d4}
@@ -136,7 +154,11 @@ html[data-theme="dark"] .st-reg input::placeholder,html[data-theme="dark"] .st-r
 @media (max-width:1000px){
   .st-reg-layout{grid-template-columns:265px minmax(0,1fr);gap:20px}
   .st-reg-aside{padding:23px}
-  .st-reg-card{padding:28px}
+  .st-reg-card{--st-card-pt:28px;--st-card-px:28px;padding:28px}
+}
+/* Match the site header height, which changes at 980px and 650px (chrome.css). */
+@media (max-width:980px){
+  .st-reg-sticky{top:70px}
 }
 @media (max-width:800px){
   .st-reg-layout{grid-template-columns:1fr;gap:30px}
@@ -147,6 +169,16 @@ html[data-theme="dark"] .st-reg input::placeholder,html[data-theme="dark"] .st-r
   .st-reg-aside li strong{font-size:.73rem}
   .st-reg-aside li small{font-size:.55rem}
   .st-reg-help{display:none}
+  /* With JavaScript on, the short step list in the sticky bar replaces the one beside the form. */
+  .st-reg-ready .st-reg-aside ol{display:none}
+  .st-reg-sticky{padding-top:16px;padding-bottom:12px}
+  .st-reg-sticky .st-reg-progress{margin-top:10px}
+  .st-reg-mini{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:10px 0 0;padding:0;list-style:none}
+  .st-reg-mini li{display:flex;flex-direction:column;align-items:center;gap:4px;color:#798b91;font:600 .58rem/1.2 Poppins,Arial,sans-serif;text-align:center;white-space:nowrap}
+  .st-reg-mini span{display:grid;place-items:center;width:24px;height:24px;border:1px solid #bfced1;border-radius:7px;font:700 .68rem Poppins,Arial,sans-serif}
+  .st-reg-mini li.current{color:var(--st-ink)}
+  .st-reg-mini li.current span{color:#0c2533;background:var(--st-yellow);border-color:var(--st-yellow)}
+  .st-reg-mini li.finished span{color:#fff;background:#1b7d86;border-color:#1b7d86}
 }
 @media (max-width:650px){
   .st-reg-hero{padding-top:24px}
@@ -163,7 +195,8 @@ html[data-theme="dark"] .st-reg input::placeholder,html[data-theme="dark"] .st-r
   .st-reg-aside li strong{font-size:.61rem}
   .st-reg-aside li small{display:none}
   .st-reg-aside li>span{width:34px;height:34px}
-  .st-reg-card{padding:21px 18px}
+  .st-reg-card{--st-card-pt:21px;--st-card-px:18px;padding:21px 18px}
+  .st-reg-sticky{top:67px;margin-bottom:25px}
   .st-reg-row{grid-template-columns:1fr;gap:0}
   .st-reg-summary>div{display:block}
   .st-reg-summary dd{text-align:left}
