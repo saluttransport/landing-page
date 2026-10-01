@@ -636,23 +636,18 @@
       '<p class="st-chat-note">Mesej akan dibuka dalam WhatsApp untuk dihantar.</p>'
     ].join('');
     var customMessage = chatBox.querySelector('#chatCustomMessage');
-    var availability = chatBox.querySelector('.chatAvailability');
-    function updateAvailability(){
-      if (!availability) return;
-      var parts = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Kuala_Lumpur', weekday:'short', hour:'2-digit', minute:'2-digit', hour12:false }).formatToParts(new Date());
+    // The status always shows Online (owner's choice, so parents are never put off messaging).
+    // Only the message time is kept up to date, in Malaysian time.
+    function updateMessageTime(){
+      var stamp = chatBox.querySelector('[data-chat-time]');
+      if (!stamp) return;
+      var parts = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Kuala_Lumpur', hour:'2-digit', minute:'2-digit', hour12:false }).formatToParts(new Date());
       var values = {};
       parts.forEach(function(part){ values[part.type] = part.value; });
-      var minutes = Number(values.hour) * 60 + Number(values.minute);
-      var open = ['Mon','Tue','Wed','Thu','Fri'].includes(values.weekday) && minutes >= 360 && minutes < 1170;
-      availability.textContent = open ? 'Online' : 'Luar waktu operasi';
-      availability.classList.toggle('isOffline', !open);
-      var avatar = chatBox.querySelector('.st-chat-avatar');
-      if (avatar) avatar.classList.toggle('isOffline', !open);
-      var stamp = chatBox.querySelector('[data-chat-time]');
-      if (stamp) stamp.textContent = values.hour + ':' + values.minute;
+      stamp.textContent = values.hour + ':' + values.minute;
     }
-    updateAvailability();
-    window.setInterval(updateAvailability, 60000);
+    updateMessageTime();
+    window.setInterval(updateMessageTime, 60000);
     var closeChat = chatBox.querySelector('.st-chat-close');
     var sendChat = chatBox.querySelector('.st-chat-send');
     var quickReplies = Array.prototype.slice.call(chatBox.querySelectorAll('.st-chat-replies button'));
