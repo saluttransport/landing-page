@@ -8,7 +8,8 @@
   }
   ensureStylesheet('mobile-fixes.css');
   ensureStylesheet('content-fixes.css');
-  ['go-live.css', 'chrome.css', 'home.css', 'reg.css', 'policy.css'].forEach(function(href){
+  ensureStylesheet('chat.css');
+  ['go-live.css', 'chrome.css', 'home.css', 'reg.css', 'policy.css', 'chat.css'].forEach(function(href){
     var lateSheet = document.querySelector('link[href="' + href + '"]');
     if (lateSheet) document.head.appendChild(lateSheet);
   });
@@ -576,7 +577,7 @@
   }
 
   var floatingWhatsapp = document.querySelector('.whatsappBox');
-  var chatBox = document.querySelector('.mobileWhatsAppChat');
+  var chatBox = document.querySelector('.st-chat');
   var chatOverlay = document.querySelector('.whatsappChatOverlay');
   var whatsappDefaultMessage = 'Assalamualaikum! Saya nak tanya tentang servis van sekolah Salut Transport.';
   var whatsappMessages = {
@@ -589,7 +590,7 @@
   }
   if (floatingWhatsapp && !chatBox) {
     chatBox = document.createElement('div');
-    chatBox.className = 'mobileWhatsAppChat';
+    chatBox.className = 'st-chat';
     chatBox.setAttribute('aria-hidden', 'true');
     document.body.insertBefore(chatBox, floatingWhatsapp.nextSibling);
   }
@@ -609,27 +610,30 @@
     chatBox.setAttribute('role', 'dialog');
     chatBox.setAttribute('aria-modal', 'false');
     chatBox.setAttribute('aria-label', 'Chat WhatsApp Salut Transport');
+    var replyIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 18v-2a4 4 0 0 0-4-4H4"/><path d="m9 17-5-5 5-5"/></svg>';
     chatBox.innerHTML = [
-      '<div class="chatHead">',
-      '<div class="chatIdentity">',
-      '<span class="chatAvatar" aria-hidden="true"><img src="assets/logo.png" alt=""><i></i></span>',
-      '<span><strong><span>Salut</span> <span class="transport">Transport</span></strong><small class="chatAvailability">Online</small></span>',
+      '<div class="st-chat-head">',
+      '<span class="st-chat-avatar" aria-hidden="true"><img src="assets/logo.png" alt=""><i></i></span>',
+      '<span class="st-chat-identity"><strong>Salut Transport</strong><small class="chatAvailability">Online</small></span>',
+      '<button type="button" class="st-chat-close" aria-label="Tutup chat"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>',
       '</div>',
-      '<button type="button" class="chatClose" aria-label="Tutup chat">×</button>',
+      '<div class="st-chat-body">',
+      '<span class="st-chat-day">Hari ini</span>',
+      '<div class="st-chat-message">',
+      '<p class="st-chat-bubble">Assalamualaikum! Ada apa yang boleh kami bantu untuk perjalanan sekolah anak?<span class="st-chat-time" data-chat-time></span></p>',
+      '<div class="st-chat-replies" role="group" aria-label="Pilihan mesej pantas">',
+      '<button type="button" data-message-key="slot" aria-pressed="false">' + replyIcon + 'Semak slot van sekolah</button>',
+      '<button type="button" data-message-key="price" aria-pressed="false">' + replyIcon + 'Tanya harga pakej</button>',
+      '<button type="button" data-message-key="area" aria-pressed="false">' + replyIcon + 'Tanya kawasan diliputi</button>',
       '</div>',
-      '<div class="chatBody">',
-      '<p class="chatBubble">Assalamualaikum! Ada apa yang boleh kami bantu untuk perjalanan sekolah anak?</p>',
-      '<div class="chatQuickReplies" aria-label="Pilihan mesej pantas">',
-      '<button type="button" data-message-key="slot">Semak slot van sekolah</button>',
-      '<button type="button" data-message-key="price">Tanya harga pakej</button>',
-      '<button type="button" data-message-key="area">Tanya kawasan diliputi</button>',
       '</div>',
-      '<label for="chatCustomMessage">Atau tulis mesej sendiri</label>',
-      '<textarea id="chatCustomMessage" rows="3" maxlength="1000" placeholder="Tulis pertanyaan anda di sini…"></textarea>',
       '</div>',
-      '<div class="chatFooter">',
-      '<a class="chatSend" href="' + whatsappUrl(whatsappDefaultMessage) + '" target="_blank" rel="noopener"><span aria-hidden="true"></span>Buka WhatsApp</a>',
-      '</div>'
+      '<div class="st-chat-bar">',
+      '<label class="st-chat-sr" for="chatCustomMessage">Atau tulis mesej sendiri</label>',
+      '<textarea id="chatCustomMessage" rows="1" maxlength="1000" placeholder="Tulis pertanyaan anda di sini…"></textarea>',
+      '<a class="st-chat-send" href="' + whatsappUrl(whatsappDefaultMessage) + '" target="_blank" rel="noopener" aria-label="Buka WhatsApp untuk hantar mesej"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1.101 21.757 23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"/></svg></a>',
+      '</div>',
+      '<p class="st-chat-note">Mesej akan dibuka dalam WhatsApp untuk dihantar.</p>'
     ].join('');
     var customMessage = chatBox.querySelector('#chatCustomMessage');
     var availability = chatBox.querySelector('.chatAvailability');
@@ -642,12 +646,22 @@
       var open = ['Mon','Tue','Wed','Thu','Fri'].includes(values.weekday) && minutes >= 360 && minutes < 1170;
       availability.textContent = open ? 'Online' : 'Luar waktu operasi';
       availability.classList.toggle('isOffline', !open);
+      var avatar = chatBox.querySelector('.st-chat-avatar');
+      if (avatar) avatar.classList.toggle('isOffline', !open);
+      var stamp = chatBox.querySelector('[data-chat-time]');
+      if (stamp) stamp.textContent = values.hour + ':' + values.minute;
     }
     updateAvailability();
     window.setInterval(updateAvailability, 60000);
-    var closeChat = chatBox.querySelector('.chatClose');
-    var sendChat = chatBox.querySelector('.chatSend');
-    var quickReplies = Array.prototype.slice.call(chatBox.querySelectorAll('.chatQuickReplies button'));
+    var closeChat = chatBox.querySelector('.st-chat-close');
+    var sendChat = chatBox.querySelector('.st-chat-send');
+    var quickReplies = Array.prototype.slice.call(chatBox.querySelectorAll('.st-chat-replies button'));
+    // Grow the message field with its text, like WhatsApp, up to the CSS max-height.
+    function fitMessageField(){
+      if (!customMessage) return;
+      customMessage.style.height = 'auto';
+      customMessage.style.height = customMessage.scrollHeight + 'px';
+    }
     var lastChatFocus = null;
     function focusableChatItems(){
       return Array.prototype.slice.call(chatBox.querySelectorAll('button,a[href],textarea,input,select,[tabindex]:not([tabindex="-1"])')).filter(function(item){
@@ -691,14 +705,22 @@
       reply.addEventListener('click', function(){
         var key = reply.dataset.messageKey;
         var message = whatsappMessages[key] || whatsappDefaultMessage;
-        quickReplies.forEach(function(item){ item.classList.toggle('isSelected', item === reply); });
+        quickReplies.forEach(function(item){
+          item.classList.toggle('isSelected', item === reply);
+          item.setAttribute('aria-pressed', item === reply ? 'true' : 'false');
+        });
         if (customMessage) customMessage.value = message;
+        fitMessageField();
         if (sendChat) sendChat.href = whatsappUrl(message);
       });
     });
     if (customMessage) customMessage.addEventListener('input', function(){
       if (sendChat) sendChat.href = whatsappUrl(customMessage.value.trim());
-      quickReplies.forEach(function(item){ item.classList.remove('isSelected'); });
+      quickReplies.forEach(function(item){
+        item.classList.remove('isSelected');
+        item.setAttribute('aria-pressed', 'false');
+      });
+      fitMessageField();
     });
     chatBox.addEventListener('keydown', function(event){
       if (event.key === 'Escape') {
