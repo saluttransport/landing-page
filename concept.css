@@ -21,7 +21,6 @@
 .brandText strong{color:#ef3340 !important;}
 .brandText small{color:#1f5fbf !important;}
 html[data-theme="light"] .brandText strong{color:#ef3340 !important;}
-html[data-theme="light"] .brandText small{color:#1f5fbf !important;}
 
 /* ---------- 2. CTA system: primary / secondary / support ----------
    Primary  = check availability & fare (gold fill)  -> .btnPrimary (unchanged)
