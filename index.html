@@ -65,6 +65,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="concept.css">
   <link rel="stylesheet" href="go-live.css">
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
 <nav class="nav heroNav">
@@ -85,172 +86,204 @@
   </div>
 </nav>
 
-<header class="hero photoHero" id="utama">
-  <div class="heroGallery" data-hero-images="assets/hero-opt.webp,assets/mcn-8413-opt.webp,assets/wa-2438-u-opt.webp" aria-hidden="true">
-    <img class="heroSlide isActive" src="assets/hero-opt.webp" alt="" width="1600" height="860" fetchpriority="high">
-    <img class="heroSlide" src="assets/mcn-8413-opt.webp" alt="" width="1536" height="1024" loading="lazy">
-    <img class="heroSlide" src="assets/wa-2438-u-opt.webp" alt="" width="1536" height="1024" loading="lazy">
+<main class="st-home">
+<section id="utama" class="st-hero">
+  <div class="st-hero-images" aria-hidden="true">
+    <img class="st-hero-backdrop active" src="assets/hero-opt.webp" alt="" width="1600" height="860" fetchpriority="high">
+    <img class="st-hero-backdrop" src="assets/mcn-8413-opt.webp" alt="" width="1536" height="1024" decoding="async">
+    <img class="st-hero-backdrop" src="assets/wa-2438-u-opt.webp" alt="" width="1536" height="1024" decoding="async">
   </div>
-  <button class="heroSlideButton heroSlidePrev" type="button" aria-label="Gambar sebelumnya">‹</button>
-  <button class="heroSlideButton heroSlideNext" type="button" aria-label="Gambar seterusnya">›</button>
-  <div class="heroSlideDots" aria-label="Pilih gambar hero"></div>
-  <div class="heroShade"></div>
-  <div class="container heroContent">
-    <div class="heroCopy">
-      <p class="eyebrow">Van sekolah &middot; Bandar Baru Bangi</p>
-      <h1>Perjalanan sekolah, <span>lebih tenang</span> setiap hari.</h1>
-      <p class="lead">Van sekolah untuk keluarga di Bangi dan Sg Ramal. Pemandu tetap, laluan yang jelas, dan komunikasi terus dengan ibu bapa.</p>
-      <div class="ctaRow heroActions">
-        <a class="btn btnPrimary" href="#contact">Semak Slot &amp; Tambang</a>
-        <a class="btn btnGhost" href="https://wa.me/60123539977?text=Assalamualaikum%2C%20saya%20nak%20semak%20slot%20van%20sekolah." target="_blank" rel="noopener">WhatsApp Kami</a>
+  <div class="st-container st-hero-grid">
+    <div class="st-hero-copy">
+      <div class="st-eyebrow"><i></i> VAN SEKOLAH · BANDAR BARU BANGI</div>
+      <h1>Perjalanan sekolah, <em>lebih tenang</em> setiap hari.</h1>
+      <p>Van sekolah untuk keluarga di Bandar Baru Bangi. Pemandu tetap, laluan yang jelas, dan komunikasi terus dengan ibu bapa.</p>
+      <div class="st-hero-actions">
+        <a class="st-button yellow" href="#contact">Semak slot &amp; tambang <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+        <a class="st-button outline" href="https://wa.me/60123539977?text=Assalamualaikum%20Salut%20Transport.%20Saya%20ingin%20bertanya%20tentang%20van%20sekolah." target="_blank" rel="noopener noreferrer"><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/></svg> WhatsApp kami</a>
       </div>
-      <p class="heroTrustLine">Dipercayai oleh <span data-trust-count>200+</span> keluarga di Bandar Baru Bangi</p>
+      <div class="st-reassurance"><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg> Dipercayai oleh <strong>200+ keluarga</strong> sekitar Bandar Baru Bangi</div>
     </div>
   </div>
-</header>
-
-<section class="trustStrip">
-  <div class="container trustStripRow">
-    <div class="trustStripItem">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg>
-      <div><b>11 sekolah</b><span>Dalam senarai liputan</span></div>
+  <div class="st-container st-hero-bottom">
+    <div class="st-hero-gallery" aria-label="Galeri foto van Salut Transport">
+      <button class="st-hero-gallery-arrow" type="button" data-hero-prev aria-label="Foto sebelumnya"><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="st-hero-gallery-dots">
+        <button type="button" class="active" aria-current="true" aria-label="Lihat foto 1: Van Salut di hadapan sekolah"></button>
+        <button type="button" aria-label="Lihat foto 2: Van Salut di kawasan Bangi"></button>
+        <button type="button" aria-label="Lihat foto 3: Van Salut kedua di kawasan Bangi"></button>
+      </div>
+      <button class="st-hero-gallery-arrow" type="button" data-hero-next aria-label="Foto seterusnya"><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
-    <div class="trustStripItem">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h1.5l1.7-4.6A2 2 0 0 1 8.1 6h7.8a2 2 0 0 1 1.9 1.4L19.5 12H21"/><rect x="2.5" y="12" width="19" height="5" rx="1.5"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg>
-      <div><b>2 van</b><span>Berdaftar dalam perkhidmatan</span></div>
-    </div>
-    <div class="trustStripItem">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.5l3.5 2"/></svg>
-      <div><b>5 hari</b><span>Isnin hingga Jumaat</span></div>
-    </div>
-    <div class="trustStripItem">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/><path d="M14.5 20c.2-2.7 1.9-4.7 4-4.7 1.9 0 3.5 1.7 4 4"/></svg>
-      <div><b>200+ keluarga</b><span>Menggunakan servis kami</span></div>
-    </div>
+    <span class="st-hero-scroll">Scroll untuk kenali servis kami <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
   </div>
 </section>
 
-<section id="kawasan" class="section darkBand compactBand">
-  <div class="container centered">
-    <p class="sectionKicker">Kawasan servis</p>
-    <h2 class="sectionTitle">Kawasan &amp; sekolah diliputi</h2>
-    <div class="schoolLocator simpleMapLocator">
-      <div class="schoolList" aria-label="Senarai sekolah diliputi">
-        <div class="schoolCard isActive"><button class="schoolSelect" type="button" data-name="Sekolah Kebangsaan Bandar Baru Bangi Jalan 2" data-short="SK Jalan 2" data-area="Jalan 2, Bandar Baru Bangi" data-query="Sekolah Kebangsaan Bandar Baru Bangi Jalan 2"><span>SK</span><div><strong>Sekolah Kebangsaan Bandar Baru Bangi Jalan 2</strong><small>Jalan 2, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="Sekolah Menengah Kebangsaan Bandar Baru Bangi" data-short="SMK BBB" data-area="Bandar Baru Bangi, Selangor" data-query="Sekolah Menengah Kebangsaan Bandar Baru Bangi"><span>SM</span><div><strong>Sekolah Menengah Kebangsaan Bandar Baru Bangi</strong><small>Bandar Baru Bangi, Selangor</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Menengah%20Kebangsaan%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="SK Jalan Tiga" data-short="SK Jalan 3" data-area="Jalan 3, Bandar Baru Bangi" data-query="SK Jalan Tiga Bandar Baru Bangi" data-map-url="https://maps.app.goo.gl/XGVw4Wz4iBoFzNBd7"><span>SK</span><div><strong>SK Jalan Tiga</strong><small>Jalan 3, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://maps.app.goo.gl/XGVw4Wz4iBoFzNBd7" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="SMK Jalan Tiga" data-short="SMK Jalan 3" data-area="Jalan 3, Bandar Baru Bangi" data-query="SMK Jalan Tiga Bandar Baru Bangi"><span>SM</span><div><strong>SMK Jalan Tiga</strong><small>Jalan 3, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=SMK%20Jalan%20Tiga%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="Sekolah Kebangsaan Jalan Empat" data-short="SK Jalan 4" data-area="Jalan 4, Bandar Baru Bangi" data-query="Sekolah Kebangsaan Jalan Empat Bandar Baru Bangi"><span>SK</span><div><strong>Sekolah Kebangsaan Jalan Empat</strong><small>Jalan 4, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Kebangsaan%20Jalan%20Empat%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="SMK Jalan Empat" data-short="SMK Jalan 4" data-area="Jalan 4, Bandar Baru Bangi" data-query="SMK Jalan Empat Bandar Baru Bangi"><span>SM</span><div><strong>SMK Jalan Empat</strong><small>Jalan 4, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=SMK%20Jalan%20Empat%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="ABIM Sg Ramal" data-short="ABIM" data-area="Sg Ramal, Kajang" data-query="ABIM Sg Ramal"><span>AB</span><div><strong>ABIM Sg Ramal</strong><small>Sg Ramal, Kajang</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=ABIM%20Sg%20Ramal" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="KAFA Jubli Perak Seksyen 4" data-short="KAFA JP4" data-area="Seksyen 4, Bandar Baru Bangi" data-query="KAFA Jubli Perak Seksyen 4 Bandar Baru Bangi"><span>KA</span><div><strong>KAFA Jubli Perak Seksyen 4</strong><small>Seksyen 4, Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=KAFA%20Jubli%20Perak%20Seksyen%204%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="Sri Ummah Al Ikhlas" data-short="SU Al Ikhlas" data-area="Bandar Baru Bangi" data-query="Sri Ummah Al Ikhlas Bandar Baru Bangi"><span>SU</span><div><strong>Sri Ummah Al Ikhlas</strong><small>Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=Sri%20Ummah%20Al%20Ikhlas%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="Sri Ummah Bangi Perdana" data-short="SU Bangi Perdana" data-area="Bangi Perdana" data-query="Sri Ummah Bangi Perdana"><span>SU</span><div><strong>Sri Ummah Bangi Perdana</strong><small>Bangi Perdana</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=Sri%20Ummah%20Bangi%20Perdana" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
-        <div class="schoolCard"><button class="schoolSelect" type="button" data-name="Sri Ummah As Sobah" data-short="SU As Sobah" data-area="Bandar Baru Bangi" data-query="Sri Ummah As Sobah Bandar Baru Bangi"><span>SU</span><div><strong>Sri Ummah As Sobah</strong><small>Bandar Baru Bangi</small></div></button><a class="schoolMapIcon" href="https://www.google.com/maps/search/?api=1&amp;query=Sri%20Ummah%20As%20Sobah%20Bandar%20Baru%20Bangi" target="_blank" rel="noopener" aria-label="Buka dalam Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg></a></div>
+<section class="st-proof" aria-label="Ringkasan Salut Transport">
+  <div class="st-container st-proof-grid">
+    <div><b>200+</b><span>Keluarga mempercayai kami</span></div>
+    <div><b>2</b><span>Van berdaftar dalam perkhidmatan</span></div>
+    <div><b>11</b><span>Sekolah dalam senarai liputan</span></div>
+    <div><b>5 hari</b><span>Isnin hingga Jumaat</span></div>
+  </div>
+</section>
+
+<section id="kawasan" class="st-section st-coverage">
+  <div class="st-container">
+    <div class="st-section-head st-split">
+      <div><span class="st-kicker">01 / KAWASAN SERVIS</span><h2>Sekolah anak anda <em>dalam laluan?</em></h2></div>
+      <p>Semak sekolah yang kami liputi sekitar Bandar Baru Bangi, Bangi Perdana dan Sg Ramal. Slot bergantung pada laluan semasa.</p>
+    </div>
+    <div class="st-coverage-panel">
+      <div class="st-search-row">
+        <label class="st-search"><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg><input id="stSchoolSearch" type="search" aria-label="Cari sekolah atau kawasan" placeholder="Cari nama sekolah atau kawasan..." autocomplete="off"></label>
+        <span id="stSchoolCount" aria-live="polite">11 sekolah ditemui</span>
       </div>
-      <div class="schoolMapPanel">
-        <iframe id="schoolMap" title="Peta sekolah diliputi" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202&amp;output=embed"></iframe>
-        <div class="schoolMapInfo">
-          <div>
-            <span class="coveredBadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>Diliputi</span>
-            <h3 id="schoolMapName">Sekolah Kebangsaan Bandar Baru Bangi Jalan 2</h3>
-            <p id="schoolMapArea">Jalan 2, Bandar Baru Bangi</p>
-          </div>
-          <div class="schoolMapInfoActions">
-            <a id="schoolMapCta" class="btn btnPrimary" href="https://wa.me/60123539977?text=Assalamualaikum%2C%20saya%20nak%20semak%20tambang%20untuk%20anak%20di%20Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202." target="_blank" rel="noopener">Semak Tambang Sekarang</a>
-            <a id="schoolMapLink" class="btn btnSecondary" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202" target="_blank" rel="noopener">Buka dalam Google Maps</a>
+      <div class="st-coverage-locator">
+        <div class="st-schools" id="stSchools">
+          <button class="st-school selected" type="button" aria-pressed="true" data-name="SK Bandar Baru Bangi Jalan 2" data-area="Bandar Baru Bangi" data-query="Sekolah Kebangsaan Bandar Baru Bangi Jalan 2"><span class="st-school-badge">SK</span><span class="st-school-name"><b>SK Bandar Baru Bangi Jalan 2</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Bandar Baru Bangi</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="SMK Bandar Baru Bangi" data-area="Bandar Baru Bangi" data-query="Sekolah Menengah Kebangsaan Bandar Baru Bangi"><span class="st-school-badge">SMK</span><span class="st-school-name"><b>SMK Bandar Baru Bangi</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Bandar Baru Bangi</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="SK Jalan Tiga" data-area="Jalan 3, Bandar Baru Bangi" data-query="SK Jalan Tiga Bandar Baru Bangi" data-map-url="https://maps.app.goo.gl/XGVw4Wz4iBoFzNBd7"><span class="st-school-badge">SK</span><span class="st-school-name"><b>SK Jalan Tiga</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Jalan 3, Bandar Baru Bangi</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="SMK Jalan Tiga" data-area="Jalan 3, Bandar Baru Bangi" data-query="SMK Jalan Tiga Bandar Baru Bangi"><span class="st-school-badge">SMK</span><span class="st-school-name"><b>SMK Jalan Tiga</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Jalan 3, Bandar Baru Bangi</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="SK Jalan Empat" data-area="Jalan 4, Bandar Baru Bangi" data-query="Sekolah Kebangsaan Jalan Empat Bandar Baru Bangi"><span class="st-school-badge">SK</span><span class="st-school-name"><b>SK Jalan Empat</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Jalan 4, Bandar Baru Bangi</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="SMK Jalan Empat" data-area="Jalan 4, Bandar Baru Bangi" data-query="SMK Jalan Empat Bandar Baru Bangi"><span class="st-school-badge">SMK</span><span class="st-school-name"><b>SMK Jalan Empat</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Jalan 4, Bandar Baru Bangi</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="ABIM Sg Ramal" data-area="Sg Ramal, Kajang" data-query="ABIM Sg Ramal"><span class="st-school-badge">ABIM</span><span class="st-school-name"><b>ABIM Sg Ramal</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Sg Ramal, Kajang</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="KAFA Jubli Perak Seksyen 4" data-area="Seksyen 4, Bandar Baru Bangi" data-query="KAFA Jubli Perak Seksyen 4 Bandar Baru Bangi"><span class="st-school-badge">KAFA</span><span class="st-school-name"><b>KAFA Jubli Perak Seksyen 4</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Seksyen 4, Bandar Baru Bangi</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="Sri Ummah Al Ikhlas" data-area="Bandar Baru Bangi" data-query="Sri Ummah Al Ikhlas Bandar Baru Bangi"><span class="st-school-badge">SU</span><span class="st-school-name"><b>Sri Ummah Al Ikhlas</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Bandar Baru Bangi</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="Sri Ummah Bangi Perdana" data-area="Bangi Perdana" data-query="Sri Ummah Bangi Perdana"><span class="st-school-badge">SU</span><span class="st-school-name"><b>Sri Ummah Bangi Perdana</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Bangi Perdana</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="st-school" type="button" aria-pressed="false" data-name="Sri Ummah As Sobah" data-area="Bandar Baru Bangi" data-query="Sri Ummah As Sobah Bandar Baru Bangi"><span class="st-school-badge">SU</span><span class="st-school-name"><b>Sri Ummah As Sobah</b><small><svg class="st-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Bandar Baru Bangi</small></span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <p class="st-no-results" id="stNoResults" hidden><b>Tiada sekolah ditemui.</b> Cuba nama atau kawasan lain, atau tanya kami di WhatsApp.</p>
+        </div>
+        <div class="st-coverage-map">
+          <iframe id="stSchoolMap" title="Peta lokasi SK Bandar Baru Bangi Jalan 2" src="https://maps.google.com/maps?q=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="st-map-details">
+            <strong id="stMapName">SK Bandar Baru Bangi Jalan 2</strong>
+            <span id="stMapArea">Bandar Baru Bangi</span>
+            <div class="st-map-actions">
+              <button class="st-button yellow" type="button" id="stMapCheck">Semak slot sekolah ini</button>
+              <a class="st-map-link" id="stMapLink" href="https://www.google.com/maps/search/?api=1&amp;query=Sekolah%20Kebangsaan%20Bandar%20Baru%20Bangi%20Jalan%202" target="_blank" rel="noopener noreferrer">Buka Google Maps</a>
+            </div>
           </div>
         </div>
       </div>
+      <div class="st-coverage-bottom">
+        <p>Sekolah tidak tersenarai? <a href="https://wa.me/60123539977?text=Assalamualaikum%20Salut%20Transport.%20Boleh%20semak%20jika%20sekolah%20anak%20saya%20dalam%20laluan%3F" target="_blank" rel="noopener noreferrer">Tanya kami di WhatsApp</a></p>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="kenapa" class="section lightBand">
-  <div class="container splitIntro">
-    <div><p class="sectionKicker">Kenapa kami</p><h2 class="sectionTitle">Kenapa ibu bapa pilih Salut Transport?</h2></div>
-    <p class="sectionLead">Kami bukan sekadar ambil dan hantar. Fokus kami ialah keselamatan, laluan yang jelas, seat yang terkawal dan komunikasi yang mudah untuk ibu bapa bekerja.</p>
-  </div>
-  <div class="container cards featureCards">
-    <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.4"/><path d="M12 5v3.2M6.4 15.5l2.7-1.7M17.6 15.5l-2.7-1.7"/></svg></div><h3>Pemandu Tetap</h3><p>Urusan pickup dan drop-off lebih konsisten kerana anak berurusan dengan pemandu yang sama mengikut laluan.</p></div>
-    <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="19" r="1.8" fill="currentColor" stroke="none"/><path d="M6 18c4-2 3-7 7-9s5 1 5-3" stroke-dasharray="1 3.4"/><circle cx="18" cy="5" r="1.8" fill="currentColor" stroke="none"/></svg></div><h3>Laluan Sekolah Jelas</h3><p>Route disusun mengikut kawasan rumah dan sekolah supaya perjalanan harian lebih praktikal dan mudah dipantau.</p></div>
-    <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.3-3.5A7.96 7.96 0 0 1 4 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg></div><h3>WhatsApp Terus</h3><p>Ibu bapa boleh berhubung terus untuk semakan jadual, perubahan, cuti atau maklumat penting berkaitan anak.</p></div>
-    <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 14c0-2 1.8-3 4-3s4 1 4 3"/><circle cx="12" cy="9.5" r="2"/></svg></div><h3>Seat Terhad</h3><p>Slot dikawal mengikut kawasan supaya route tidak terlalu padat dan masa perjalanan lebih munasabah.</p></div>
-    <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h1.5l1.7-4.6A2 2 0 0 1 8.1 6h7.8a2 2 0 0 1 1.9 1.4L19.5 12H21"/><rect x="2.5" y="12" width="19" height="5" rx="1.5"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg></div><h3>Fokus Van Sekolah</h3><p>Servis khusus untuk perjalanan pergi dan balik sekolah sekitar Bandar Baru Bangi.</p></div>
-    <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5"/><path d="M3 12h18"/></svg></div><h3>Sesuai Ibu Bapa Bekerja</h3><p>Pickup dan drop-off harian membantu ibu bapa mengurus rutin sekolah anak dengan lebih tenang.</p></div>
-  </div>
-</section>
-
-<section id="tentang" class="section lightBand aboutSection">
-  <div class="container aboutBrief netlifyAbout">
-    <div class="aboutImage fleetAbout" aria-label="Fleet Salut Transport"><div class="aboutFleetGrid"><button class="fleetPreview" type="button" data-src="assets/mcn-8413-opt.webp" aria-label="Preview gambar van Salut Transport, plat MCN 8413"><img src="assets/mcn-8413-opt-mobile.webp" alt="Van Salut Transport, bas sekolah kuning, plat MCN 8413" loading="lazy" width="800" height="533"></button><button class="fleetPreview" type="button" data-src="assets/wa-2438-u-opt.webp" aria-label="Preview gambar van Salut Transport, plat WA 2438 U"><img src="assets/wa-2438-u-opt-mobile.webp" alt="Van Salut Transport, bas sekolah kuning, plat WA 2438 U" loading="lazy" width="800" height="533"></button></div></div>
-    <div class="aboutCopyBlock">
-      <p class="sectionKicker">Dari rumah ke sekolah</p>
-      <h2 class="sectionTitle">Setiap perjalanan ialah amanah.</h2>
-      <p>Bagi kami, setiap perjalanan bukan sekadar menghantar anak ke sekolah. Ia adalah amanah yang diberikan oleh ibu bapa.</p>
-      <p>Kami uruskan sendiri jadual pemandu dan susunan laluan setiap hari, supaya anak berurusan dengan pemandu yang sama dan ibu bapa tahu siapa yang menghantar dan mengambil anak mereka.</p>
-      <p>Sebarang perubahan jadual, cuti atau pertukaran pickup point boleh dimaklumkan terus melalui WhatsApp &mdash; tiada perlu tunggu waktu pejabat.</p>
-      <a class="inlineCta" href="https://wa.me/60123539977?text=Assalamualaikum%2C%20saya%20nak%20semak%20slot%20van%20sekolah." target="_blank" rel="noopener">WhatsApp untuk semak slot</a>
+<section id="kenapa" class="st-section st-benefits">
+  <div class="st-container">
+    <div class="st-section-head"><span class="st-kicker">02 / KENAPA SALUT</span><h2>Rutin anak terjaga.<br><em>Fikiran ibu bapa pun lega.</em></h2></div>
+    <div class="st-features">
+      <article class="st-feature"><small>01</small><span class="st-feature-icon"><svg class="st-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span><h3>Pemandu yang konsisten</h3><p>Anak berurusan dengan pemandu yang sama mengikut laluan. Lebih mudah untuk ibu bapa mengenali rutin hariannya.</p></article>
+      <article class="st-feature"><small>02</small><span class="st-feature-icon"><svg class="st-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></span><h3>Laluan yang tersusun</h3><p>Pickup dan drop-off dirancang mengikut kawasan serta sekolah supaya perjalanan lebih praktikal.</p></article>
+      <article class="st-feature"><small>03</small><span class="st-feature-icon"><svg class="st-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/></svg></span><h3>Terus berhubung</h3><p>Perubahan jadual, cuti atau pertanyaan boleh dimaklumkan melalui WhatsApp tanpa proses rumit.</p></article>
     </div>
   </div>
 </section>
 
-<section id="daftar" class="section darkBand">
-  <div class="container splitIntro">
-    <div><p class="sectionKicker">Cara daftar</p><h2 class="sectionTitle">Flow ringkas sebelum anak mula naik van.</h2></div>
-    <p class="sectionLead">Proses dibuat berperingkat supaya ibu bapa jelas tentang route, syarat servis dan bayaran sebelum slot disahkan.</p>
-  </div>
-  <div class="container steps">
-    <div class="step"><span>1</span><h3>Semak slot</h3><p>Hantar nama sekolah, kawasan rumah, sesi sekolah dan maklumat ringkas anak melalui WhatsApp.</p></div>
-    <div class="step"><span>2</span><h3>Confirm route</h3><p>Kami semak kawasan, sekolah, pickup point dan kesesuaian jadual mengikut route semasa.</p></div>
-    <div class="step"><span>3</span><h3>Isi Borang Pendaftaran</h3><p>Selepas route sesuai, ibu bapa isi <a href="pendaftaran.html">borang pendaftaran rasmi</a> dengan maklumat lengkap pelajar dan penjaga.</p></div>
-    <div class="step"><span>4</span><h3>Baca T&amp;C</h3><p>Ibu bapa baca dan faham terma servis, cancellation, refund dan aturan perjalanan harian.</p></div>
-    <div class="step"><span>5</span><h3>Isi form bayaran</h3><p>Lengkapkan form bayaran atau pautan bayaran yang kami sediakan untuk pengesahan slot.</p></div>
-    <div class="step"><span>6</span><h3>Anak mula naik van</h3><p>Pickup dan drop-off berjalan mengikut jadual yang telah dipersetujui bersama.</p></div>
-  </div>
-</section>
-
-
-<section id="pakej" class="section darkBand">
-  <div class="container splitIntro">
-    <div><p class="sectionKicker">Tambang</p><h2 class="sectionTitle">Tambang ikut kawasan, sekolah &amp; sesi.</h2></div>
-    <p class="sectionLead">Kami tidak guna satu harga tetap untuk semua &mdash; tambang bergantung kepada jarak route, sekolah dan sesi supaya adil untuk setiap keluarga.</p>
-  </div>
-  <div class="container cards serviceCards">
-    <div class="card"><h3>1 Hala</h3><p>Sesuai untuk pergi sahaja atau balik sahaja.</p><span class="pricePill">Tambang ikut route</span></div>
-    <div class="card"><h3>2 Hala</h3><p>Untuk pergi dan balik sekolah dengan jadual lebih lengkap.</p><span class="pricePill">Tambang ikut route</span></div>
-    <div class="fareBanner">
-      <div><strong>Semak tambang anak anda dalam 5 minit</strong><p>Kongsi sekolah, kawasan rumah dan sesi di WhatsApp &mdash; kami balas dengan tambang dan slot yang tersedia untuk route tersebut.</p></div>
-      <a class="btn btnPrimary" href="#contact">Semak Tambang &amp; Slot</a>
+<section id="tentang" class="st-fleet">
+  <div class="st-container st-fleet-grid">
+    <div class="st-fleet-gallery">
+      <button class="st-fleet-photo" type="button" data-src="assets/wa-2438-u-opt.webp" aria-label="Besarkan gambar Van sekolah Salut Transport WA 2438 U"><img src="assets/wa-2438-u-opt-mobile.webp" alt="Van sekolah Salut Transport WA 2438 U" width="800" height="533" loading="lazy"></button>
+      <button class="st-fleet-photo" type="button" data-src="assets/mcn-8413-opt.webp" aria-label="Besarkan gambar Van sekolah Salut Transport MCN 8413"><img src="assets/mcn-8413-opt-mobile.webp" alt="Van sekolah Salut Transport MCN 8413" width="800" height="533" loading="lazy"></button>
     </div>
-    <div class="card"><h3>Bayaran Online</h3><div class="price billplz">Billplz</div><p>Pautan bayaran boleh diberikan melalui gateway Billplz untuk urusan pembayaran bulanan yang lebih mudah.</p></div>
+    <div>
+      <span class="st-kicker">DARI RUMAH KE SEKOLAH</span>
+      <h2>Setiap perjalanan ialah <em>amanah.</em></h2>
+      <p>Kami mengurus laluan dan jadual pemandu setiap hari supaya anak tiba mengikut aturan yang dipersetujui. Slot dikawal mengikut kawasan agar perjalanan tidak terlalu padat.</p>
+      <div class="st-fleet-points">
+        <span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Van berdaftar</span>
+        <span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Pemandu tetap mengikut laluan</span>
+        <span><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Hubungan terus dengan penjaga</span>
+      </div>
+      <a class="st-inline-link" href="#daftar">Lihat cara daftar <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    </div>
   </div>
 </section>
 
-<section id="faq" class="section lightBand">
-  <div class="container splitIntro"><div><p class="sectionKicker">FAQ ibu bapa</p><h2 class="sectionTitle">Soalan biasa sebelum daftar.</h2></div><p class="sectionLead">Jawapan ringkas untuk bantu ibu bapa faham route, bayaran, pickup dan komunikasi harian.</p></div>
-  <div class="container faqList">
-    <details data-go-daftar><summary>Macam mana nak daftar?</summary><p>Pergi ke bahagian Cara Daftar untuk lihat flow penuh. Selepas semak slot, kami confirm route, ibu bapa isi borang pendaftaran rasmi, baca T&amp;C dan lengkapkan form bayaran.</p></details>
-    <details><summary>Area mana yang Salut Transport cover?</summary><p>Fokus utama ialah Bandar Baru Bangi, Seksyen 2, Seksyen 3, Seksyen 4, Bangi Perdana dan kawasan Sg Ramal tertakluk kepada route semasa.</p></details>
-    <details><summary>Bayaran bulanan berapa?</summary><p>Tambang bergantung kepada kawasan, sekolah, sesi dan pilihan 1 hala atau 2 hala. Hubungi kami untuk semak tambang berdasarkan route anak.</p></details>
-    <details><summary>Kalau anak MC atau cuti macam mana?</summary><p>Maklumkan lebih awal melalui WhatsApp supaya pemandu tahu anak tidak perlu diambil atau dihantar pada hari tersebut.</p></details>
-    <details><summary>Kalau tukar alamat atau pickup point?</summary><p>Beritahu kami lebih awal. Kami akan semak sama ada alamat baru masih sesuai dengan route yang berjalan.</p></details>
-    <details><summary>Pickup pukul berapa?</summary><p>Masa pickup bergantung kepada sekolah, sesi dan susunan route. Kami akan confirm selepas maklumat kawasan dan sekolah diterima.</p></details>
-    <details><summary>Ada refund atau cancellation policy?</summary><p>Ya. Sila rujuk halaman <a href="cancellation.html">Cancellation Policy</a> dan <a href="refund.html">Refund Policy</a> untuk maklumat lanjut.</p></details>
-    <details><summary>Bagaimana kaedah bayaran bulanan?</summary><p>Bayaran dibuat menggunakan link yang kami sediakan setiap bulan. Ibu bapa perlu isi maklumat yang diminta supaya bayaran boleh direkodkan dengan betul.</p></details>
-    <details><summary>Macam mana parent akan dimaklumkan?</summary><p>Komunikasi utama dibuat melalui WhatsApp untuk semakan route, perubahan jadual, cuti atau maklumat penting lain.</p></details>
+<section id="pakej" class="st-section st-fares">
+  <div class="st-container">
+    <div class="st-section-head st-split">
+      <div><span class="st-kicker">03 / PILIHAN PERJALANAN</span><h2>Satu hala atau <em>pergi balik.</em></h2></div>
+      <p>Tambang mengikut kawasan, sekolah, sesi dan susunan laluan. Pilih keperluan anak, kemudian dapatkan semakan khusus daripada kami.</p>
+    </div>
+    <div class="st-fare-grid">
+      <article class="st-fare-card"><small>FLEKSIBEL</small><h3>1 Hala</h3><p>Untuk perjalanan pergi sahaja atau balik sahaja.</p><div></div><span>Tambang ikut laluan</span><button type="button" data-trip="1 hala">Semak 1 hala <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button></article>
+      <article class="st-fare-card featured"><small>PILIHAN HARIAN</small><h3>2 Hala</h3><p>Perjalanan pergi dan balik sekolah dalam satu rutin yang lengkap.</p><div></div><span>Tambang ikut laluan</span><button type="button" data-trip="2 hala">Semak 2 hala <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button></article>
+    </div>
+    <p class="st-fare-note">Bayaran dibuat melalui pautan yang diberikan selepas laluan dan slot disahkan.</p>
   </div>
 </section>
 
-<section id="review" class="section darkBand compactBand"><div class="container centered"><p class="sectionKicker">Review ibu bapa</p><h2 class="sectionTitle">Kepercayaan ibu bapa sangat penting.</h2><p class="sectionLead">Antara maklum balas ringkas daripada ibu bapa yang menggunakan servis Salut Transport.</p><div class="reviewWrap"><div class="reviewCard"><div class="quoteMark">&quot;</div><p>Saya syukur Allah mudahkan saya jumpa Salut Transport.</p><span>Puan Nina</span></div><div class="reviewCard"><div class="quoteMark">&quot;</div><p>Link pembayaran baharu ini lebih bagus daripada sistem sebelumnya. Kini bayaran boleh dibuat terus melalui online banking tanpa perlu melalui langkah tambahan yang menyusahkan.</p><span>Encik Asyraf</span></div></div><span class="reviewNote">Nak kongsi pengalaman anda juga? Hubungi kami di WhatsApp.</span></div></section>
-
-<section id="contact" class="section contactBand">
-  <div class="container contactGrid"><div class="contactInfo"><p class="sectionKicker">Hubungi kami</p><h2>Jom aturkan perjalanan anak</h2><p>Kongsi maklumat sekolah, kawasan rumah dan sesi anak. Kami akan semak route, tambang dan jadual yang sesuai sebelum teruskan pendaftaran.</p><div class="contactPanel"><b>Salut Transport</b><a href="tel:+60123539977">012-353 9977</a><a class="navSupport" href="https://wa.me/60123539977" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.3-3.5A7.96 7.96 0 0 1 4 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>WhatsApp Salut Transport</a><a href="mailto:saluttransport@gmail.com">saluttransport@gmail.com</a><span>12, Jalan 4/12F, Seksyen 4, 43650 Bandar Baru Bangi, Selangor</span></div></div>
-    <form class="contactForm whatsappForm"><div class="formHeader"><h3>Maklumat anak &amp; penjaga</h3><p>Borang ini akan sediakan mesej WhatsApp secara automatik &mdash; balasan biasanya dalam masa 1 jam waktu operasi.</p></div><div class="formRow"><div class="field"><label for="nama">Nama Ibu Bapa / Penjaga</label><input id="nama" name="Nama Ibu Bapa / Penjaga" type="text" autocomplete="name" required></div><div class="field"><label for="telefon">No. telefon</label><input id="telefon" name="No. telefon" type="tel" inputmode="tel" autocomplete="tel" required></div></div><div class="formRow"><div class="field"><label for="sekolah">Sekolah anak</label><input id="sekolah" name="Sekolah anak" type="text" required></div><div class="field"><label for="darjah">Tahun / darjah anak</label><select id="darjah" name="Tahun atau darjah anak"><option value="">Pilih tahun / darjah</option><option>Darjah 1</option><option>Darjah 2</option><option>Darjah 3</option><option>Darjah 4</option><option>Darjah 5</option><option>Darjah 6</option><option>Tingkatan 1</option><option>Tingkatan 2</option><option>Tingkatan 3</option><option>Tingkatan 4</option><option>Tingkatan 5</option><option>Tingkatan 6</option></select></div></div><div class="formRow"><div class="field"><label for="kawasanRumah">Kawasan rumah</label><input id="kawasanRumah" name="Kawasan rumah" type="text" placeholder="Contoh: Seksyen 4, Bangi" required></div><div class="field"><label for="sesiSekolah">Sesi sekolah</label><select id="sesiSekolah" name="Sesi sekolah"><option>Pagi</option><option>Petang</option><option>Belum pasti</option></select></div></div><div class="field"><label for="trip">Trip</label><select id="trip" name="Trip"><option value="">Pilih trip</option><option>Pergi</option><option>Balik</option><option>Pergi dan balik</option></select></div><div class="field"><label for="mesej">Mesej tambahan</label><textarea id="mesej" name="Mesej tambahan" placeholder="Contoh: perlu 1 hala / 2 hala, pickup point, waktu tamat sekolah"></textarea></div><div class="formActions"><button class="btn btnPrimary" type="submit">Hantar ke WhatsApp</button><a class="btn btnSupport" href="https://wa.me/60123539977?text=Assalamualaikum%2C%20saya%20nak%20semak%20slot%20van%20sekolah." target="_blank" rel="noopener">WhatsApp Terus</a></div><p class="formNote">Selepas klik hantar, WhatsApp akan terbuka dengan mesej yang sudah siap.</p></form>
+<section id="daftar" class="st-section st-steps">
+  <div class="st-container st-steps-grid">
+    <div>
+      <span class="st-kicker">04 / CARA DAFTAR</span>
+      <h2>Dari semakan ke <em>perjalanan pertama.</em></h2>
+      <p>Proses yang jelas sebelum anak mula menaiki van. Slot disahkan setelah laluan dan butiran dipersetujui.</p>
+      <a class="st-button dark" href="#contact">Mulakan semakan <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    </div>
+    <div class="st-step-list">
+      <div class="st-step"><span>01</span><div><h3>Kongsi maklumat asas</h3><p>Beritahu sekolah, kawasan rumah, sesi dan pilihan perjalanan melalui borang ringkas di bawah.</p></div></div>
+      <div class="st-step"><span>02</span><div><h3>Kami semak laluan &amp; slot</h3><p>Pasukan kami sahkan kesesuaian pickup point, jadual dan tambang mengikut laluan semasa.</p></div></div>
+      <div class="st-step"><span>03</span><div><h3>Lengkapkan pendaftaran</h3><p>Isi borang rasmi, baca terma servis dan buat bayaran melalui pautan yang diberikan.</p></div></div>
+      <div class="st-step"><span>04</span><div><h3>Anak mula menaiki van</h3><p>Pickup dan drop-off berjalan mengikut jadual yang telah dipersetujui bersama.</p></div></div>
+      <a class="st-inline-link" href="pendaftaran.html">Lihat borang pendaftaran <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    </div>
   </div>
 </section>
 
-<section class="section finalBand"><div class="container finalCta"><div><h2>Sedia bincang route anak?</h2><p>Hubungi kami melalui WhatsApp dan kami bantu semak pilihan yang sesuai.</p></div><a class="btn btnPrimary" href="#contact">Semak Slot &amp; Tambang</a></div></section>
+<section id="faq" class="st-section st-faq">
+  <div class="st-container st-faq-grid">
+    <div>
+      <span class="st-kicker">05 / SOALAN LAZIM</span>
+      <h2>Perlu tahu <em>sebelum daftar?</em></h2>
+      <p>Jawapan ringkas tentang laluan, tambang dan perjalanan harian.</p>
+      <a class="st-inline-link" href="https://wa.me/60123539977?text=Assalamualaikum%20Salut%20Transport.%20Saya%20ada%20pertanyaan%20tentang%20servis%20van%20sekolah." target="_blank" rel="noopener noreferrer">Tanya soalan lain <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    </div>
+    <div class="st-accordion">
+      <details><summary>Berapa tambang bulanan?<span><svg class="st-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></summary><p>Tambang bergantung pada kawasan rumah, sekolah, sesi dan pilihan 1 hala atau 2 hala. Kongsi maklumat tersebut dan kami akan semak tambang bagi laluan anak anda.</p></details>
+      <details><summary>Kawasan mana yang diliputi?<span><svg class="st-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></summary><p>Fokus kami ialah Bandar Baru Bangi termasuk Seksyen 2, 3 dan 4, Bangi Perdana serta Sg Ramal. Liputan dan slot tertakluk kepada laluan semasa.</p></details>
+      <details><summary>Pukul berapa van akan ambil anak?<span><svg class="st-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></summary><p>Masa pickup ditentukan selepas kami semak sekolah, sesi, kawasan rumah dan susunan laluan. Jadual disahkan sebelum pendaftaran diteruskan.</p></details>
+      <details><summary>Bagaimana jika anak cuti atau tidak sihat?<span><svg class="st-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></summary><p>Maklumkan lebih awal melalui WhatsApp supaya pemandu tahu anak tidak perlu diambil atau dihantar pada hari tersebut.</p></details>
+      <details><summary>Apa langkah selepas semak slot?<span><svg class="st-icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></summary><p>Selepas laluan sesuai disahkan, ibu bapa mengisi borang pendaftaran rasmi, menyemak terma perkhidmatan dan melengkapkan bayaran melalui pautan yang diberikan.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="st-contact">
+  <div class="st-container st-contact-grid">
+    <div>
+      <span class="st-kicker">06 / SEMAK SLOT</span>
+      <h2>Jom aturkan perjalanan anak.</h2>
+      <p>Kongsi beberapa butiran. Kami akan sediakan mesej WhatsApp supaya anda boleh terus tanya tentang laluan, slot dan tambang.</p>
+      <div class="st-contact-detail"><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg><div><small>TELEFON / WHATSAPP</small><a href="tel:+60123539977">012-353 9977</a></div></div>
+      <div class="st-contact-detail"><svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6h4"/></svg><div><small>WAKTU OPERASI</small><b>Isnin–Jumaat, 6:00 pagi–7:30 malam</b></div></div>
+    </div>
+    <form class="st-form" id="stSlotForm">
+      <div class="st-form-head"><span><svg class="st-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/></svg></span><div><h3>Semak laluan &amp; tambang</h3><p>Isi ringkas, terus ke WhatsApp.</p></div></div>
+      <div class="st-form-row">
+        <label for="stName">Nama ibu bapa / penjaga *<input id="stName" name="name" required autocomplete="name" placeholder="Nama anda"></label>
+        <label for="stPhone">No. telefon *<input id="stPhone" name="phone" required type="tel" autocomplete="tel" inputmode="tel" pattern="[+0-9\s\-]{9,18}" title="Masukkan nombor telefon yang sah" placeholder="Contoh: 012-345 6789"></label>
+      </div>
+      <div class="st-form-row">
+        <label for="stSchool">Sekolah anak *<input id="stSchool" name="school" required placeholder="Nama sekolah"></label>
+        <label for="stArea">Kawasan rumah *<input id="stArea" name="area" required placeholder="Contoh: Seksyen 4, Bangi"></label>
+      </div>
+      <div class="st-form-row">
+        <label for="stSession">Sesi sekolah *<select id="stSession" name="session" required><option value="" disabled selected>Pilih sesi</option><option>Pagi</option><option>Petang</option><option>Sehari penuh / lain-lain</option></select></label>
+        <label for="stTrip">Perjalanan *<select id="stTrip" name="trip"><option>1 hala</option><option selected>2 hala</option></select></label>
+      </div>
+      <label for="stNotes">Maklumat tambahan (jika ada)<textarea id="stNotes" name="notes" rows="3" placeholder="Contoh: Tahun anak, pickup point atau pertanyaan anda"></textarea></label>
+      <button type="submit" class="st-button yellow">Buka mesej di WhatsApp <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button>
+      <p class="st-form-note" id="stFormNote" role="status">Maklumat ini hanya digunakan untuk menyediakan mesej; anda sendiri akan menghantarnya di WhatsApp.</p>
+    </form>
+  </div>
+</section>
+</main>
 <a class="whatsappBox" href="https://wa.me/60123539977" target="_blank" rel="noopener" aria-label="WhatsApp Salut Transport">WhatsApp kami</a>
 <div class="fleetLightbox" id="fleetLightbox" aria-hidden="true">
   <div class="fleetLightboxPanel" role="dialog" aria-modal="true" aria-label="Preview gambar van">
