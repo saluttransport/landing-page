@@ -107,6 +107,9 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/share-preview-404`: og:image/twitter:image are absolute URLs and every page has og:url (WhatsApp/Facebook previews need them).
+  `404.html` is the Malay not-found page; Netlify serves it for any missing path, so it uses `<base href="/">` and has no
+  "#main" skip link. Keep its header/footer in step with the other pages. The registration form no longer promises an e-mail receipt.
 - 2026-10-02 (claude): Branch `claude/single-parent`: the form needs at least one guardian (ayah or ibu), not both.
   A guardian who is filled in needs a name and phone, and at least one guardian needs an IC. `site.js`
   (`updateGuardianRequired`) switches the `required` flags and the * marks as the parent types, and
