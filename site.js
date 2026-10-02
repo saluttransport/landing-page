@@ -285,11 +285,52 @@
       birthInput.addEventListener('change', updateSchoolYear);
       updateSchoolYear();
     }
-    function setStatus(message, type){
+    function setStatus(message, type, withWhatsApp){
       if (!status) return;
       status.textContent = message;
       status.classList.toggle('isSuccess', type === 'success');
       status.classList.toggle('isError', type === 'error');
+      if (withWhatsApp) {
+        // Fixed text only: the parent's details never go into the WhatsApp link.
+        var link = document.createElement('a');
+        link.href = 'https://wa.me/60123539977?text=' + encodeURIComponent('Assalamualaikum Salut Transport. Saya cuba hantar pendaftaran 2027 di salut.my tetapi tidak berjaya.');
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.textContent = 'hubungi kami di WhatsApp.';
+        status.appendChild(document.createTextNode(' '));
+        status.appendChild(link);
+      }
+    }
+    // The server names the field it rejected; open its part of the form and point the parent to it.
+    function showServerFieldError(name){
+      var field = name ? form.elements[name] : null;
+      if (field && !field.tagName && field.length) field = field[0];
+      if (!field || !field.tagName) return false;
+      var fixedLabels = {jantina: 'Jantina', termsAccepted: 'Pengesahan T&C', privacyAccepted: 'Persetujuan Notis Privasi'};
+      var labelText = field.closest('label') && field.closest('label').querySelector('span');
+      var label = fixedLabels[name] || (labelText ? labelText.textContent.replace('*', '').trim() : 'yang ditanda');
+      var message = 'Maklumat "' + label + '" perlu disemak. Betulkan, kemudian tekan Hantar Pendaftaran semula.';
+      field.setCustomValidity(message);
+      // Keep the message under the field too: the browser's own bubble fades after a few seconds.
+      var holder = field.closest('.st-reg-field') || field.closest('fieldset') || field.closest('label') || field.parentNode;
+      var note = document.createElement('span');
+      note.className = 'st-reg-field-error';
+      note.setAttribute('role', 'alert');
+      note.textContent = message;
+      holder.appendChild(note);
+      var clear = function(){
+        field.setCustomValidity('');
+        if (note.parentNode) note.parentNode.removeChild(note);
+        field.removeEventListener('input', clear);
+        field.removeEventListener('change', clear);
+      };
+      field.addEventListener('input', clear);
+      field.addEventListener('change', clear);
+      field.reportValidity();
+      setStatus(message, 'error');
+      field.scrollIntoView({block: 'center'});
+      field.focus({preventScroll: true});
+      return true;
     }
     var guardianPhoneFields = [
       {name: 'telefonAyah', label: 'ayah'},
@@ -366,7 +407,10 @@
                 return sendRegistration(attempt + 1);
               });
             }
-            throw new Error('registration_rejected');
+            var rejected = new Error('registration_rejected');
+            rejected.status = response.status;
+            rejected.field = data && data.error && data.error.field;
+            throw rejected;
           });
         }).catch(function(error){
           if (attempt < 2 && error && error.message !== 'registration_rejected') {
@@ -386,8 +430,17 @@
         setStatus(message, 'success');
         refreshProgress();
         form.dispatchEvent(new CustomEvent('registrationsuccess', {detail: {submissionId: data.submissionId}}));
-      }).catch(function(){
-        setStatus('Pendaftaran belum dapat disahkan. Jangan isi borang baharu — tekan Hantar Pendaftaran sekali lagi atau hubungi WhatsApp.', 'error');
+      }).catch(function(error){
+        var httpStatus = error && error.status;
+        if (httpStatus === 400) {
+          if (!showServerFieldError(error.field)) {
+            setStatus('Sebahagian maklumat tidak dapat diterima. Muat semula halaman dan cuba lagi, atau', 'error', true);
+          }
+        } else if (httpStatus === 429) {
+          setStatus('Terlalu banyak cubaan dalam masa singkat. Tunggu 1 minit, kemudian tekan Hantar Pendaftaran semula. Jika masih gagal,', 'error', true);
+        } else {
+          setStatus('Pendaftaran belum dapat disahkan. Jangan isi borang baharu — tekan Hantar Pendaftaran sekali lagi. Jika masih gagal,', 'error', true);
+        }
       }).finally(function(){
         window.clearTimeout(reassuranceTimer);
         form.dataset.submitting = 'false';

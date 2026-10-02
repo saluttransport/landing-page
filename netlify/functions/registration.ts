@@ -83,8 +83,12 @@ function validate(input: Input) {
   if (!/^[A-Za-z0-9_-]{16,100}$/.test(clientRequestId)) throw new Error("INVALID:clientRequestId");
   const studentName = requireValue(text(input.namaAnak, 180), "namaAnak");
   const dateOfBirth = requireValue(text(input.tarikhLahir, 10), "tarikhLahir");
-  const dob = new Date(`${dateOfBirth}T00:00:00+08:00`);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth) || Number.isNaN(dob.valueOf()) || dob > new Date() || dob.getFullYear() < 2008) throw new Error("INVALID:tarikhLahir");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth)) throw new Error("INVALID:tarikhLahir");
+  // Read the date from its parts in UTC: the server clock is UTC, so a Malaysian-midnight Date
+  // would fall on the previous day and make 1 January births a year older.
+  const [birthYear, birthMonth, birthDay] = dateOfBirth.split("-").map(Number);
+  const dob = new Date(Date.UTC(birthYear, birthMonth - 1, birthDay));
+  if (dob.getUTCMonth() !== birthMonth - 1 || dob.getUTCDate() !== birthDay || dob > new Date() || birthYear < 2008) throw new Error("INVALID:tarikhLahir");
   const gender = requireValue(text(input.jantina, 20), "jantina");
   if (!["Lelaki", "Perempuan"].includes(gender)) throw new Error("INVALID:jantina");
   const homeAddress = requireValue(text(input.alamatRumah, 500), "alamatRumah");
@@ -97,7 +101,8 @@ function validate(input: Input) {
   const motherPhone = phone(input.telefonIbu);
   const fatherName = requireValue(text(input.namaAyah, 180), "namaAyah");
   const fatherPhone = phone(input.telefonAyah);
-  if (!/^60\d{9,10}$/.test(motherPhone) || !/^60\d{9,10}$/.test(fatherPhone)) throw new Error("INVALID:phone");
+  if (!/^60\d{9,10}$/.test(motherPhone)) throw new Error("INVALID:telefonIbu");
+  if (!/^60\d{9,10}$/.test(fatherPhone)) throw new Error("INVALID:telefonAyah");
   const motherIc = String(input.icIbu ?? "").replace(/\D/g, "").slice(0, 12);
   const fatherIc = String(input.icAyah ?? "").replace(/\D/g, "").slice(0, 12);
   if (motherIc && !/^\d{12}$/.test(motherIc)) throw new Error("INVALID:icIbu");
@@ -118,11 +123,12 @@ function validate(input: Input) {
   const routeValues = tripType === "PERGI DAN BALIK"
     ? [pergiPickupPoint, pergiDropoffPoint, balikPickupPoint, balikDropoffPoint]
     : [pickupPoint, dropoffPoint];
-  if (routeValues.some((value) => !ROUTE_POINTS.has(value))) throw new Error("INVALID:route");
-  if (input.termsAccepted !== true || input.privacyAccepted !== true) throw new Error("INVALID:consent");
+  if (routeValues.some((value) => !ROUTE_POINTS.has(value))) throw new Error("INVALID:pilihanPerjalanan");
+  if (input.termsAccepted !== true) throw new Error("INVALID:termsAccepted");
+  if (input.privacyAccepted !== true) throw new Error("INVALID:privacyAccepted");
 
   return {
-    clientRequestId, studentName, dateOfBirth, clientAge: 2027 - dob.getFullYear(), schoolLevel2027, gender, homeAddress, school,
+    clientRequestId, studentName, dateOfBirth, clientAge: 2027 - birthYear, schoolLevel2027, gender, homeAddress, school,
     motherName, motherPhone, motherIc, fatherName, fatherPhone, fatherIc, email, schoolSession, tripType,
     pickupPoint, dropoffPoint, pergiPickupPoint, pergiDropoffPoint, balikPickupPoint, balikDropoffPoint,
     termsAccepted: true, privacyAccepted: true,
@@ -156,7 +162,10 @@ export default async (req: Request, context: Context) => {
     return json({ success: true, submissionId: result.submissionId, duplicate: result.duplicate === true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "";
-    if (/^(MISSING|INVALID|UNEXPECTED|SPAM):/.test(message)) return json({ success: false, error: { code: "INVALID_REQUEST" } }, 400);
+    // Name only the form field to fix (never its value) so the page can point the parent to it.
+    const invalidField = /^(MISSING|INVALID):(\w+)$/.exec(message)?.[2];
+    const field = invalidField && invalidField !== "clientRequestId" ? invalidField : undefined;
+    if (/^(MISSING|INVALID|UNEXPECTED|SPAM):/.test(message)) return json({ success: false, error: { code: "INVALID_REQUEST", field } }, 400);
     return json({ success: false, error: { code: "TEMPORARY_FAILURE" } }, 502);
   }
 };
@@ -164,4 +173,7 @@ export default async (req: Request, context: Context) => {
 export const config: Config = {
   path: "/api/registration",
   method: ["POST"],
+  // Stops scripts from flooding the sheet. A family registering several children stays far below
+  // this; the page also retries a failed send twice, which still fits. Over the limit Netlify answers 429.
+  rateLimit: { windowLimit: 8, windowSize: 60, aggregateBy: ["ip", "domain"] },
 };
