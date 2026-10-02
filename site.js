@@ -666,7 +666,7 @@
     var replyIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 18v-2a4 4 0 0 0-4-4H4"/><path d="m9 17-5-5 5-5"/></svg>';
     chatBox.innerHTML = [
       '<div class="st-chat-head">',
-      '<span class="st-chat-avatar" aria-hidden="true"><img src="assets/logo.png" alt=""><i></i></span>',
+      '<span class="st-chat-avatar" aria-hidden="true"><img src="assets/logo-128.png" alt=""><i></i></span>',
       '<span class="st-chat-identity"><strong>Salut Transport</strong><small class="chatAvailability">Online</small></span>',
       '<button type="button" class="st-chat-close" aria-label="Tutup chat"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>',
       '</div>',
@@ -887,9 +887,17 @@
   var stDots = Array.prototype.slice.call(document.querySelectorAll('.st-hero-gallery-dots button'));
   var stHeroIndex = 0;
   var stHeroTimer = null;
+  // The 2nd and 3rd hero photos only appear after a few seconds, so they wait in data-src
+  // until the page has loaded and do not slow down the first photo.
+  function loadStBackdrop(image){
+    if (image && !image.getAttribute('src') && image.dataset.src) image.src = image.dataset.src;
+  }
+  if (document.readyState === 'complete') stBackdrops.forEach(loadStBackdrop);
+  else window.addEventListener('load', function(){ stBackdrops.forEach(loadStBackdrop); });
   function showStHero(index){
     if (!stBackdrops.length) return;
     stHeroIndex = (index + stBackdrops.length) % stBackdrops.length;
+    loadStBackdrop(stBackdrops[stHeroIndex]);
     stBackdrops.forEach(function(image, imageIndex){ image.classList.toggle('active', imageIndex === stHeroIndex); });
     stDots.forEach(function(dot, dotIndex){
       dot.classList.toggle('active', dotIndex === stHeroIndex);
