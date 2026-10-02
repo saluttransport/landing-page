@@ -336,6 +336,41 @@
       {name: 'telefonAyah', label: 'ayah'},
       {name: 'telefonIbu', label: 'ibu'}
     ];
+    // At least one guardian (ayah or ibu) is needed, so single-parent families can register.
+    // A guardian who is filled in needs a name and phone, and at least one of them needs an IC.
+    // With nothing filled in yet, ayah's fields are required, as before.
+    var guardians = [
+      {name: 'namaAyah', phone: 'telefonAyah', ic: 'icAyah'},
+      {name: 'namaIbu', phone: 'telefonIbu', ic: 'icIbu'}
+    ];
+    function hasValue(name){
+      var field = form.elements[name];
+      return !!(field && String(field.value || '').trim());
+    }
+    function setRequired(name, on){
+      var field = form.elements[name];
+      if (!field) return;
+      field.required = on;
+      var mark = field.closest('label') && field.closest('label').querySelector('b');
+      if (mark) mark.hidden = !on;
+    }
+    function updateGuardianRequired(){
+      var given = guardians.map(function(g){ return hasValue(g.name) || hasValue(g.phone) || hasValue(g.ic); });
+      if (!given[0] && !given[1]) given[0] = true;
+      var hasIc = guardians.some(function(g, index){ return given[index] && hasValue(g.ic); });
+      var icOwner = given.indexOf(true);
+      guardians.forEach(function(g, index){
+        setRequired(g.name, given[index]);
+        setRequired(g.phone, given[index]);
+        setRequired(g.ic, given[index] && (hasValue(g.ic) || (!hasIc && index === icOwner)));
+      });
+    }
+    guardians.forEach(function(g){
+      [g.name, g.phone, g.ic].forEach(function(name){
+        if (form.elements[name]) form.elements[name].addEventListener('input', updateGuardianRequired);
+      });
+    });
+    updateGuardianRequired();
     guardianPhoneFields.forEach(function(item){
       var field = form.elements[item.name];
       if (!field) return;
@@ -369,7 +404,7 @@
       payload.namaAyah = titleCase(payload.namaAyah);
       payload.telefonIbu = normalizePhone(payload.telefonIbu);
       payload.telefonAyah = normalizePhone(payload.telefonAyah);
-      var invalidPhone = guardianPhoneFields.find(function(item){ return !isValidPhone(payload[item.name]); });
+      var invalidPhone = guardianPhoneFields.find(function(item){ return payload[item.name] && !isValidPhone(payload[item.name]); });
       if (invalidPhone) {
         var invalidField = form.elements[invalidPhone.name];
         if (invalidField) {
@@ -426,6 +461,7 @@
         sessionStorage.removeItem(requestStorageKey);
         form.reset();
         updateTripFields();
+        updateGuardianRequired();
         var message = 'Pendaftaran berjaya dihantar. ID rujukan: ' + data.submissionId;
         setStatus(message, 'success');
         refreshProgress();
