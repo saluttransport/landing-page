@@ -107,6 +107,10 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/form-hardening`: `/api/registration` now has a Netlify rate limit
+  (8 per minute per IP, answers 429). A 400 reply names the rejected form field in `error.field` (never its
+  value), and `site.js` opens that part of the form with a message under the field. Date of birth is read
+  from its parts so 1 January births no longer get an age one year too high (the server runs in UTC).
 - 2026-10-02 (claude): Branch `claude/chat-whatsapp-style` restyles the chat panel to look like WhatsApp (`chat.css`,
   new `st-chat-*` markup in `site.js`). Texts, the three quick replies and the wa.me links are unchanged; the old
   `.mobileWhatsAppChat` rules in `style.css` / `mobile-fixes.css` / `go-live.css` no longer match anything.

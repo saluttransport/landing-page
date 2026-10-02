@@ -116,6 +116,9 @@ html[data-theme="dark"] .st-reg-body{background:#0c202d}
 .st-reg-status:empty{display:none}
 .st-reg-status.isSuccess{color:#18765f}
 .st-reg-status.isError{color:#b4232c}
+.st-reg-status a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.st-reg-shell .st-reg-field-error{display:block;margin:6px 0 0;font-size:.8rem;font-weight:700;color:#b4232c}
+html[data-theme="dark"] .st-reg-field-error{color:#ff8a8f}
 
 /* After a successful submission */
 .st-reg-complete{max-width:760px;margin:auto;padding:55px;text-align:center;background:#fff;border:1px solid var(--st-line);border-radius:13px}
