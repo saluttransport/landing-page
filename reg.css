@@ -117,6 +117,8 @@ html[data-theme="dark"] .st-reg-body{background:#0c202d}
 .st-reg-status.isSuccess{color:#18765f}
 .st-reg-status.isError{color:#b4232c}
 .st-reg-status a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.st-reg-guardian-hint{margin:0 0 18px;font-size:.84rem;line-height:1.6;color:var(--st-muted)}
+.st-reg-guardian-hint strong{color:var(--st-ink)}
 .st-reg-shell .st-reg-field-error{display:block;margin:6px 0 0;font-size:.8rem;font-weight:700;color:#b4232c}
 html[data-theme="dark"] .st-reg-field-error{color:#ff8a8f}
 

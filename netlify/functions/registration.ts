@@ -97,16 +97,28 @@ function validate(input: Input) {
   const schoolLevel2027 = requireValue(text(input.darjahTingkatan2027, 40), "darjahTingkatan2027");
   if (!SCHOOL_LEVELS_2027.has(schoolLevel2027)) throw new Error("INVALID:darjahTingkatan2027");
 
-  const motherName = requireValue(text(input.namaIbu, 180), "namaIbu");
-  const motherPhone = phone(input.telefonIbu);
-  const fatherName = requireValue(text(input.namaAyah, 180), "namaAyah");
+  // At least one guardian (ayah or ibu) so single-parent families can register. A guardian who
+  // is given needs a name and a valid phone; at least one given guardian needs a 12-digit IC.
+  const fatherName = text(input.namaAyah, 180);
   const fatherPhone = phone(input.telefonAyah);
-  if (!/^60\d{9,10}$/.test(motherPhone)) throw new Error("INVALID:telefonIbu");
-  if (!/^60\d{9,10}$/.test(fatherPhone)) throw new Error("INVALID:telefonAyah");
-  const motherIc = String(input.icIbu ?? "").replace(/\D/g, "").slice(0, 12);
   const fatherIc = String(input.icAyah ?? "").replace(/\D/g, "").slice(0, 12);
+  const motherName = text(input.namaIbu, 180);
+  const motherPhone = phone(input.telefonIbu);
+  const motherIc = String(input.icIbu ?? "").replace(/\D/g, "").slice(0, 12);
+  const fatherGiven = Boolean(fatherName || fatherPhone || fatherIc);
+  const motherGiven = Boolean(motherName || motherPhone || motherIc);
+  if (!fatherGiven && !motherGiven) throw new Error("MISSING:namaAyah");
+  if (fatherGiven) {
+    requireValue(fatherName, "namaAyah");
+    if (!/^60\d{9,10}$/.test(fatherPhone)) throw new Error("INVALID:telefonAyah");
+  }
+  if (motherGiven) {
+    requireValue(motherName, "namaIbu");
+    if (!/^60\d{9,10}$/.test(motherPhone)) throw new Error("INVALID:telefonIbu");
+  }
+  if (fatherIc && !/^\d{12}$/.test(fatherIc)) throw new Error("INVALID:icAyah");
   if (motherIc && !/^\d{12}$/.test(motherIc)) throw new Error("INVALID:icIbu");
-  if (!/^\d{12}$/.test(fatherIc)) throw new Error("INVALID:icAyah");
+  if (!fatherIc && !motherIc) throw new Error(fatherGiven ? "MISSING:icAyah" : "MISSING:icIbu");
   const email = requireValue(text(input.email, 254).toLowerCase(), "email");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("INVALID:email");
   const schoolSession = requireValue(text(input.sesiSekolah, 20), "sesiSekolah");
