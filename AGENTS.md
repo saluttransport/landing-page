@@ -107,6 +107,10 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-02 (claude): Branch `claude/single-parent`: the form needs at least one guardian (ayah or ibu), not both.
+  A guardian who is filled in needs a name and phone, and at least one guardian needs an IC. `site.js`
+  (`updateGuardianRequired`) switches the `required` flags and the * marks as the parent types, and
+  `validate()` in `registration.ts` checks the same rule. Empty guardian fields reach the Apps Script as "".
 - 2026-10-02 (claude): Branch `claude/form-hardening`: `/api/registration` now has a Netlify rate limit
   (8 per minute per IP, answers 429). A 400 reply names the rejected form field in `error.field` (never its
   value), and `site.js` opens that part of the form with a message under the field. Date of birth is read
