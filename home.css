@@ -411,3 +411,9 @@ html[data-theme="dark"] .st-form select:invalid{color:var(--st-ink)!important}
   .st-hero h1{font-size:2.1rem}
 }
 html[data-theme="dark"] .st-proof-grid>div{border-color:#36525e}
+@media (min-width:981px){
+  .st-coverage-locator{align-items:stretch}
+  .st-schools{height:630px}
+  .st-coverage-map{display:flex;flex-direction:column}
+  .st-coverage-map iframe{flex:1 1 auto;height:auto;min-height:370px}
+}
