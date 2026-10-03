@@ -385,7 +385,9 @@ html[data-theme="dark"] .st-form select:invalid{color:var(--st-ink)!important}
 }
 @media (max-width:650px){
   .st-home{--st-head:67px;--st-proof:94px}
-  .st-hero-grid{padding:clamp(20px,4svh,48px) 0 12px}
+  /* Phones: as tall as the content (no gap under the buttons); the strip follows straight after. */
+  .st-hero{min-height:0}
+  .st-hero-grid{padding:clamp(20px,4svh,40px) 0 20px}
   .st-hero h1{margin:12px 0;font-size:clamp(2.2rem,min(10.4vw,6.4svh),3.4rem);line-height:1.04}
   .st-hero-copy>p{font-size:.95rem;line-height:1.55}
   .st-hero-actions{margin-top:18px;gap:8px}
