@@ -214,3 +214,22 @@ html[data-theme="dark"] .st-reg input::placeholder,html[data-theme="dark"] .st-r
   .st-reg *,.st-reg *::before,.st-reg *::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
   .st-reg-eyebrow i::after{opacity:0;animation:none}
 }
+
+/* Family form: one card per child (up to 5), added with "Tambah anak". */
+.st-reg-children{display:grid;gap:18px}
+.st-reg-child{padding:20px 20px 4px;border:1px solid var(--st-line);border-radius:10px;background:#fbfdfd}
+.st-reg-child-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 16px}
+.st-reg-child-head h3{margin:0;color:var(--st-navy);font:700 1.05rem/1.3 Poppins,Arial,sans-serif;outline:0}
+.st-reg-child-remove{min-height:36px;padding:0 12px;color:#b4232c;background:transparent;border:1px solid #e6c2c4;border-radius:7px;font-size:.78rem;font-weight:800;cursor:pointer}
+.st-reg-child-remove:hover{background:#fbeeee}
+.st-reg-add-child{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;min-height:52px;margin:18px 0 6px;color:var(--st-teal);background:transparent;border:1.5px dashed #9fc3c8;border-radius:10px;font-size:.88rem;font-weight:800;cursor:pointer;transition:background .2s,border-color .2s}
+.st-reg-add-child:hover{background:#eef6f6;border-color:var(--st-teal)}
+html[data-theme="dark"] .st-reg-child{background:#15333f}
+html[data-theme="dark"] .st-reg-child-head h3{color:var(--st-ink)}
+html[data-theme="dark"] .st-reg-child-remove{color:#ff8a8f;border-color:#6b3a40}
+html[data-theme="dark"] .st-reg-child-remove:hover{background:#3a2328}
+html[data-theme="dark"] .st-reg-add-child{border-color:#4f7480}
+html[data-theme="dark"] .st-reg-add-child:hover{background:#1d4250}
+@media (max-width:650px){
+  .st-reg-child{padding:16px 14px 2px}
+}

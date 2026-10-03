@@ -76,9 +76,9 @@
       <div>
         <span class="st-reg-eyebrow"><i></i> SESI PERSEKOLAHAN 2027</span>
         <h1>Borang <em>pendaftaran.</em></h1>
-        <p>Lengkapkan maklumat rasmi untuk pendaftaran van sekolah sesi 2027.</p>
+        <p>Lengkapkan maklumat rasmi untuk pendaftaran van sekolah sesi 2027. Satu borang untuk semua anak dalam keluarga.</p>
       </div>
-      <div class="st-reg-hero-detail"><strong>04</strong><span>Bahagian ringkas<br>untuk dilengkapkan</span></div>
+      <div class="st-reg-hero-detail"><strong>03</strong><span>Bahagian ringkas<br>untuk dilengkapkan</span></div>
     </div>
   </div>
 </section>
@@ -92,23 +92,21 @@
           <h2>Langkah demi langkah.</h2>
           <p>Semak slot dengan kami dahulu sebelum mengisi pendaftaran rasmi.</p>
           <ol data-reg-steps>
-            <li class="current"><span>01</span><div><small>BAHAGIAN 1</small><strong>Maklumat Anak</strong></div></li>
+            <li class="current"><span>01</span><div><small>BAHAGIAN 1</small><strong>Anak &amp; Perjalanan</strong></div></li>
             <li><span>02</span><div><small>BAHAGIAN 2</small><strong>Ibu Bapa</strong></div></li>
-            <li><span>03</span><div><small>BAHAGIAN 3</small><strong>Pengangkutan</strong></div></li>
-            <li><span>04</span><div><small>BAHAGIAN 4</small><strong>Pengesahan</strong></div></li>
+            <li><span>03</span><div><small>BAHAGIAN 3</small><strong>Pengesahan</strong></div></li>
           </ol>
           <div class="st-reg-help"><svg class="st-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6h4"/></svg><span>Ambil masa lebih kurang 4 minit.</span></div>
         </aside>
 
         <div class="st-reg-card">
           <div class="st-reg-sticky" data-reg-sticky hidden>
-            <div class="st-reg-topline" data-reg-topline hidden><span data-reg-count>BAHAGIAN 01 / 04</span><span data-reg-percent>25% diisi</span></div>
-            <div class="st-reg-progress" data-reg-progress role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" aria-label="Bahagian 1 daripada 4" hidden><span style="width:25%"></span></div>
+            <div class="st-reg-topline" data-reg-topline hidden><span data-reg-count>BAHAGIAN 01 / 03</span><span data-reg-percent>33% diisi</span></div>
+            <div class="st-reg-progress" data-reg-progress role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-label="Bahagian 1 daripada 3" hidden><span style="width:33%"></span></div>
             <ol class="st-reg-mini" data-reg-steps aria-hidden="true">
               <li class="current"><span>1</span>Anak</li>
               <li><span>2</span>Ibu Bapa</li>
-              <li><span>3</span>Pengangkutan</li>
-              <li><span>4</span>Pengesahan</li>
+              <li><span>3</span>Pengesahan</li>
             </ol>
           </div>
 
@@ -116,48 +114,77 @@
             <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="st-reg-honeypot">
 
             <section class="st-reg-step" id="maklumat-anak" data-step="1" aria-labelledby="stRegStep1">
-              <div class="st-reg-heading"><span class="st-reg-kicker">01 / MAKLUMAT ANAK</span><h2 id="stRegStep1" tabindex="-1">Kenali anak anda.</h2><p>Butiran ini membantu menyemak sekolah dan susunan perjalanan.</p></div>
-              <label class="st-reg-field"><span>Nama penuh anak <b aria-hidden="true">*</b> <small>(seperti dalam MyKid)</small></span><input name="namaAnak" placeholder="Contoh: Amirah Husna Binti Mohd Yusman" required></label>
-              <div class="st-reg-row">
-                <label class="st-reg-field"><span>Tarikh lahir <b aria-hidden="true">*</b></span><input name="tarikhLahir" type="date" required></label>
-                <label class="st-reg-field"><span>Umur</span><input class="st-reg-output" name="umur" placeholder="Dikira mengikut tahun 2027" readonly></label>
+              <div class="st-reg-heading"><span class="st-reg-kicker">01 / ANAK &amp; PERJALANAN</span><h2 id="stRegStep1" tabindex="-1">Kenali anak anda.</h2><p>Satu borang untuk satu keluarga. Ada lebih seorang anak? Tekan <strong>Tambah anak</strong> di bawah (maksimum 5).</p></div>
+              <div class="st-reg-children" data-children>
+                <div class="st-reg-child" data-child role="group" aria-labelledby="stRegChild1">
+                  <div class="st-reg-child-head"><h3 id="stRegChild1" data-child-title>Anak 1</h3><button class="st-reg-child-remove" type="button" data-child-remove hidden>Buang anak ini</button></div>
+                  <label class="st-reg-field"><span>Nama penuh anak <b aria-hidden="true">*</b> <small>(seperti dalam MyKid)</small></span><input name="namaAnak-1" placeholder="Contoh: Amirah Husna Binti Mohd Yusman" required></label>
+                  <div class="st-reg-row">
+                    <label class="st-reg-field"><span>Tarikh lahir <b aria-hidden="true">*</b></span><input name="tarikhLahir-1" type="date" required data-birth></label>
+                    <label class="st-reg-field"><span>Umur</span><input class="st-reg-output" data-age placeholder="Dikira mengikut tahun 2027" readonly tabindex="-1"></label>
+                  </div>
+                  <label class="st-reg-field"><span>Darjah / tingkatan 2027 <b aria-hidden="true">*</b></span><select name="darjahTingkatan2027-1" required data-level>
+                    <option value="">Pilih tarikh lahir dahulu</option>
+                    <option>Darjah 1</option>
+                    <option>Darjah 2</option>
+                    <option>Darjah 3</option>
+                    <option>Darjah 4</option>
+                    <option>Darjah 5</option>
+                    <option>Darjah 6</option>
+                    <option>Tingkatan 1</option>
+                    <option>Tingkatan 2</option>
+                    <option>Tingkatan 3</option>
+                    <option>Tingkatan 4</option>
+                    <option>Tingkatan 5</option>
+                    <option>Perlu semakan</option>
+                  </select></label>
+                  <p class="st-reg-hint">Dipilih automatik berdasarkan tahun lahir. Boleh dibetulkan jika anak masuk sekolah awal atau lewat.</p>
+                  <fieldset class="st-reg-choice">
+                    <legend>Jantina <b aria-hidden="true">*</b></legend>
+                    <label><input name="jantina-1" type="radio" value="Lelaki" required> Lelaki</label>
+                    <label><input name="jantina-1" type="radio" value="Perempuan" required> Perempuan</label>
+                  </fieldset>
+                  <label class="st-reg-field"><span>Nama sekolah <b aria-hidden="true">*</b></span><select name="sekolah-1" required>
+                    <option value="">Pilih sekolah</option>
+                    <option>SK Jalan 2</option>
+                    <option>SMK Jalan 2</option>
+                    <option>SK Jalan 3</option>
+                    <option>SMK Jalan 3</option>
+                    <option>SK Jalan 4</option>
+                    <option>SMK Jalan 4</option>
+                    <option>SERI / SEMI ABIM Sg Ramal</option>
+                    <option>KAFA Jubli Perak</option>
+                    <option>Sri Ummah Al Ikhlas</option>
+                    <option>Sri Ummah Bangi Perdana</option>
+                    <option>Sri Ummah As Sobah</option>
+                  </select></label>
+                  <div class="st-reg-subhead"><span>Perjalanan anak ini</span><i></i></div>
+                  <div class="st-reg-row">
+                    <label class="st-reg-field"><span>Sesi sekolah <b aria-hidden="true">*</b></span><select name="sesiSekolah-1" required><option value="">Pilih sesi</option><option>Pagi</option><option>Petang</option></select></label>
+                    <label class="st-reg-field"><span>Pilihan perjalanan <b aria-hidden="true">*</b></span><select name="pilihanPerjalanan-1" data-trip-select required><option value="">Pilih perjalanan</option><option>PERGI</option><option>BALIK</option><option>PERGI DAN BALIK</option></select></label>
+                  </div>
+                  <div data-trip-one hidden>
+                    <div class="st-reg-subhead"><span data-trip-one-title>Perjalanan pergi</span><i></i></div>
+                    <div class="st-reg-row">
+                      <label class="st-reg-field"><span>Pickup point <b aria-hidden="true">*</b></span><select name="pickupPoint-1" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                      <label class="st-reg-field"><span>Drop off <b aria-hidden="true">*</b></span><select name="dropOff-1" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                    </div>
+                  </div>
+                  <div data-trip-two hidden>
+                    <div class="st-reg-subhead"><span>Perjalanan pergi</span><i></i></div>
+                    <div class="st-reg-row">
+                      <label class="st-reg-field"><span>Pickup point pertama <b aria-hidden="true">*</b></span><select name="pickupPoint1-1" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                      <label class="st-reg-field"><span>Drop off pertama <b aria-hidden="true">*</b></span><select name="dropOff1-1" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                    </div>
+                    <div class="st-reg-subhead"><span>Perjalanan balik</span><i></i></div>
+                    <div class="st-reg-row">
+                      <label class="st-reg-field"><span>Pickup point kedua <b aria-hidden="true">*</b></span><select name="pickupPoint2-1" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                      <label class="st-reg-field"><span>Drop off kedua <b aria-hidden="true">*</b></span><select name="dropOff2-1" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <label class="st-reg-field"><span>Darjah / tingkatan 2027 <b aria-hidden="true">*</b></span><select name="darjahTingkatan2027" required>
-                <option value="">Pilih tarikh lahir dahulu</option>
-                <option>Darjah 1</option>
-                <option>Darjah 2</option>
-                <option>Darjah 3</option>
-                <option>Darjah 4</option>
-                <option>Darjah 5</option>
-                <option>Darjah 6</option>
-                <option>Tingkatan 1</option>
-                <option>Tingkatan 2</option>
-                <option>Tingkatan 3</option>
-                <option>Tingkatan 4</option>
-                <option>Tingkatan 5</option>
-                <option>Perlu semakan</option>
-              </select></label>
-              <p class="st-reg-hint">Dipilih automatik berdasarkan tahun lahir. Boleh dibetulkan jika anak masuk sekolah awal atau lewat.</p>
-              <fieldset class="st-reg-choice">
-                <legend>Jantina <b aria-hidden="true">*</b></legend>
-                <label><input name="jantina" type="radio" value="Lelaki" required> Lelaki</label>
-                <label><input name="jantina" type="radio" value="Perempuan" required> Perempuan</label>
-              </fieldset>
-              <label class="st-reg-field"><span>Alamat rumah <b aria-hidden="true">*</b></span><textarea name="alamatRumah" rows="3" placeholder="No. rumah, jalan, poskod, taman, negeri" required></textarea></label>
-              <label class="st-reg-field"><span>Nama sekolah <b aria-hidden="true">*</b></span><select name="sekolah" required>
-                <option value="">Pilih sekolah</option>
-                <option>SK Jalan 2</option>
-                <option>SMK Jalan 2</option>
-                <option>SK Jalan 3</option>
-                <option>SMK Jalan 3</option>
-                <option>SK Jalan 4</option>
-                <option>SMK Jalan 4</option>
-                <option>SERI / SEMI ABIM Sg Ramal</option>
-                <option>KAFA Jubli Perak</option>
-                <option>Sri Ummah Al Ikhlas</option>
-                <option>Sri Ummah Bangi Perdana</option>
-                <option>Sri Ummah As Sobah</option>
-              </select></label>
+              <button class="st-reg-add-child" type="button" data-child-add hidden><svg class="st-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg> <span>Tambah anak</span></button>
               <div class="st-reg-actions"><span></span><button class="st-reg-button" type="button" data-step-next>Teruskan <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
             </section>
 
@@ -175,47 +202,15 @@
                 <label class="st-reg-field"><span>No. telefon ibu <b aria-hidden="true">*</b></span><input name="telefonIbu" type="tel" inputmode="tel" autocomplete="tel" maxlength="14" pattern="(?:\+?60|0)1\d{8,9}" title="Masukkan nombor telefon Malaysia yang lengkap, contoh 0181234567 atau 60181234567." placeholder="Contoh: 0181234567"></label>
                 <label class="st-reg-field"><span>No. IC ibu / penjaga wanita <b aria-hidden="true" hidden>*</b></span><input name="icIbu" inputmode="numeric" pattern="\d{6}[\- ]?\d{2}[\- ]?\d{4}" title="Masukkan 12 digit No. IC, contoh 800101145678." placeholder="Contoh: 800101145678"></label>
               </div>
+              <label class="st-reg-field"><span>Alamat rumah <b aria-hidden="true">*</b></span><textarea name="alamatRumah" rows="3" placeholder="No. rumah, jalan, poskod, taman, negeri" required></textarea></label>
               <label class="st-reg-field"><span>Alamat e-mel <b aria-hidden="true">*</b></span><input name="email" type="email" inputmode="email" autocomplete="email" placeholder="contoh@email.com" required></label>
               <p class="st-reg-hint">Untuk urusan rasmi dan bil.</p>
               <div class="st-reg-actions"><button class="st-reg-back" type="button" data-step-back><svg class="st-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali</button><button class="st-reg-button" type="button" data-step-next>Teruskan <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
             </section>
 
-            <section class="st-reg-step" id="maklumat-pengangkutan" data-step="3" aria-labelledby="stRegStep3">
-              <div class="st-reg-heading"><span class="st-reg-kicker">03 / PENGANGKUTAN</span><h2 id="stRegStep3" tabindex="-1">Atur perjalanan.</h2><p>Masa dan tempat sebenar hanya disahkan selepas semakan laluan.</p></div>
-              <div class="st-reg-row">
-                <label class="st-reg-field"><span>Sesi sekolah <b aria-hidden="true">*</b></span><select name="sesiSekolah" required><option value="">Pilih sesi</option><option>Pagi</option><option>Petang</option></select></label>
-                <label class="st-reg-field"><span>Pilihan perjalanan <b aria-hidden="true">*</b></span><select name="pilihanPerjalanan" data-trip-select required><option value="">Pilih perjalanan</option><option>PERGI</option><option>BALIK</option><option>PERGI DAN BALIK</option></select></label>
-              </div>
-              <div data-trip-one hidden>
-                <div class="st-reg-subhead"><span data-trip-one-title>Perjalanan pergi</span><i></i></div>
-                <div class="st-reg-row">
-                  <label class="st-reg-field"><span>Pickup point <b aria-hidden="true">*</b></span><select name="pickupPoint" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
-                  <label class="st-reg-field"><span>Drop off <b aria-hidden="true">*</b></span><select name="dropOff" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
-                </div>
-              </div>
-              <div data-trip-two hidden>
-                <div class="st-reg-subhead"><span>Perjalanan pergi</span><i></i></div>
-                <div class="st-reg-row">
-                  <label class="st-reg-field"><span>Pickup point pertama <b aria-hidden="true">*</b></span><select name="pickupPoint1" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
-                  <label class="st-reg-field"><span>Drop off pertama <b aria-hidden="true">*</b></span><select name="dropOff1" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
-                </div>
-                <div class="st-reg-subhead"><span>Perjalanan balik</span><i></i></div>
-                <div class="st-reg-row">
-                  <label class="st-reg-field"><span>Pickup point kedua <b aria-hidden="true">*</b></span><select name="pickupPoint2" disabled><option value="">Pilih pickup</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
-                  <label class="st-reg-field"><span>Drop off kedua <b aria-hidden="true">*</b></span><select name="dropOff2" disabled><option value="">Pilih drop-off</option><option>Rumah</option><option>Sekolah</option><option>Transit</option></select></label>
-                </div>
-              </div>
-              <div class="st-reg-actions"><button class="st-reg-back" type="button" data-step-back><svg class="st-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali</button><button class="st-reg-button" type="button" data-step-next>Teruskan <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
-            </section>
-
-            <section class="st-reg-step" id="pengesahan" data-step="4" aria-labelledby="stRegStep4">
-              <div class="st-reg-heading"><span class="st-reg-kicker">04 / PENGESAHAN</span><h2 id="stRegStep4" tabindex="-1">Semak sekali lagi.</h2><p>Pastikan maklumat di bawah betul sebelum dihantar.</p></div>
-              <dl class="st-reg-summary" data-reg-summary hidden>
-                <div><dt>Anak</dt><dd data-summary="namaAnak">-</dd></div>
-                <div><dt>Sekolah</dt><dd data-summary="sekolah">-</dd></div>
-                <div><dt>Sesi &amp; perjalanan</dt><dd data-summary="perjalanan">-</dd></div>
-                <div><dt>Alamat</dt><dd data-summary="alamatRumah">-</dd></div>
-              </dl>
+            <section class="st-reg-step" id="pengesahan" data-step="3" aria-labelledby="stRegStep3">
+              <div class="st-reg-heading"><span class="st-reg-kicker">03 / PENGESAHAN</span><h2 id="stRegStep3" tabindex="-1">Semak sekali lagi.</h2><p>Pastikan maklumat di bawah betul sebelum dihantar.</p></div>
+              <dl class="st-reg-summary" data-reg-summary hidden></dl>
               <label class="st-reg-consent"><input name="termsAccepted" type="checkbox" value="true" required><span>Saya mengesahkan maklumat yang diberikan adalah betul dan bersetuju dengan <a href="terms.html" target="_blank" rel="noopener">T&amp;C Salut Transport</a>.</span></label>
               <label class="st-reg-consent"><input name="privacyAccepted" type="checkbox" value="true" required><span>Saya telah membaca dan bersetuju dengan <a href="privacy.html" target="_blank" rel="noopener">Notis Privasi</a>.</span></label>
               <div class="st-reg-actions"><button class="st-reg-back" type="button" data-step-back><svg class="st-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali</button><button class="st-reg-button" type="submit">Hantar Pendaftaran</button></div>
@@ -231,7 +226,7 @@
         <h2 tabindex="-1" data-reg-complete-title>Pendaftaran berjaya dihantar.</h2>
         <p>ID rujukan: <strong data-reg-complete-id></strong></p>
         <p>Simpan ID ini untuk sebarang pertanyaan. Terima kasih kerana memilih Salut Transport.</p>
-        <div><a class="st-reg-button" href="index.html">Kembali ke laman utama</a><button class="st-reg-button dark" type="button" data-reg-again>Daftar anak lain</button></div>
+        <div><a class="st-reg-button" href="index.html">Kembali ke laman utama</a><button class="st-reg-button dark" type="button" data-reg-again>Isi pendaftaran baharu</button></div>
       </div>
     </div>
   </div>

@@ -1,11 +1,17 @@
 import type { Config, Context } from "@netlify/functions";
 
-const ALLOWED_FIELDS = new Set([
-  "clientRequestId", "namaAnak", "tarikhLahir", "umur", "darjahTingkatan2027", "jantina", "alamatRumah", "sekolah",
-  "namaIbu", "telefonIbu", "icIbu", "namaAyah", "telefonAyah", "icAyah", "email",
-  "sesiSekolah", "pilihanPerjalanan", "pickupPoint", "dropOff", "pickupPoint1", "dropOff1",
-  "pickupPoint2", "dropOff2", "termsAccepted", "privacyAccepted", "website",
+// One form per family (schema v3): family fields at the top, up to 5 children in "children".
+const FAMILY_FIELDS = new Set([
+  "clientRequestId", "alamatRumah", "namaIbu", "telefonIbu", "icIbu", "namaAyah", "telefonAyah", "icAyah", "email",
+  "termsAccepted", "privacyAccepted", "website", "children",
 ]);
+const CHILD_FIELDS = new Set([
+  "namaAnak", "tarikhLahir", "darjahTingkatan2027", "jantina", "sekolah", "sesiSekolah", "pilihanPerjalanan",
+  "pickupPoint", "dropOff", "pickupPoint1", "dropOff1", "pickupPoint2", "dropOff2",
+]);
+// The older one-child form (a page still open in a browser from before the change) counts as a family of one.
+const LEGACY_FIELDS = new Set([...FAMILY_FIELDS, ...CHILD_FIELDS, "umur"]);
+const MAX_CHILDREN = 5;
 
 const SCHOOLS = new Set([
   "SK Jalan 2", "SMK Jalan 2", "SK Jalan 3", "SMK Jalan 3", "SK Jalan 4", "SMK Jalan 4",
@@ -58,7 +64,7 @@ async function postRegistrationWithRetry(appsScriptUrl: string, sharedSecret: st
       const upstream = await fetch(appsScriptUrl, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ type: "website_registration", schemaVersion: "2027-website-v2", sharedSecret, data }),
+        body: JSON.stringify({ type: "website_registration", schemaVersion: "2027-website-v3", sharedSecret, data }),
         redirect: "follow",
         signal: controller.signal,
       });
@@ -75,27 +81,64 @@ async function postRegistrationWithRetry(appsScriptUrl: string, sharedSecret: st
   throw lastError;
 }
 
-function validate(input: Input) {
-  for (const key of Object.keys(input)) if (!ALLOWED_FIELDS.has(key)) throw new Error(`UNEXPECTED:${key}`);
-  if (text(input.website)) throw new Error("SPAM:honeypot");
-
-  const clientRequestId = requireValue(text(input.clientRequestId, 100), "clientRequestId");
-  if (!/^[A-Za-z0-9_-]{16,100}$/.test(clientRequestId)) throw new Error("INVALID:clientRequestId");
-  const studentName = requireValue(text(input.namaAnak, 180), "namaAnak");
-  const dateOfBirth = requireValue(text(input.tarikhLahir, 10), "tarikhLahir");
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth)) throw new Error("INVALID:tarikhLahir");
+// Child n's errors name the form field "<field>-n" so the page can open the right child card.
+function validateChild(input: Input, n: number) {
+  for (const key of Object.keys(input)) if (!CHILD_FIELDS.has(key)) throw new Error(`UNEXPECTED:${key}`);
+  const field = (name: string) => `${name}-${n}`;
+  const studentName = requireValue(text(input.namaAnak, 180), field("namaAnak"));
+  const dateOfBirth = requireValue(text(input.tarikhLahir, 10), field("tarikhLahir"));
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth)) throw new Error(`INVALID:${field("tarikhLahir")}`);
   // Read the date from its parts in UTC: the server clock is UTC, so a Malaysian-midnight Date
   // would fall on the previous day and make 1 January births a year older.
   const [birthYear, birthMonth, birthDay] = dateOfBirth.split("-").map(Number);
   const dob = new Date(Date.UTC(birthYear, birthMonth - 1, birthDay));
-  if (dob.getUTCMonth() !== birthMonth - 1 || dob.getUTCDate() !== birthDay || dob > new Date() || birthYear < 2008) throw new Error("INVALID:tarikhLahir");
-  const gender = requireValue(text(input.jantina, 20), "jantina");
-  if (!["Lelaki", "Perempuan"].includes(gender)) throw new Error("INVALID:jantina");
+  if (dob.getUTCMonth() !== birthMonth - 1 || dob.getUTCDate() !== birthDay || dob > new Date() || birthYear < 2008) throw new Error(`INVALID:${field("tarikhLahir")}`);
+  const gender = requireValue(text(input.jantina, 20), field("jantina"));
+  if (!["Lelaki", "Perempuan"].includes(gender)) throw new Error(`INVALID:${field("jantina")}`);
+  const school = requireValue(text(input.sekolah, 120), field("sekolah"));
+  if (!SCHOOLS.has(school)) throw new Error(`INVALID:${field("sekolah")}`);
+  const schoolLevel2027 = requireValue(text(input.darjahTingkatan2027, 40), field("darjahTingkatan2027"));
+  if (!SCHOOL_LEVELS_2027.has(schoolLevel2027)) throw new Error(`INVALID:${field("darjahTingkatan2027")}`);
+  const schoolSession = requireValue(text(input.sesiSekolah, 20), field("sesiSekolah"));
+  if (!["Pagi", "Petang"].includes(schoolSession)) throw new Error(`INVALID:${field("sesiSekolah")}`);
+  const tripType = requireValue(text(input.pilihanPerjalanan, 30).toUpperCase(), field("pilihanPerjalanan"));
+  if (!["PERGI", "BALIK", "PERGI DAN BALIK"].includes(tripType)) throw new Error(`INVALID:${field("pilihanPerjalanan")}`);
+
+  const pickupPoint = text(input.pickupPoint, 30);
+  const dropoffPoint = text(input.dropOff, 30);
+  const pergiPickupPoint = text(input.pickupPoint1, 30);
+  const pergiDropoffPoint = text(input.dropOff1, 30);
+  const balikPickupPoint = text(input.pickupPoint2, 30);
+  const balikDropoffPoint = text(input.dropOff2, 30);
+  const routeValues = tripType === "PERGI DAN BALIK"
+    ? [pergiPickupPoint, pergiDropoffPoint, balikPickupPoint, balikDropoffPoint]
+    : [pickupPoint, dropoffPoint];
+  if (routeValues.some((value) => !ROUTE_POINTS.has(value))) throw new Error(`INVALID:${field("pilihanPerjalanan")}`);
+
+  return {
+    studentName, dateOfBirth, clientAge: 2027 - birthYear, schoolLevel2027, gender, school, schoolSession, tripType,
+    pickupPoint, dropoffPoint, pergiPickupPoint, pergiDropoffPoint, balikPickupPoint, balikDropoffPoint,
+  };
+}
+
+function validate(input: Input) {
+  let childInputs: Input[];
+  if (Array.isArray(input.children)) {
+    for (const key of Object.keys(input)) if (!FAMILY_FIELDS.has(key)) throw new Error(`UNEXPECTED:${key}`);
+    if (input.children.length < 1 || input.children.length > MAX_CHILDREN) throw new Error("INVALID:children");
+    childInputs = input.children.map((child) => {
+      if (!child || typeof child !== "object" || Array.isArray(child)) throw new Error("INVALID:children");
+      return child as Input;
+    });
+  } else {
+    for (const key of Object.keys(input)) if (!LEGACY_FIELDS.has(key)) throw new Error(`UNEXPECTED:${key}`);
+    childInputs = [Object.fromEntries(Object.entries(input).filter(([key]) => CHILD_FIELDS.has(key)))];
+  }
+  if (text(input.website)) throw new Error("SPAM:honeypot");
+
+  const clientRequestId = requireValue(text(input.clientRequestId, 100), "clientRequestId");
+  if (!/^[A-Za-z0-9_-]{16,100}$/.test(clientRequestId)) throw new Error("INVALID:clientRequestId");
   const homeAddress = requireValue(text(input.alamatRumah, 500), "alamatRumah");
-  const school = requireValue(text(input.sekolah, 120), "sekolah");
-  if (!SCHOOLS.has(school)) throw new Error("INVALID:sekolah");
-  const schoolLevel2027 = requireValue(text(input.darjahTingkatan2027, 40), "darjahTingkatan2027");
-  if (!SCHOOL_LEVELS_2027.has(schoolLevel2027)) throw new Error("INVALID:darjahTingkatan2027");
 
   // At least one guardian (ayah or ibu) so single-parent families can register. A guardian who
   // is given needs a name and a valid phone; at least one given guardian needs a 12-digit IC.
@@ -121,29 +164,14 @@ function validate(input: Input) {
   if (!fatherIc && !motherIc) throw new Error(fatherGiven ? "MISSING:icAyah" : "MISSING:icIbu");
   const email = requireValue(text(input.email, 254).toLowerCase(), "email");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("INVALID:email");
-  const schoolSession = requireValue(text(input.sesiSekolah, 20), "sesiSekolah");
-  if (!["Pagi", "Petang"].includes(schoolSession)) throw new Error("INVALID:sesiSekolah");
-  const tripType = requireValue(text(input.pilihanPerjalanan, 30).toUpperCase(), "pilihanPerjalanan");
-  if (!["PERGI", "BALIK", "PERGI DAN BALIK"].includes(tripType)) throw new Error("INVALID:pilihanPerjalanan");
 
-  const pickupPoint = text(input.pickupPoint, 30);
-  const dropoffPoint = text(input.dropOff, 30);
-  const pergiPickupPoint = text(input.pickupPoint1, 30);
-  const pergiDropoffPoint = text(input.dropOff1, 30);
-  const balikPickupPoint = text(input.pickupPoint2, 30);
-  const balikDropoffPoint = text(input.dropOff2, 30);
-  const routeValues = tripType === "PERGI DAN BALIK"
-    ? [pergiPickupPoint, pergiDropoffPoint, balikPickupPoint, balikDropoffPoint]
-    : [pickupPoint, dropoffPoint];
-  if (routeValues.some((value) => !ROUTE_POINTS.has(value))) throw new Error("INVALID:pilihanPerjalanan");
+  const children = childInputs.map((child, index) => validateChild(child, index + 1));
   if (input.termsAccepted !== true) throw new Error("INVALID:termsAccepted");
   if (input.privacyAccepted !== true) throw new Error("INVALID:privacyAccepted");
 
   return {
-    clientRequestId, studentName, dateOfBirth, clientAge: 2027 - birthYear, schoolLevel2027, gender, homeAddress, school,
-    motherName, motherPhone, motherIc, fatherName, fatherPhone, fatherIc, email, schoolSession, tripType,
-    pickupPoint, dropoffPoint, pergiPickupPoint, pergiDropoffPoint, balikPickupPoint, balikDropoffPoint,
-    termsAccepted: true, privacyAccepted: true,
+    clientRequestId, homeAddress, motherName, motherPhone, motherIc, fatherName, fatherPhone, fatherIc, email,
+    termsAccepted: true, privacyAccepted: true, children,
   };
 }
 
@@ -175,8 +203,8 @@ export default async (req: Request, context: Context) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : "";
     // Name only the form field to fix (never its value) so the page can point the parent to it.
-    const invalidField = /^(MISSING|INVALID):(\w+)$/.exec(message)?.[2];
-    const field = invalidField && invalidField !== "clientRequestId" ? invalidField : undefined;
+    const invalidField = /^(MISSING|INVALID):([\w-]+)$/.exec(message)?.[2];
+    const field = invalidField && !["clientRequestId", "children"].includes(invalidField) ? invalidField : undefined;
     if (/^(MISSING|INVALID|UNEXPECTED|SPAM):/.test(message)) return json({ success: false, error: { code: "INVALID_REQUEST", field } }, 400);
     return json({ success: false, error: { code: "TEMPORARY_FAILURE" } }, 502);
   }

@@ -166,13 +166,12 @@
 
   document.querySelectorAll('.sheetRegistrationForm, [data-registration-form]').forEach(function(form){
     var status = form.querySelector('.sheetFormStatus, [data-form-status]');
-    var birthInput = form.querySelector('input[name="tarikhLahir"]');
-    var ageInput = form.querySelector('input[name="umur"]');
-    var schoolLevelInput = form.querySelector('select[name="darjahTingkatan2027"]');
-    var tripSelect = form.querySelector('[data-trip-select]');
-    var tripOne = form.querySelector('[data-trip-one]');
-    var tripTwo = form.querySelector('[data-trip-two]');
-    var tripOneTitle = form.querySelector('[data-trip-one-title]');
+    // One form per family: each child has a card ([data-child]) whose field names end in -1 … -5.
+    var MAX_CHILDREN = 5;
+    var childList = form.querySelector('[data-children]');
+    var addChildButton = form.querySelector('[data-child-add]');
+    var CHILD_FIELDS = ['namaAnak', 'tarikhLahir', 'darjahTingkatan2027', 'jantina', 'sekolah', 'sesiSekolah', 'pilihanPerjalanan',
+      'pickupPoint', 'dropOff', 'pickupPoint1', 'dropOff1', 'pickupPoint2', 'dropOff2'];
     var submitButton = form.querySelector('button[type="submit"]');
     var requestStorageKey = 'salut-registration-request-id';
     function makeRequestId(){
@@ -214,17 +213,89 @@
         if (!active) field.value = '';
       });
     }
-    function updateTripFields(){
+    function childCards(){
+      return Array.prototype.slice.call(form.querySelectorAll('[data-child]'));
+    }
+    function updateTripFields(card){
+      var tripSelect = card.querySelector('[data-trip-select]');
+      var tripOneTitle = card.querySelector('[data-trip-one-title]');
       var value = tripSelect ? tripSelect.value : '';
       if (tripOneTitle) {
         tripOneTitle.textContent = value === 'BALIK' ? 'Perjalanan balik' : 'Perjalanan pergi';
       }
-      setTripFields(tripOne, value === 'PERGI' || value === 'BALIK');
-      setTripFields(tripTwo, value === 'PERGI DAN BALIK');
+      setTripFields(card.querySelector('[data-trip-one]'), value === 'PERGI' || value === 'BALIK');
+      setTripFields(card.querySelector('[data-trip-two]'), value === 'PERGI DAN BALIK');
     }
-    if (tripSelect) {
-      tripSelect.addEventListener('change', updateTripFields);
-      updateTripFields();
+    // Card n uses names like "sekolah-n"; after a card is added or removed the cards are numbered 1, 2, 3… again.
+    function renumberChildren(){
+      var cards = childCards();
+      cards.forEach(function(card, index){
+        var n = index + 1;
+        card.querySelectorAll('[name]').forEach(function(field){ field.name = field.name.replace(/-\d+$/, '-' + n); });
+        var title = card.querySelector('[data-child-title]');
+        if (title) {
+          title.textContent = 'Anak ' + n;
+          title.id = 'stRegChild' + n;
+          card.setAttribute('aria-labelledby', title.id);
+        }
+        var remove = card.querySelector('[data-child-remove]');
+        if (remove) remove.hidden = cards.length === 1;
+      });
+      if (addChildButton) {
+        addChildButton.hidden = cards.length >= MAX_CHILDREN;
+        var addLabel = addChildButton.querySelector('span');
+        if (addLabel) addLabel.textContent = 'Tambah anak ke-' + (cards.length + 1);
+      }
+    }
+    function clearChildCard(card){
+      card.querySelectorAll('.st-reg-field-error').forEach(function(note){ note.parentNode.removeChild(note); });
+      card.querySelectorAll('input,select,textarea').forEach(function(field){
+        field.setCustomValidity('');
+        if (field.type === 'radio' || field.type === 'checkbox') field.checked = false;
+        else if (field.tagName === 'SELECT') field.selectedIndex = 0;
+        else field.value = '';
+      });
+      updateTripFields(card);
+    }
+    function addChild(){
+      var cards = childCards();
+      if (!childList || !cards.length || cards.length >= MAX_CHILDREN) return;
+      var card = cards[0].cloneNode(true);
+      // Rename and clear the copy before it joins the form: a checked radio sharing card 1's name would
+      // otherwise untick card 1's choice.
+      var n = cards.length + 1;
+      card.querySelectorAll('[name]').forEach(function(field){ field.name = field.name.replace(/-\d+$/, '-' + n); });
+      clearChildCard(card);
+      childList.appendChild(card);
+      renumberChildren();
+      var title = card.querySelector('[data-child-title]');
+      card.scrollIntoView({block: 'start'});
+      if (title) { title.tabIndex = -1; title.focus({preventScroll: true}); }
+    }
+    function resetChildren(){
+      childCards().slice(1).forEach(function(card){ card.parentNode.removeChild(card); });
+      childCards().forEach(function(card){ clearChildCard(card); });
+      renumberChildren();
+    }
+    if (childList) {
+      childCards().forEach(updateTripFields);
+      renumberChildren();
+      if (addChildButton) addChildButton.addEventListener('click', addChild);
+      childList.addEventListener('click', function(event){
+        var remove = event.target.closest('[data-child-remove]');
+        if (!remove) return;
+        var card = remove.closest('[data-child]');
+        if (!card || childCards().length === 1) return;
+        card.parentNode.removeChild(card);
+        renumberChildren();
+        if (addChildButton && !addChildButton.hidden) addChildButton.focus();
+      });
+      childList.addEventListener('change', function(event){
+        var card = event.target.closest('[data-child]');
+        if (!card) return;
+        if (event.target.matches('[data-trip-select]')) updateTripFields(card);
+        if (event.target.matches('[data-birth]')) updateSchoolYear(card);
+      });
     }
 
     var progressLinks = Array.prototype.slice.call(form.querySelectorAll('.formProgress a'));
@@ -270,21 +341,22 @@
       };
       return levels[birthYear] || 'Perlu semakan';
     }
-    if (birthInput && ageInput) {
-      var updateSchoolYear = function(){
-        if (!birthInput.value) {
-          ageInput.value = '';
-          if (schoolLevelInput) schoolLevelInput.value = '';
-          return;
-        }
-        var birthDate = new Date(birthInput.value + 'T00:00:00');
-        var age = 2027 - birthDate.getFullYear();
-        ageInput.value = age >= 0 ? String(age) : '';
-        if (schoolLevelInput) schoolLevelInput.value = schoolLevel2027(birthDate.getFullYear());
-      };
-      birthInput.addEventListener('change', updateSchoolYear);
-      updateSchoolYear();
+    function updateSchoolYear(card){
+      var birthInput = card.querySelector('[data-birth]');
+      var ageInput = card.querySelector('[data-age]');
+      var schoolLevelInput = card.querySelector('[data-level]');
+      if (!birthInput || !ageInput) return;
+      if (!birthInput.value) {
+        ageInput.value = '';
+        if (schoolLevelInput) schoolLevelInput.value = '';
+        return;
+      }
+      var birthDate = new Date(birthInput.value + 'T00:00:00');
+      var age = 2027 - birthDate.getFullYear();
+      ageInput.value = age >= 0 ? String(age) : '';
+      if (schoolLevelInput) schoolLevelInput.value = schoolLevel2027(birthDate.getFullYear());
     }
+    childCards().forEach(updateSchoolYear);
     function setStatus(message, type, withWhatsApp){
       if (!status) return;
       status.textContent = message;
@@ -308,7 +380,9 @@
       if (!field || !field.tagName) return false;
       var fixedLabels = {jantina: 'Jantina', termsAccepted: 'Pengesahan T&C', privacyAccepted: 'Persetujuan Notis Privasi'};
       var labelText = field.closest('label') && field.closest('label').querySelector('span');
-      var label = fixedLabels[name] || (labelText ? labelText.textContent.replace('*', '').trim() : 'yang ditanda');
+      var label = fixedLabels[name.replace(/-\d+$/, '')] || (labelText ? labelText.textContent.replace('*', '').trim() : 'yang ditanda');
+      var childNumber = /-(\d+)$/.exec(name);
+      if (childNumber) label += ' (Anak ' + childNumber[1] + ')';
       var message = 'Maklumat "' + label + '" perlu disemak. Betulkan, kemudian tekan Hantar Pendaftaran semula.';
       field.setCustomValidity(message);
       // Keep the message under the field too: the browser's own bubble fades after a few seconds.
@@ -395,11 +469,23 @@
         return;
       }
       var payload = {};
-      new FormData(form).forEach(function(value, key){ payload[key] = value; });
+      new FormData(form).forEach(function(value, key){ if (!/-\d+$/.test(key)) payload[key] = value; });
       payload.clientRequestId = currentRequestId();
       payload.termsAccepted = payload.termsAccepted === 'true';
       payload.privacyAccepted = payload.privacyAccepted === 'true';
-      payload.namaAnak = titleCase(payload.namaAnak);
+      // Each child card becomes one entry; fields of a trip that was not chosen are disabled and left out.
+      payload.children = childCards().map(function(card, index){
+        var child = {};
+        CHILD_FIELDS.forEach(function(base){
+          var field = form.elements[base + '-' + (index + 1)];
+          if (!field) return;
+          var single = field.tagName ? field : field[0];
+          if (single && single.disabled) return;
+          if (field.value) child[base] = String(field.value);
+        });
+        child.namaAnak = titleCase(child.namaAnak);
+        return child;
+      });
       payload.namaIbu = titleCase(payload.namaIbu);
       payload.namaAyah = titleCase(payload.namaAyah);
       payload.telefonIbu = normalizePhone(payload.telefonIbu);
@@ -460,7 +546,7 @@
       sendRegistration(1).then(function(data){
         sessionStorage.removeItem(requestStorageKey);
         form.reset();
-        updateTripFields();
+        resetChildren();
         updateGuardianRequired();
         var message = 'Pendaftaran berjaya dihantar. ID rujukan: ' + data.submissionId;
         setStatus(message, 'success');
@@ -488,9 +574,8 @@
     });
   });
 
-  // Registration page: show the official form one part at a time. The fields, their
-  // names and the submit code above are unchanged; without this block all four parts
-  // simply stay visible.
+  // Registration page: show the official form one part at a time. Without this block
+  // all three parts simply stay visible.
   document.querySelectorAll('[data-registration-form]').forEach(function(form){
     var steps = Array.prototype.slice.call(form.querySelectorAll('[data-step]'));
     if (!steps.length) return;
@@ -527,13 +612,25 @@
       var field = form.elements[name];
       return field && field.value ? String(field.value).trim() : '';
     }
+    function addSummaryRow(term, details){
+      var row = document.createElement('div');
+      var dt = document.createElement('dt');
+      var dd = document.createElement('dd');
+      dt.textContent = term;
+      dd.textContent = details || '-';
+      row.appendChild(dt);
+      row.appendChild(dd);
+      summary.appendChild(row);
+    }
     function fillSummary(){
       if (!summary) return;
-      var trip = [fieldValue('sesiSekolah'), fieldValue('pilihanPerjalanan')].filter(Boolean).join(' · ');
-      var values = {namaAnak: fieldValue('namaAnak'), sekolah: fieldValue('sekolah'), perjalanan: trip, alamatRumah: fieldValue('alamatRumah')};
-      summary.querySelectorAll('[data-summary]').forEach(function(cell){
-        cell.textContent = values[cell.dataset.summary] || '-';
+      while (summary.firstChild) summary.removeChild(summary.firstChild);
+      form.querySelectorAll('[data-child]').forEach(function(card, index){
+        var n = '-' + (index + 1);
+        var trip = [fieldValue('sesiSekolah' + n), fieldValue('pilihanPerjalanan' + n)].filter(Boolean).join(' · ');
+        addSummaryRow('Anak ' + (index + 1), [fieldValue('namaAnak' + n), fieldValue('sekolah' + n), trip].filter(Boolean).join(' — '));
       });
+      addSummaryRow('Alamat', fieldValue('alamatRumah'));
     }
     function showStep(index, moveFocus){
       current = Math.max(0, Math.min(steps.length - 1, index));

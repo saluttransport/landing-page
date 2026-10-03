@@ -107,6 +107,11 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-03 (claude): Branch `claude/family-form`: `pendaftaran.html` is one form per family with up to 5 child cards
+  (`[data-child]`, field names end in `-1` … `-5`, added/removed in `site.js`). Parts are now 3: Anak & Perjalanan (each child
+  has their own session/trip/route), Ibu Bapa (+ alamat), Pengesahan. The page posts `{…family fields, children: [...]}`;
+  `registration.ts` still accepts the old one-child body and forwards both to Apps Script as schema `2027-website-v3`, so the
+  Apps Script must understand v3 before this goes live. Child errors come back as `field-n` (e.g. `sekolah-2`).
 - 2026-10-03 (claude): Branch `claude/hero-compact`: on the homepage the hero now fills the first screen minus the header and the
   trust strip (`.st-proof`), so the strip is visible without scrolling. Sizes follow the screen height (`svh`); `--st-head` and
   `--st-proof` on `.st-home` must match the header and strip heights. On phones the strip is one row of four, and the
