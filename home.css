@@ -385,8 +385,6 @@ html[data-theme="dark"] .st-form select:invalid{color:var(--st-ink)!important}
 }
 @media (max-width:650px){
   .st-home{--st-head:67px;--st-proof:94px}
-  /* Phones: as tall as the content (no gap under the buttons); the strip follows straight after. */
-  .st-hero{min-height:0}
   .st-hero-grid{padding:clamp(20px,4svh,40px) 0 20px}
   .st-hero h1{margin:12px 0;font-size:clamp(2.2rem,min(10.4vw,6.4svh),3.4rem);line-height:1.04}
   .st-hero-copy>p{font-size:.95rem;line-height:1.55}
@@ -394,8 +392,8 @@ html[data-theme="dark"] .st-form select:invalid{color:var(--st-ink)!important}
   .st-hero-actions .st-button{min-height:48px}
   /* The strip right below already shows "200+ keluarga". */
   .st-reassurance{display:none}
-  .st-hero-scroll{display:none}
-  .st-hero-bottom{padding-bottom:12px}
+  /* Gallery dots with the scroll hint under them, at the foot of the screen just above the strip. */
+  .st-hero-bottom{flex-direction:column;gap:12px;padding-bottom:14px}
   .st-proof-grid{padding:16px 0}
   .st-proof-grid>div,.st-proof-grid>div:nth-child(3){padding:0 6px 0 10px}
   .st-proof-grid>div:first-child{padding-left:0}

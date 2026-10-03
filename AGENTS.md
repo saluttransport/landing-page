@@ -110,7 +110,7 @@ There is no test suite. Before opening a PR:
 - 2026-10-03 (claude): Branch `claude/hero-compact`: on the homepage the hero now fills the first screen minus the header and the
   trust strip (`.st-proof`), so the strip is visible without scrolling. Sizes follow the screen height (`svh`); `--st-head` and
   `--st-proof` on `.st-home` must match the header and strip heights. On phones the strip is one row of four, and the
-  "Dipercayai oleh 200+ keluarga" line and "Scroll untuk kenali servis kami" are hidden. Block is at the end of `home.css`.
+  "Dipercayai oleh 200+ keluarga" line is hidden and the gallery dots sit above "Scroll untuk kenali servis kami". Block is at the end of `home.css`.
 - 2026-10-02 (claude): Branch `claude/share-preview-404`: og:image/twitter:image are absolute URLs and every page has og:url (WhatsApp/Facebook previews need them).
   `404.html` is the Malay not-found page; Netlify serves it for any missing path, so it uses `<base href="/">` and has no
   "#main" skip link. Keep its header/footer in step with the other pages. The registration form no longer promises an e-mail receipt.
