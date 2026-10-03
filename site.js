@@ -712,9 +712,11 @@
       if (pay) {
         pay.hidden = !texts.payUrl;
         if (texts.payUrl) { pay.href = texts.payUrl; pay.textContent = texts.payLabel; }
+        // The receipt (the paid Billplz bill) opens in a new tab so the parent keeps this page.
+        if (texts.receipt) { pay.target = '_blank'; pay.rel = 'noopener'; } else { pay.removeAttribute('target'); pay.removeAttribute('rel'); }
       }
       var againButton = complete.querySelector('[data-reg-again]');
-      if (againButton) againButton.hidden = !!texts.payUrl;
+      if (againButton) againButton.hidden = !!texts.payUrl && !texts.receipt;
       if (quiet) return;
       layout.hidden = true;
       complete.hidden = false;
@@ -743,10 +745,14 @@
     // so this only tells the parent what happens next.
     var query = new URLSearchParams(window.location.search);
     var paidFlag = query.get('billplz[paid]');
-    if (query.get('billplz[id]') && paidFlag) {
+    var billId = query.get('billplz[id]');
+    if (billId && paidFlag) {
       if (paidFlag === 'true') {
+        // Lihat Resit opens the paid Billplz bill, the same link as the button in the WhatsApp confirmation.
+        var receiptUrl = /^[A-Za-z0-9_-]{4,40}$/.test(billId) ? 'https://www.billplz.com/bills/' + billId : '';
         showComplete({kicker: 'BAYARAN DITERIMA', title: 'Terima kasih! Yuran pendaftaran telah dibayar.',
-          text: 'Pengesahan pendaftaran akan dihantar melalui WhatsApp dalam beberapa minit. Terima kasih kerana memilih Salut Transport.'});
+          text: 'Pengesahan pendaftaran akan dihantar melalui WhatsApp dalam beberapa minit. Terima kasih kerana memilih Salut Transport.',
+          payUrl: receiptUrl, payLabel: 'Lihat Resit', receipt: true});
       } else {
         showComplete({kicker: 'BAYARAN BELUM SELESAI', title: 'Bayaran belum berjaya.',
           text: 'Pendaftaran anda masih disimpan. Tekan butang Bayar Yuran dalam mesej WhatsApp kami untuk cuba lagi, atau hubungi kami di 012-353 9977.'});
