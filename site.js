@@ -1069,17 +1069,23 @@
   var stDots = Array.prototype.slice.call(document.querySelectorAll('.st-hero-gallery-dots button'));
   var stHeroIndex = 0;
   var stHeroTimer = null;
-  // The 2nd and 3rd hero photos only appear after a few seconds, so they wait in data-src
-  // until the page has loaded and do not slow down the first photo.
+  // The 2nd and 3rd hero photos wait in data-src. Each one is fetched a few seconds before the
+  // slideshow reaches it (or when a dot/arrow asks for it), so phones that scroll straight past
+  // the hero never download them (about 400 KB).
   function loadStBackdrop(image){
     if (image && !image.getAttribute('src') && image.dataset.src) image.src = image.dataset.src;
   }
-  if (document.readyState === 'complete') stBackdrops.forEach(loadStBackdrop);
-  else window.addEventListener('load', function(){ stBackdrops.forEach(loadStBackdrop); });
+  var stHeroPreloadMs = 3500;
+  // The hero is the first screen: once the visitor has scrolled a screen down, nothing there is visible.
+  function stHeroInView(){ return window.scrollY < window.innerHeight; }
+  function preloadNextStHero(){
+    window.setTimeout(function(){ if (stHeroInView()) loadStBackdrop(stBackdrops[(stHeroIndex + 1) % stBackdrops.length]); }, stHeroPreloadMs);
+  }
   function showStHero(index){
     if (!stBackdrops.length) return;
     stHeroIndex = (index + stBackdrops.length) % stBackdrops.length;
     loadStBackdrop(stBackdrops[stHeroIndex]);
+    if (stHeroTimer) preloadNextStHero();
     stBackdrops.forEach(function(image, imageIndex){ image.classList.toggle('active', imageIndex === stHeroIndex); });
     stDots.forEach(function(dot, dotIndex){
       dot.classList.toggle('active', dotIndex === stHeroIndex);
@@ -1097,7 +1103,9 @@
       dot.addEventListener('click', function(){ showStHero(dotIndex); stopStHero(); });
     });
     if (!reduceMotion) {
-      stHeroTimer = window.setInterval(function(){ if (!document.hidden) showStHero(stHeroIndex + 1); }, 6500);
+      stHeroTimer = window.setInterval(function(){ if (!document.hidden && stHeroInView()) showStHero(stHeroIndex + 1); }, 6500);
+      if (document.readyState === 'complete') preloadNextStHero();
+      else window.addEventListener('load', preloadNextStHero);
     }
   }
 
@@ -1116,6 +1124,15 @@
 
   var stSchools = Array.prototype.slice.call(document.querySelectorAll('.st-school'));
   var stMap = document.getElementById('stSchoolMap');
+  // The Google map (about 400 KB of Google scripts) loads only when its section comes near the screen.
+  // Picking a school before that sets the map's src directly, which also counts as loading it.
+  function loadStMap(){ if (stMap && !stMap.getAttribute('src') && stMap.dataset.src) stMap.src = stMap.dataset.src; }
+  if (stMap && 'IntersectionObserver' in window) {
+    var stMapObserver = new IntersectionObserver(function(entries){
+      if (entries.some(function(entry){ return entry.isIntersecting; })) { loadStMap(); stMapObserver.disconnect(); }
+    }, {rootMargin: '300px 0px'});
+    stMapObserver.observe(stMap);
+  } else loadStMap();
   var stMapName = document.getElementById('stMapName');
   var stMapArea = document.getElementById('stMapArea');
   var stMapLink = document.getElementById('stMapLink');
