@@ -24,3 +24,11 @@
   [headers.values]
     Content-Type = "application/manifest+json"
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# salut.my/wa/<phone> opens a WhatsApp chat with that number. Used by the admin registration notice
+# button ("WhatsApp Penjaga"): Meta does not allow wa.me links in template buttons. Digits only.
+[[redirects]]
+  from = "/wa/:phone"
+  to = "https://wa.me/:phone"
+  status = 302
+  force = true
