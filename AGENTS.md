@@ -107,6 +107,10 @@ There is no test suite. Before opening a PR:
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
+- 2026-10-03 (claude): Branch `claude/registration-fee` (Phase 2): when the Apps Script has REGISTRATION_FEE=ON it returns
+  `paymentUrl` (a Billplz bill) and `feeRm`; `registration.ts` passes on only `https://www.billplz.com/bills/...` links, and
+  `site.js` shows "Bayar yuran" in the completion panel and opens the bill after 3.5 s. Billplz sends the parent back to
+  `/pendaftaran?billplz[id]=…&billplz[paid]=…`, which shows the result. Policy text (owner-approved) is in terms.html and refund.html.
 - 2026-10-03 (claude): Branch `claude/family-form`: `pendaftaran.html` is one form per family with up to 5 child cards
   (`[data-child]`, field names end in `-1` … `-5`, added/removed in `site.js`). Parts are now 3: Anak & Perjalanan (each child
   has their own session/trip/route), Ibu Bapa (+ alamat), Pengesahan. The page posts `{…family fields, children: [...]}`;

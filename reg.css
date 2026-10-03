@@ -233,3 +233,6 @@ html[data-theme="dark"] .st-reg-add-child:hover{background:#1d4250}
 @media (max-width:650px){
   .st-reg-child{padding:16px 14px 2px}
 }
+
+/* The completion panel switches buttons and lines with [hidden]; .st-reg-button sets display, so restate it. */
+.st-reg-complete [hidden]{display:none!important}
