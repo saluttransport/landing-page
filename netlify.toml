@@ -6,13 +6,14 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
     # Security: no framing by other sites, no MIME sniffing, short referrers, no camera/mic/location.
-    # The CSP lists every outside source the pages use: Google Fonts, the Google Maps school map
+    # The CSP lists every outside source the pages use: Google Fonts, the Google Maps school map,
+    # Cloudflare Web Analytics (static.cloudflareinsights.com script, cloudflareinsights.com beacon)
     # and WhatsApp links (links need no entry). Add a source here before adding a new outside script.
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://maps.google.com https://www.google.com; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://maps.google.com https://www.google.com; connect-src 'self' https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
 
 [[headers]]
   for = "/assets/*"
