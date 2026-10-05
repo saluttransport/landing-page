@@ -104,6 +104,10 @@ There is no test suite. Before opening a PR:
 - `concept.css` still has unused `.conceptRibbon` styles from the preview build (safe to remove later).
 
 ## Handoff notes
+- 2026-10-05 (claude): Branch `claude/submit-wait-feedback`: while the form is being sent, the submit button shows a spinner
+  (`.isBusy` in `reg.css`), the status line counts the seconds with a calmer message after 8 s and 20 s, and leaving or
+  refreshing the page asks the parent to stay. The Billplz page now opens 2.5 s (was 3.5 s) after "SATU LANGKAH LAGI".
+  The Apps Script side was also made faster (about 10.5 s → 5.7 s per registration) in salut-apps-script.
 <!-- Agents: add dated notes here, newest first. Example:
 - 2026-09-30 (codex): Started branch codex/faq-update, touching index.html FAQ only.
 -->
