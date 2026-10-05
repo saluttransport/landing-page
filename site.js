@@ -551,7 +551,7 @@
         var message = 'Pendaftaran berjaya dihantar. ID rujukan: ' + data.submissionId;
         setStatus(message, 'success');
         refreshProgress();
-        form.dispatchEvent(new CustomEvent('registrationsuccess', {detail: {submissionId: data.submissionId}}));
+        form.dispatchEvent(new CustomEvent('registrationsuccess', {detail: {submissionId: data.submissionId, paymentUrl: data.paymentUrl, feeRm: data.feeRm}}));
       }).catch(function(error){
         var httpStatus = error && error.status;
         if (httpStatus === 400) {
@@ -696,18 +696,73 @@
       var index = steps.indexOf(owner);
       if (index !== -1 && index !== current) showStep(index, false);
     }, true);
-    form.addEventListener('registrationsuccess', function(event){
+    // The completion panel has three forms: saved (no fee), "pay the registration fee" (with the Billplz link),
+    // and the result shown when Billplz sends the parent back here after paying.
+    function showComplete(texts, quiet){
       if (!complete || !layout) return;
+      var set = function(selector, value){ var el = complete.querySelector(selector); if (el && value) el.textContent = value; };
+      set('[data-reg-complete-kicker]', texts.kicker);
+      set('[data-reg-complete-title]', texts.title);
+      set('[data-reg-complete-text]', texts.text);
+      var idLine = complete.querySelector('[data-reg-complete-idline]');
       var idCell = complete.querySelector('[data-reg-complete-id]');
-      if (idCell) idCell.textContent = event.detail && event.detail.submissionId ? event.detail.submissionId : '-';
+      if (idCell) idCell.textContent = texts.id || '';
+      if (idLine) idLine.hidden = !texts.id;
+      var pay = complete.querySelector('[data-reg-pay]');
+      if (pay) {
+        pay.hidden = !texts.payUrl;
+        if (texts.payUrl) { pay.href = texts.payUrl; pay.textContent = texts.payLabel; }
+        // The receipt (the paid Billplz bill) opens in a new tab so the parent keeps this page.
+        if (texts.receipt) { pay.target = '_blank'; pay.rel = 'noopener'; } else { pay.removeAttribute('target'); pay.removeAttribute('rel'); }
+      }
+      var againButton = complete.querySelector('[data-reg-again]');
+      if (againButton) againButton.hidden = !!texts.payUrl && !texts.receipt;
+      if (quiet) return;
       layout.hidden = true;
       complete.hidden = false;
       complete.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
       var title = complete.querySelector('[data-reg-complete-title]');
       if (title) title.focus({preventScroll: true});
+    }
+    form.addEventListener('registrationsuccess', function(event){
+      var detail = event.detail || {};
+      if (!detail.paymentUrl) {
+        showComplete({id: detail.submissionId || '-'});
+        return;
+      }
+      var fee = 'RM' + (detail.feeRm || '10.00');
+      showComplete({
+        kicker: 'SATU LANGKAH LAGI',
+        title: 'Bayar yuran pendaftaran untuk sahkan tempat.',
+        text: 'Pendaftaran telah disimpan. Tempat anak disahkan selepas yuran pendaftaran ' + fee + ' dibayar. Halaman bayaran Billplz akan dibuka sebentar lagi. Link bayaran juga dihantar ke WhatsApp anda.',
+        id: detail.submissionId,
+        payUrl: detail.paymentUrl,
+        payLabel: 'Bayar Yuran ' + fee
+      });
+      window.setTimeout(function(){ window.location.assign(detail.paymentUrl); }, 3500);
     });
+    // Back from Billplz: ?billplz[id]=…&billplz[paid]=true|false. The real result arrives by the Billplz callback,
+    // so this only tells the parent what happens next.
+    var query = new URLSearchParams(window.location.search);
+    var paidFlag = query.get('billplz[paid]');
+    var billId = query.get('billplz[id]');
+    if (billId && paidFlag) {
+      if (paidFlag === 'true') {
+        // Lihat Resit opens the paid Billplz bill, the same link as the button in the WhatsApp confirmation.
+        var receiptUrl = /^[A-Za-z0-9_-]{4,40}$/.test(billId) ? 'https://www.billplz.com/bills/' + billId : '';
+        showComplete({kicker: 'BAYARAN DITERIMA', title: 'Terima kasih! Yuran pendaftaran telah dibayar.',
+          text: 'Pengesahan pendaftaran akan dihantar melalui WhatsApp dalam beberapa minit. Terima kasih kerana memilih Salut Transport.',
+          payUrl: receiptUrl, payLabel: 'Lihat Resit', receipt: true});
+      } else {
+        showComplete({kicker: 'BAYARAN BELUM SELESAI', title: 'Bayaran belum berjaya.',
+          text: 'Pendaftaran anda masih disimpan. Tekan butang Bayar Yuran dalam mesej WhatsApp kami untuk cuba lagi, atau hubungi kami di 012-353 9977.'});
+      }
+      if (window.history && window.history.replaceState) window.history.replaceState(null, '', window.location.pathname);
+    }
     var again = complete ? complete.querySelector('[data-reg-again]') : null;
     if (again) again.addEventListener('click', function(){
+      showComplete({kicker: 'PENDAFTARAN DITERIMA', title: 'Pendaftaran berjaya dihantar.',
+        text: 'Simpan ID ini untuk sebarang pertanyaan. Terima kasih kerana memilih Salut Transport.'}, true);
       complete.hidden = true;
       layout.hidden = false;
       var status = form.querySelector('[data-form-status]');

@@ -212,6 +212,7 @@
             <section class="st-reg-step" id="pengesahan" data-step="3" aria-labelledby="stRegStep3">
               <div class="st-reg-heading"><span class="st-reg-kicker">03 / PENGESAHAN</span><h2 id="stRegStep3" tabindex="-1">Semak sekali lagi.</h2><p>Pastikan maklumat di bawah betul sebelum dihantar.</p></div>
               <dl class="st-reg-summary" data-reg-summary hidden></dl>
+              <p class="st-reg-note"><svg class="st-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span>Yuran pendaftaran <strong>RM10 bagi setiap keluarga</strong> dibayar melalui Billplz (FPX atau kad) sebaik sahaja borang dihantar. Tempat anak disahkan selepas bayaran diterima. Rujuk <a href="refund.html" target="_blank" rel="noopener">Polisi Bayaran Balik</a>.</span></p>
               <label class="st-reg-consent"><input name="termsAccepted" type="checkbox" value="true" required><span>Saya mengesahkan maklumat yang diberikan adalah betul dan bersetuju dengan <a href="terms.html" target="_blank" rel="noopener">T&amp;C Salut Transport</a>.</span></label>
               <label class="st-reg-consent"><input name="privacyAccepted" type="checkbox" value="true" required><span>Saya telah membaca dan bersetuju dengan <a href="privacy.html" target="_blank" rel="noopener">Notis Privasi</a>.</span></label>
               <div class="st-reg-actions"><button class="st-reg-back" type="button" data-step-back><svg class="st-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali</button><button class="st-reg-button" type="submit">Hantar Pendaftaran</button></div>
@@ -223,11 +224,11 @@
 
       <div class="st-reg-complete" data-reg-complete hidden>
         <span class="st-reg-complete-icon"><svg class="st-icon" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
-        <span class="st-reg-kicker">PENDAFTARAN DITERIMA</span>
+        <span class="st-reg-kicker" data-reg-complete-kicker>PENDAFTARAN DITERIMA</span>
         <h2 tabindex="-1" data-reg-complete-title>Pendaftaran berjaya dihantar.</h2>
-        <p>ID rujukan: <strong data-reg-complete-id></strong></p>
-        <p>Simpan ID ini untuk sebarang pertanyaan. Terima kasih kerana memilih Salut Transport.</p>
-        <div><a class="st-reg-button" href="index.html">Kembali ke laman utama</a><button class="st-reg-button dark" type="button" data-reg-again>Isi pendaftaran baharu</button></div>
+        <p data-reg-complete-idline>ID rujukan: <strong data-reg-complete-id></strong></p>
+        <p data-reg-complete-text>Simpan ID ini untuk sebarang pertanyaan. Terima kasih kerana memilih Salut Transport.</p>
+        <div><a class="st-reg-button" data-reg-pay hidden>Bayar Yuran</a><a class="st-reg-button" href="index.html" data-reg-home>Kembali ke laman utama</a><button class="st-reg-button dark" type="button" data-reg-again>Isi pendaftaran baharu</button></div>
       </div>
     </div>
   </div>

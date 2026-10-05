@@ -25,7 +25,7 @@ const SCHOOL_LEVELS_2027 = new Set([
 const ROUTE_POINTS = new Set(["Rumah", "Sekolah", "Transit"]);
 
 type Input = Record<string, unknown>;
-type RegistrationResult = { success?: boolean; submissionId?: string; duplicate?: boolean };
+type RegistrationResult = { success?: boolean; submissionId?: string; duplicate?: boolean; paymentUrl?: string; feeRm?: string };
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -199,7 +199,10 @@ export default async (req: Request, context: Context) => {
     // Apps Script sometimes completes the write but its first response is late.
     // Retrying with the same clientRequestId is safe and returns the existing record.
     const result = await postRegistrationWithRetry(appsScriptUrl, sharedSecret, data);
-    return json({ success: true, submissionId: result.submissionId, duplicate: result.duplicate === true });
+    // With the registration fee on, Apps Script returns the family's Billplz bill; only a Billplz bill link is passed on.
+    const paymentUrl = typeof result.paymentUrl === "string" && /^https:\/\/www\.billplz\.com\/bills\/[A-Za-z0-9_-]+$/.test(result.paymentUrl) ? result.paymentUrl : undefined;
+    const feeRm = paymentUrl && typeof result.feeRm === "string" && /^\d{1,4}\.\d{2}$/.test(result.feeRm) ? result.feeRm : undefined;
+    return json({ success: true, submissionId: result.submissionId, duplicate: result.duplicate === true, paymentUrl, feeRm });
   } catch (error) {
     const message = error instanceof Error ? error.message : "";
     // Name only the form field to fix (never its value) so the page can point the parent to it.
