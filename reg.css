@@ -110,6 +110,10 @@ html[data-theme="dark"] .st-reg-body{background:#0c202d}
 .st-reg-button{display:inline-flex;justify-content:center;align-items:center;gap:12px;min-width:175px;min-height:49px;padding:0 23px;color:var(--st-navy);background:var(--st-yellow);border:0;border-radius:8px;font-size:.9rem;font-weight:800;line-height:1.65;transition:transform .2s,background .2s}
 .st-reg-button:hover{background:#ffda72;transform:translateY(-2px)}
 .st-reg-button:disabled{opacity:.7;cursor:wait;transform:none}
+/* Spinner while the registration is being sent. */
+.st-reg-button.isBusy{opacity:.85}
+.st-reg-button.isBusy::before{content:"";flex:none;width:16px;height:16px;border:2.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:st-reg-spin .8s linear infinite}
+@keyframes st-reg-spin{to{transform:rotate(360deg)}}
 .st-reg-button.dark{color:#fff;background:var(--st-navy)}
 .st-reg-back{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0;color:var(--st-teal);background:transparent;border:0;font-size:.84rem;font-weight:800}
 .st-reg-status{margin:16px 0 0;font-size:.84rem;font-weight:700;color:var(--st-muted)}

@@ -460,6 +460,12 @@
       event.target.setCustomValidity('Masukkan nombor telefon ' + item.label + ' yang lengkap, contoh 0181234567.');
       setStatus('No. telefon ' + item.label + ' tidak lengkap. Semak nombor tersebut dan cuba lagi.', 'error');
     }, true);
+    // Leaving or refreshing while the registration is being sent asks the parent to stay first.
+    window.addEventListener('beforeunload', function(event){
+      if (form.dataset.submitting !== 'true') return;
+      event.preventDefault();
+      event.returnValue = '';
+    });
     form.addEventListener('submit', function(event){
       event.preventDefault();
       if (form.dataset.submitting === 'true') return;
@@ -503,16 +509,25 @@
       }
       payload.icIbu = normalizeIc(payload.icIbu);
       payload.icAyah = normalizeIc(payload.icAyah);
-      setStatus('Pendaftaran sedang dihantar. Tunggu pengesahan dan jangan refresh halaman ini.', '');
+      setStatus('Pendaftaran sedang dihantar. Jangan tutup atau refresh halaman ini.', '');
       form.dataset.submitting = 'true';
       var submitLabel = submitButton ? submitButton.textContent : '';
       if (submitButton) {
         submitButton.disabled = true;
+        submitButton.classList.add('isBusy');
         submitButton.textContent = 'Sedang dihantar…';
       }
-      var reassuranceTimer = window.setTimeout(function(){
-        if (form.dataset.submitting === 'true') setStatus('Masih menunggu pengesahan pendaftaran. Jangan refresh atau tekan semula.', '');
-      }, 1800);
+      // A ticking count shows the page is still working, so parents do not leave or refresh while it saves (about 5-15 s).
+      var sendStarted = Date.now();
+      var reassuranceTimer = window.setInterval(function(){
+        if (form.dataset.submitting !== 'true') return;
+        var seconds = Math.round((Date.now() - sendStarted) / 1000);
+        if (seconds < 3) return;
+        var wait = seconds < 8 ? 'Menyimpan maklumat pendaftaran…'
+          : seconds < 20 ? 'Hampir siap, biasanya kurang 15 saat. Jangan tutup atau refresh halaman ini.'
+          : 'Sistem agak sibuk dan masih memproses. Jangan tekan Hantar semula.';
+        setStatus(wait + ' (' + seconds + ' saat)', '');
+      }, 1000);
       function sendRegistration(attempt){
         return fetch(endpoint, {
           method: 'POST',
@@ -564,10 +579,11 @@
           setStatus('Pendaftaran belum dapat disahkan. Jangan isi borang baharu — tekan Hantar Pendaftaran sekali lagi. Jika masih gagal,', 'error', true);
         }
       }).finally(function(){
-        window.clearTimeout(reassuranceTimer);
+        window.clearInterval(reassuranceTimer);
         form.dataset.submitting = 'false';
         if (submitButton) {
           submitButton.disabled = false;
+          submitButton.classList.remove('isBusy');
           submitButton.textContent = submitLabel;
         }
       });
@@ -739,7 +755,7 @@
         payUrl: detail.paymentUrl,
         payLabel: 'Bayar Yuran ' + fee
       });
-      window.setTimeout(function(){ window.location.assign(detail.paymentUrl); }, 3500);
+      window.setTimeout(function(){ window.location.assign(detail.paymentUrl); }, 2500);
     });
     // Back from Billplz: ?billplz[id]=…&billplz[paid]=true|false. The real result arrives by the Billplz callback,
     // so this only tells the parent what happens next.
