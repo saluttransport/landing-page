@@ -227,8 +227,8 @@
       <p>Tambang mengikut kawasan, sekolah, sesi dan susunan laluan. Pilih keperluan anak, kemudian dapatkan semakan khusus daripada kami.</p>
     </div>
     <div class="st-fare-grid">
-      <article class="st-fare-card"><small>FLEKSIBEL</small><h3>1 Hala</h3><p>Untuk perjalanan pergi sahaja atau balik sahaja.</p><div></div><span>Tambang ikut laluan</span><button type="button" data-trip="1 hala">Semak 1 hala <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button></article>
-      <article class="st-fare-card featured"><small>PILIHAN HARIAN</small><h3>2 Hala</h3><p>Perjalanan pergi dan balik sekolah dalam satu rutin yang lengkap.</p><div></div><span>Tambang ikut laluan</span><button type="button" data-trip="2 hala">Semak 2 hala <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button></article>
+      <article class="st-fare-card"><small>FLEKSIBEL</small><h3>1 Hala</h3><p>Untuk perjalanan pergi sahaja atau balik sahaja.</p><div></div><span>Tambang ikut laluan</span><button type="button" data-trip="">Semak 1 hala <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button></article>
+      <article class="st-fare-card featured"><small>PILIHAN HARIAN</small><h3>2 Hala</h3><p>Perjalanan pergi dan balik sekolah dalam satu rutin yang lengkap.</p><div></div><span>Tambang ikut laluan</span><button type="button" data-trip="Pergi &amp; balik">Semak 2 hala <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button></article>
     </div>
     <p class="st-fare-note">Bayaran dibuat melalui pautan yang diberikan selepas laluan dan slot disahkan.</p>
   </div>
@@ -290,10 +290,11 @@
         <label for="stArea">Kawasan rumah *<input id="stArea" name="area" required placeholder="Contoh: Seksyen 4, Bangi"></label>
       </div>
       <div class="st-form-row">
-        <label for="stSession">Sesi sekolah *<select id="stSession" name="session" required><option value="" disabled selected>Pilih sesi</option><option>Pagi</option><option>Petang</option><option>Sehari penuh / lain-lain</option></select></label>
-        <label for="stTrip">Perjalanan *<select id="stTrip" name="trip"><option>1 hala</option><option selected>2 hala</option></select></label>
+        <label for="stAge">Umur anak *<input id="stAge" name="age" required placeholder="Contoh: 7 tahun"></label>
+        <label for="stSession">Sesi sekolah *<select id="stSession" name="session" required><option value="" disabled selected>Pilih sesi</option><option>Pagi</option><option>Petang</option></select></label>
       </div>
-      <label for="stNotes">Maklumat tambahan (jika ada)<textarea id="stNotes" name="notes" rows="3" placeholder="Contoh: Tahun anak, pickup point atau pertanyaan anda"></textarea></label>
+      <label for="stTrip">Perjalanan *<select id="stTrip" name="trip" required><option value="" disabled selected>Pilih perjalanan</option><option>Pergi sahaja</option><option>Balik sahaja</option><option>Pergi &amp; balik</option></select></label>
+      <label for="stNotes">Maklumat tambahan (jika ada)<textarea id="stNotes" name="notes" rows="3" placeholder="Contoh: Pickup point, bilangan anak atau pertanyaan anda"></textarea></label>
       <button type="submit" class="st-button yellow">Buka mesej di WhatsApp <svg class="st-icon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button>
       <p class="st-form-note" id="stFormNote" role="status">Maklumat ini hanya digunakan untuk menyediakan mesej; anda sendiri akan menghantarnya di WhatsApp.</p>
     </form>
