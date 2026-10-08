@@ -1210,6 +1210,7 @@
       'No. telefon: ' + field('phone'),
       'Sekolah anak: ' + field('school'),
       'Kawasan rumah: ' + field('area'),
+      'Umur anak: ' + field('age'),
       'Sesi sekolah: ' + field('session'),
       'Perjalanan: ' + field('trip')
     ];
