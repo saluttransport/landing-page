@@ -1204,17 +1204,22 @@
   if (stForm) stForm.addEventListener('submit', function(event){
     event.preventDefault();
     var field = function(name){ return (stForm.elements[name].value || '').trim(); };
+    // Route details first (what the owner needs to check a slot), then who is asking. *…* is bold in WhatsApp.
     var lines = [
-      'Assalamualaikum Salut Transport. Saya ingin semak slot & tambang van sekolah.',
-      'Nama penjaga: ' + field('name'),
-      'No. telefon: ' + field('phone'),
-      'Sekolah anak: ' + field('school'),
-      'Kawasan rumah: ' + field('area'),
-      'Umur anak: ' + field('age'),
-      'Sesi sekolah: ' + field('session'),
-      'Perjalanan: ' + field('trip')
+      'Assalamualaikum Salut Transport 👋',
+      'Saya ingin semak slot & tambang van sekolah.',
+      '',
+      '🏫 *Sekolah anak:* ' + field('school'),
+      '📍 *Kawasan rumah:* ' + field('area'),
+      '🕒 *Sesi sekolah:* ' + field('session'),
+      '🚐 *Perjalanan:* ' + field('trip'),
+      '👦 *Umur anak:* ' + field('age'),
+      '',
+      '👤 *Nama ibu bapa / penjaga:* ' + field('name'),
+      '📞 *No. telefon:* ' + field('phone')
     ];
-    if (field('notes')) lines.push('Maklumat tambahan: ' + field('notes'));
+    if (field('notes')) lines.push('📝 *Maklumat tambahan:* ' + field('notes'));
+    lines.push('', 'Terima kasih.');
     window.open('https://wa.me/60123539977?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
     var note = document.getElementById('stFormNote');
     if (note) note.textContent = 'WhatsApp dibuka dengan mesej yang disediakan. Sila tekan hantar di WhatsApp.';
