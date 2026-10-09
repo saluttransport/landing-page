@@ -1206,6 +1206,7 @@
     var field = function(name){ return (stForm.elements[name].value || '').trim(); };
     var lines = [
       'Assalamualaikum Salut Transport. Saya ingin semak slot & tambang van sekolah.',
+      '',
       'Nama penjaga: ' + field('name'),
       'No. telefon: ' + field('phone'),
       'Sekolah anak: ' + field('school'),
