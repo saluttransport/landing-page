@@ -1215,7 +1215,7 @@
       '🚐 *Perjalanan:* ' + field('trip'),
       '👦 *Umur anak:* ' + field('age'),
       '',
-      '👤 *Nama penjaga:* ' + field('name'),
+      '👤 *Nama ibu bapa / penjaga:* ' + field('name'),
       '📞 *No. telefon:* ' + field('phone')
     ];
     if (field('notes')) lines.push('📝 *Maklumat tambahan:* ' + field('notes'));
