@@ -1209,13 +1209,13 @@
       'Assalamualaikum Salut Transport 👋',
       'Saya ingin semak slot & tambang van sekolah.',
       '',
-      '🏫 *Sekolah:* ' + field('school'),
-      '📍 *Kawasan:* ' + field('area'),
-      '🕒 *Sesi:* ' + field('session'),
+      '🏫 *Sekolah anak:* ' + field('school'),
+      '📍 *Kawasan rumah:* ' + field('area'),
+      '🕒 *Sesi sekolah:* ' + field('session'),
       '🚐 *Perjalanan:* ' + field('trip'),
       '👦 *Umur anak:* ' + field('age'),
       '',
-      '👤 *Nama:* ' + field('name'),
+      '👤 *Nama penjaga:* ' + field('name'),
       '📞 *No. telefon:* ' + field('phone')
     ];
     if (field('notes')) lines.push('📝 *Maklumat tambahan:* ' + field('notes'));
