@@ -257,10 +257,17 @@ html[data-theme="dark"] .st-reg-add-child:hover{background:#1d4250}
   .st-reg-aside>p{margin:0;font-size:.8rem;line-height:1.5}
 }
 
-/* Phones and tablets: the "Langkah demi langkah" card is hidden once the step bar in the form is working, so the form
-   is the only card to read. Its one sentence for new customers moves into the page top. */
-.st-reg-hero-note{display:none}
-@media (max-width:800px){
-  .st-reg-ready .st-reg-aside{display:none}
-  .st-reg-hero-grid p.st-reg-hero-note{display:block;margin-top:10px}
+/* The "Langkah demi langkah" card beside the form is hidden once the step bar inside the form is working, so the form
+   is the only card to read (owner, 2026-10-10). Its sentence for new customers is in the page top instead, and the
+   short step list in the bar is shown on every screen size. Without JavaScript the card stays, as the step list. */
+.st-reg-ready .st-reg-aside{display:none}
+.st-reg-ready .st-reg-layout{grid-template-columns:minmax(0,1fr);max-width:860px;margin:0 auto}
+.st-reg-hero-grid p.st-reg-hero-note{margin-top:10px}
+@media (min-width:801px){
+  .st-reg-ready .st-reg-mini{display:flex;gap:28px;margin:14px 0 0;padding:0;list-style:none}
+  .st-reg-ready .st-reg-mini li{display:flex;align-items:center;gap:9px;color:#798b91;font:600 .8rem/1.2 Poppins,Arial,sans-serif}
+  .st-reg-ready .st-reg-mini span{display:grid;place-items:center;width:28px;height:28px;border:1px solid #bfced1;border-radius:8px;font:700 .74rem Poppins,Arial,sans-serif}
+  .st-reg-ready .st-reg-mini li.current{color:var(--st-ink)}
+  .st-reg-ready .st-reg-mini li.current span{color:#0c2533;background:var(--st-yellow);border-color:var(--st-yellow)}
+  .st-reg-ready .st-reg-mini li.finished span{color:#fff;background:#1b7d86;border-color:#1b7d86}
 }
