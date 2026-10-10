@@ -242,3 +242,17 @@ html[data-theme="dark"] .st-reg-add-child:hover{background:#1d4250}
 
 /* The completion panel switches buttons and lines with [hidden]; .st-reg-button sets display, so restate it. */
 .st-reg-complete [hidden]{display:none!important}
+
+/* Phones: a shorter page top, so the first question of the form is on the first screen (parents arrive from a WhatsApp button). */
+@media (max-width:650px){
+  .st-reg-hero{padding-top:14px}
+  .st-reg-hero-grid{padding:16px 0 22px}
+  .st-reg-hero h1{margin:8px 0;font-size:2rem}
+  .st-reg-hero-grid p{font-size:.86rem;line-height:1.55}
+  .st-reg-body{padding-top:18px}
+  .st-reg-layout{gap:12px}
+  .st-reg-aside{padding:14px 16px}
+  .st-reg-aside .st-reg-kicker{margin-bottom:6px}
+  .st-reg-aside h2{margin-bottom:.35rem;font-size:1.15rem}
+  .st-reg-aside>p{margin:0;font-size:.8rem;line-height:1.5}
+}
