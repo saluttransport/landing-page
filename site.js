@@ -821,20 +821,33 @@
     showStep(0, false);
 
     // A parent who opens this page from outside the site (the button in our WhatsApp message, a shared link) wants the
-    // form, so the page starts at it; they can scroll up for the introduction. Arriving from our own menu keeps the top.
+    // form. The top of the page stays for a moment, then the page glides down to the form, so the parent sees there is
+    // more above and can scroll back. Touching the page stops the glide. Arriving from our own menu keeps the top.
     var formCard = form.closest('.st-reg-card') || form;
     var fromOutside = !document.referrer || document.referrer.indexOf(window.location.origin + '/') !== 0;
     if (fromOutside && !billId && !window.location.hash) {
-      var startedAt = -1;
-      var startAtForm = function(){
-        if (window.scrollY > 0 && Math.abs(window.scrollY - startedAt) > 2) return;
+      var glideStopped = false;
+      ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function(type){
+        window.addEventListener(type, function(){ glideStopped = true; }, {passive: true, once: true});
+      });
+      var formTop = function(){
         var head = document.querySelector('.st-header');
-        startedAt = Math.max(0, Math.round(formCard.getBoundingClientRect().top + window.scrollY - (head ? head.offsetHeight : 0) - 8));
-        window.scrollTo(0, startedAt);
+        return Math.max(0, Math.round(formCard.getBoundingClientRect().top + window.scrollY - (head ? head.offsetHeight : 0) - 8));
       };
-      window.requestAnimationFrame(startAtForm);
-      // Fonts and images can move the form after the first paint.
-      if (document.readyState !== 'complete') window.addEventListener('load', startAtForm);
+      window.setTimeout(function(){
+        if (glideStopped || window.scrollY > 2) return;
+        if (reduceMotion) { window.scrollTo(0, formTop()); return; }
+        var began = null;
+        var glide = function(now){
+          if (glideStopped) return;
+          if (began === null) began = now;
+          var t = Math.min(1, (now - began) / 1400);
+          var eased = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+          window.scrollTo(0, Math.round(formTop() * eased));
+          if (t < 1) window.requestAnimationFrame(glide);
+        };
+        window.requestAnimationFrame(glide);
+      }, 900);
     }
 
     // Add a shadow under the step bar once it is stuck below the header.
