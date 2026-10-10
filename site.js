@@ -412,7 +412,8 @@
     ];
     // At least one guardian (ayah or ibu) is needed, so single-parent families can register.
     // A guardian who is filled in needs a name and phone, and at least one of them needs an IC.
-    // With nothing filled in yet, ayah's fields are required, as before.
+    // With nothing filled in yet, no field is marked with *: the name field alone blocks "Teruskan" with a message
+    // asking for one guardian, so a single mother does not think ayah's details are compulsory (owner, 2026-10-10).
     var guardians = [
       {name: 'namaAyah', phone: 'telefonAyah', ic: 'icAyah'},
       {name: 'namaIbu', phone: 'telefonIbu', ic: 'icIbu'}
@@ -430,7 +431,8 @@
     }
     function updateGuardianRequired(){
       var given = guardians.map(function(g){ return hasValue(g.name) || hasValue(g.phone) || hasValue(g.ic); });
-      if (!given[0] && !given[1]) given[0] = true;
+      var first = form.elements[guardians[0].name];
+      if (first) first.setCustomValidity(given[0] || given[1] ? '' : 'Isi maklumat sekurang-kurangnya seorang penjaga: ayah atau ibu.');
       var hasIc = guardians.some(function(g, index){ return given[index] && hasValue(g.ic); });
       var icOwner = given.indexOf(true);
       guardians.forEach(function(g, index){
@@ -449,6 +451,10 @@
       var field = form.elements[item.name];
       if (!field) return;
       field.addEventListener('input', function(){
+        // Autofill and pasted numbers come as "+60 12-345 6789": keep the digits (and a leading +) so the pattern accepts them.
+        var digits = field.value.replace(/[^0-9+]/g, '');
+        var clean = digits.charAt(0) + digits.slice(1).replace(/[+]/g, '');
+        if (clean !== field.value) field.value = clean;
         field.setCustomValidity(field.value && !isValidPhone(field.value)
           ? 'Masukkan nombor telefon ' + item.label + ' yang lengkap, contoh 0181234567.'
           : '');
@@ -704,6 +710,12 @@
       if (event.key !== 'Enter' || current === steps.length - 1) return;
       if (event.target.tagName === 'TEXTAREA' || event.target.tagName === 'BUTTON') return;
       event.preventDefault();
+      // Enter (the phone keyboard's "next" key) goes to the next field of this part; from the last field, to the next part.
+      var fields = Array.prototype.slice.call(steps[current].querySelectorAll('input,select,textarea')).filter(function(field){
+        return !field.disabled && field.type !== 'hidden' && field.name !== 'website' && field.offsetParent !== null;
+      });
+      var next = fields[fields.indexOf(event.target) + 1];
+      if (next) { next.focus(); return; }
       if (stepIsValid(steps[current])) showStep(current + 1, true);
     });
     // If the browser blocks submit because of a field in another part, open that part.
