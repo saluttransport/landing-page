@@ -204,6 +204,14 @@
     function titleCase(value){
       return String(value || '').toLowerCase().replace(/\b([a-z])/g, function(letter){ return letter.toUpperCase(); });
     }
+    // Names are shown the way they are saved (Title Case) as soon as the parent leaves the field: phone keyboards do
+    // not all honour autocapitalize. Covers namaAnak-1…5, namaAyah and namaIbu.
+    form.addEventListener('focusout', function(event){
+      var field = event.target;
+      if (!field || !/^nama(Anak-[0-9]+|Ayah|Ibu)$/.test(field.name || '')) return;
+      var tidy = titleCase(field.value).replace(/ +/g, ' ').trim();
+      if (tidy !== field.value) field.value = tidy;
+    });
     function setTripFields(container, active){
       if (!container) return;
       container.hidden = !active;
