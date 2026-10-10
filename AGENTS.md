@@ -104,6 +104,10 @@ There is no test suite. Before opening a PR:
 - `concept.css` still has unused `.conceptRibbon` styles from the preview build (safe to remove later).
 
 ## Handoff notes
+- 2026-10-10 (claude): Branch `claude/terms-update`: owner-approved new policy wording on all 5 policy pages (fare is a yearly fee in
+  12 instalments including December, invoice on the 25th and due on the 5th, suspension after the 10th, notice to stop before the 20th,
+  3-minute wait, what "confirmed" means, privacy list now names IC / date of birth / school and the providers). Three sentences on
+  `pendaftaran.html` follow it. The billing dates must stay in step with the billing system (Kitaran25 in salut-apps-script).
 - 2026-10-10 (claude): Branch `claude/pay-countdown`: after a registration is saved, the panel says "PENDAFTARAN BERJAYA DISIMPAN", counts down
   8 seconds ("Halaman bayaran Billplz dibuka dalam N saat…") and then opens the Billplz bill; the parent can press "Bayar Yuran RM10.00
   sekarang" instead. Only the pay button and a WhatsApp note (`[data-reg-complete-note]`) show in that state. The owner tried 2.5 s and
