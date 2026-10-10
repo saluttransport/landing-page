@@ -262,12 +262,22 @@ html[data-theme="dark"] .st-reg-add-child:hover{background:#1d4250}
    short step list in the bar is shown on every screen size. Without JavaScript the card stays, as the step list. */
 .st-reg-ready .st-reg-aside{display:none}
 .st-reg-ready .st-reg-layout{grid-template-columns:minmax(0,1fr);max-width:860px;margin:0 auto}
-.st-reg-hero-grid p.st-reg-hero-note{margin-top:10px}
-@media (min-width:801px){
-  .st-reg-ready .st-reg-mini{display:flex;gap:28px;margin:14px 0 0;padding:0;list-style:none}
-  .st-reg-ready .st-reg-mini li{display:flex;align-items:center;gap:9px;color:#798b91;font:600 .8rem/1.2 Poppins,Arial,sans-serif}
-  .st-reg-ready .st-reg-mini span{display:grid;place-items:center;width:28px;height:28px;border:1px solid #bfced1;border-radius:8px;font:700 .74rem Poppins,Arial,sans-serif}
-  .st-reg-ready .st-reg-mini li.current{color:var(--st-ink)}
-  .st-reg-ready .st-reg-mini li.current span{color:#0c2533;background:var(--st-yellow);border-color:var(--st-yellow)}
-  .st-reg-ready .st-reg-mini li.finished span{color:#fff;background:#1b7d86;border-color:#1b7d86}
+.st-reg-hero-grid p a{color:var(--st-yellow);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+
+/* Step bar: three equal segments, one per part of the form, in place of the thin progress line and the small numbered
+   boxes. The progress line stays for screen readers only. */
+.st-reg-ready .st-reg-progress{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0)}
+.st-reg-ready [data-reg-percent]{display:none}
+.st-reg-ready .st-reg-mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.st-reg-ready .st-reg-mini li{display:flex;flex-direction:row;align-items:baseline;gap:6px;padding-top:9px;color:#798b91;border-top:4px solid #dfebeb;border-radius:2px;font:600 .82rem/1.25 Poppins,Arial,sans-serif;text-align:left;white-space:nowrap}
+.st-reg-ready .st-reg-mini li span{display:inline;width:auto;height:auto;color:inherit;background:none;border:0;border-radius:0;font:800 .82rem/1.25 Poppins,Arial,sans-serif}
+.st-reg-ready .st-reg-mini li.current{color:var(--st-ink);border-top-color:var(--st-yellow)}
+.st-reg-ready .st-reg-mini li.finished{color:#1b7d86;border-top-color:#1b7d86}
+.st-reg-ready .st-reg-mini li.current span,.st-reg-ready .st-reg-mini li.finished span{color:inherit;background:none}
+html[data-theme="dark"] .st-reg-ready .st-reg-mini li{color:#8fa9af;border-top-color:#31515d}
+html[data-theme="dark"] .st-reg-ready .st-reg-mini li.current{color:#e7f1f3;border-top-color:var(--st-yellow)}
+html[data-theme="dark"] .st-reg-ready .st-reg-mini li.finished{color:#79cbd5;border-top-color:#79cbd5}
+@media (max-width:650px){
+  .st-reg-ready .st-reg-mini{gap:6px}
+  .st-reg-ready .st-reg-mini li,.st-reg-ready .st-reg-mini li span{font-size:.7rem}
 }
