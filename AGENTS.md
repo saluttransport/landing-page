@@ -104,6 +104,10 @@ There is no test suite. Before opening a PR:
 - `concept.css` still has unused `.conceptRibbon` styles from the preview build (safe to remove later).
 
 ## Handoff notes
+- 2026-10-10 (claude): Branch `claude/pay-countdown`: after a registration is saved, the panel says "PENDAFTARAN BERJAYA DISIMPAN", counts down
+  8 seconds ("Halaman bayaran Billplz dibuka dalam N saat…") and then opens the Billplz bill; the parent can press "Bayar Yuran RM10.00
+  sekarang" instead. Only the pay button and a WhatsApp note (`[data-reg-complete-note]`) show in that state. The owner tried 2.5 s and
+  5 s and found both too short to read.
 - 2026-10-05 (claude): Branch `claude/submit-wait-feedback`: while the form is being sent, the submit button shows a spinner
   (`.isBusy` in `reg.css`), the status line counts the seconds with a calmer message after 8 s and 20 s, and leaving or
   refreshing the page asks the parent to stay. The Billplz page now opens 2.5 s (was 3.5 s) after "SATU LANGKAH LAGI".
