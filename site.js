@@ -776,7 +776,7 @@
       var seconds = 8;
       showComplete({
         kicker: 'PENDAFTARAN BERJAYA DISIMPAN',
-        title: 'Bayar yuran pendaftaran ' + fee + ' untuk sahkan tempat anak.',
+        title: 'Bayar yuran pendaftaran ' + fee + ' untuk lengkapkan pendaftaran.',
         text: 'Halaman bayaran Billplz dibuka dalam ' + seconds + ' saat…',
         id: detail.submissionId,
         payUrl: detail.paymentUrl,
