@@ -134,6 +134,7 @@ html[data-theme="dark"] .st-reg-field-error{color:#ff8a8f}
 .st-reg-complete p{max-width:560px;margin:0 auto 30px;color:var(--st-muted)}
 .st-reg-complete p strong{color:var(--st-ink)}
 .st-reg-complete>div{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.st-reg-complete .st-reg-complete-note{margin:20px auto 0;font-size:.9rem}
 
 /* Dark theme */
 html[data-theme="dark"] .st-reg-card,html[data-theme="dark"] .st-reg-complete{background:#193946;box-shadow:none}

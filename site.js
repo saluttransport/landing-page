@@ -733,6 +733,11 @@
       }
       var againButton = complete.querySelector('[data-reg-again]');
       if (againButton) againButton.hidden = !!texts.payUrl && !texts.receipt;
+      // While the parent is being sent to pay, only the pay button and the WhatsApp note are shown.
+      var homeButton = complete.querySelector('[data-reg-home]');
+      if (homeButton) homeButton.hidden = !!texts.payOnly;
+      var note = complete.querySelector('[data-reg-complete-note]');
+      if (note) note.hidden = !texts.payOnly;
       if (quiet) return;
       layout.hidden = true;
       complete.hidden = false;
@@ -747,15 +752,23 @@
         return;
       }
       var fee = 'RM' + (detail.feeRm || '10.00');
+      // A short message and a visible countdown: the parent can read it, press the button, or just wait (owner, 2026-10-10).
+      var seconds = 8;
       showComplete({
-        kicker: 'SATU LANGKAH LAGI',
-        title: 'Bayar yuran pendaftaran untuk sahkan tempat.',
-        text: 'Pendaftaran telah disimpan. Tempat anak disahkan selepas yuran pendaftaran ' + fee + ' dibayar. Halaman bayaran Billplz akan dibuka sebentar lagi. Link bayaran juga dihantar ke WhatsApp anda.',
+        kicker: 'PENDAFTARAN BERJAYA DISIMPAN',
+        title: 'Bayar yuran pendaftaran ' + fee + ' untuk sahkan tempat anak.',
+        text: 'Halaman bayaran Billplz dibuka dalam ' + seconds + ' saat…',
         id: detail.submissionId,
         payUrl: detail.paymentUrl,
-        payLabel: 'Bayar Yuran ' + fee
+        payLabel: 'Bayar Yuran ' + fee + ' sekarang',
+        payOnly: true
       });
-      window.setTimeout(function(){ window.location.assign(detail.paymentUrl); }, 2500);
+      var countdown = complete.querySelector('[data-reg-complete-text]');
+      var timer = window.setInterval(function(){
+        seconds -= 1;
+        if (seconds <= 0) { window.clearInterval(timer); window.location.assign(detail.paymentUrl); return; }
+        if (countdown) countdown.textContent = 'Halaman bayaran Billplz dibuka dalam ' + seconds + ' saat…';
+      }, 1000);
     });
     // Back from Billplz: ?billplz[id]=…&billplz[paid]=true|false. The real result arrives by the Billplz callback,
     // so this only tells the parent what happens next.
