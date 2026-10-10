@@ -256,3 +256,11 @@ html[data-theme="dark"] .st-reg-add-child:hover{background:#1d4250}
   .st-reg-aside h2{margin-bottom:.35rem;font-size:1.15rem}
   .st-reg-aside>p{margin:0;font-size:.8rem;line-height:1.5}
 }
+
+/* Phones and tablets: the "Langkah demi langkah" card is hidden once the step bar in the form is working, so the form
+   is the only card to read. Its one sentence for new customers moves into the page top. */
+.st-reg-hero-note{display:none}
+@media (max-width:800px){
+  .st-reg-ready .st-reg-aside{display:none}
+  .st-reg-hero-grid p.st-reg-hero-note{display:block;margin-top:10px}
+}
