@@ -729,13 +729,15 @@
       while (summary.firstChild) summary.removeChild(summary.firstChild);
       form.querySelectorAll('[data-child]').forEach(function(card, index){
         var n = '-' + (index + 1);
-        var trip = [fieldValue('sesiSekolah' + n), fieldValue('pilihanPerjalanan' + n)].filter(Boolean).join(' · ');
-        addSummaryRow('Anak ' + (index + 1), [fieldValue('namaAnak' + n), fieldValue('sekolah' + n), trip].filter(Boolean).join(' — '));
+        // Same wording as the WhatsApp confirmation: session first, then school and trip; two sessions joined by a plus sign.
+        var tripWords = {'PERGI': 'pergi sahaja', 'BALIK': 'balik sahaja', 'PERGI DAN BALIK': 'pergi & balik'};
+        var sessionLine = function(suffix){
+          var sesi = fieldValue('sesiSekolah' + suffix + n), sekolah = fieldValue('sekolah' + suffix + n), trip = fieldValue('pilihanPerjalanan' + suffix + n);
+          return [sesi ? sesi + ':' : '', sekolah, trip ? '(' + (tripWords[trip] || trip) + ')' : ''].filter(Boolean).join(' ');
+        };
         var toggle = card.querySelector('[data-second-toggle]');
-        if (toggle && toggle.checked) {
-          var tripB = [fieldValue('sesiSekolahB' + n), fieldValue('pilihanPerjalananB' + n)].filter(Boolean).join(' · ');
-          addSummaryRow('Anak ' + (index + 1) + ', sesi kedua', [fieldValue('sekolahB' + n), tripB].filter(Boolean).join(' — '));
-        }
+        var sessions = [sessionLine('')].concat(toggle && toggle.checked ? [sessionLine('B')] : []).filter(Boolean).join(' ➕ ');
+        addSummaryRow('Anak ' + (index + 1), [fieldValue('namaAnak' + n), sessions].filter(Boolean).join(' — '));
       });
       addSummaryRow('Alamat', fieldValue('alamatRumah'));
     }
