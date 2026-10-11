@@ -234,6 +234,44 @@
       setTripFields(card.querySelector('[data-trip-one]'), value === 'PERGI' || value === 'BALIK');
       setTripFields(card.querySelector('[data-trip-two]'), value === 'PERGI DAN BALIK');
     }
+    // A child with two school sessions (for example SK in the morning and a religious school in the afternoon) ticks
+    // "dua sesi" on the card. The second session has its own school, session and trip (names end in "B-n") and is sent
+    // as one more entry in "children" with the same name and date of birth, so the server side needs no change.
+    var SECOND_BASE = ['sekolahB', 'sesiSekolahB', 'pilihanPerjalananB'];
+    function hasSecond(card){
+      var toggle = card.querySelector('[data-second-toggle]');
+      return !!(toggle && toggle.checked);
+    }
+    function entryCount(){
+      return childCards().reduce(function(total, card){ return total + (hasSecond(card) ? 2 : 1); }, 0);
+    }
+    function updateSecond(card){
+      var box = card.querySelector('[data-second]');
+      if (!box) return;
+      var active = hasSecond(card);
+      box.hidden = !active;
+      box.querySelectorAll('select').forEach(function(field){
+        if (SECOND_BASE.indexOf(field.name.replace(/-\d+$/, '')) === -1) return;
+        field.disabled = !active;
+        field.required = active;
+        if (!active) { field.value = ''; field.setCustomValidity(''); }
+      });
+      var tripSelect = box.querySelector('[data-trip-select-b]');
+      var value = active && tripSelect ? tripSelect.value : '';
+      var title = box.querySelector('[data-trip-one-b-title]');
+      if (title) title.textContent = value === 'BALIK' ? 'Perjalanan balik' : 'Perjalanan pergi';
+      setTripFields(box.querySelector('[data-trip-one-b]'), value === 'PERGI' || value === 'BALIK');
+      setTripFields(box.querySelector('[data-trip-two-b]'), value === 'PERGI DAN BALIK');
+      checkSecondSession(card);
+    }
+    // The two sessions of one child cannot both be Pagi or both be Petang.
+    function checkSecondSession(card){
+      var first = card.querySelector('select[name^="sesiSekolah-"]');
+      var second = card.querySelector('select[name^="sesiSekolahB-"]');
+      if (!second) return;
+      var clash = hasSecond(card) && first && first.value && second.value && first.value === second.value;
+      second.setCustomValidity(clash ? 'Sesi kedua mesti berbeza daripada sesi pertama (Pagi dan Petang).' : '');
+    }
     // Card n uses names like "sekolah-n"; after a card is added or removed the cards are numbered 1, 2, 3… again.
     function renumberChildren(){
       var cards = childCards();
@@ -250,7 +288,7 @@
         if (remove) remove.hidden = cards.length === 1;
       });
       if (addChildButton) {
-        addChildButton.hidden = cards.length >= MAX_CHILDREN;
+        addChildButton.hidden = entryCount() >= MAX_CHILDREN;
         var addLabel = addChildButton.querySelector('span');
         if (addLabel) addLabel.textContent = 'Tambah anak ke-' + (cards.length + 1);
       }
@@ -264,10 +302,13 @@
         else field.value = '';
       });
       updateTripFields(card);
+      updateSecond(card);
+      var note = card.querySelector('[data-second-note]');
+      if (note) note.hidden = true;
     }
     function addChild(){
       var cards = childCards();
-      if (!childList || !cards.length || cards.length >= MAX_CHILDREN) return;
+      if (!childList || !cards.length || entryCount() >= MAX_CHILDREN) return;
       var card = cards[0].cloneNode(true);
       // Rename and clear the copy before it joins the form: a checked radio sharing card 1's name would
       // otherwise untick card 1's choice.
@@ -287,6 +328,7 @@
     }
     if (childList) {
       childCards().forEach(updateTripFields);
+      childCards().forEach(updateSecond);
       renumberChildren();
       if (addChildButton) addChildButton.addEventListener('click', addChild);
       childList.addEventListener('click', function(event){
@@ -303,6 +345,17 @@
         if (!card) return;
         if (event.target.matches('[data-trip-select]')) updateTripFields(card);
         if (event.target.matches('[data-birth]')) updateSchoolYear(card);
+        if (event.target.matches('[data-second-toggle]')) {
+          // "children" holds at most MAX_CHILDREN entries, and a second session is one entry.
+          var note = card.querySelector('[data-second-note]');
+          var tooMany = event.target.checked && entryCount() > MAX_CHILDREN;
+          if (tooMany) event.target.checked = false;
+          if (note) note.hidden = !tooMany;
+          updateSecond(card);
+          renumberChildren();
+        }
+        if (event.target.matches('[data-trip-select-b]')) updateSecond(card);
+        if (/^sesiSekolah(B)?-\d+$/.test(event.target.name || '')) checkSecondSession(card);
       });
     }
 
@@ -494,17 +547,32 @@
       payload.termsAccepted = payload.termsAccepted === 'true';
       payload.privacyAccepted = payload.privacyAccepted === 'true';
       // Each child card becomes one entry; fields of a trip that was not chosen are disabled and left out.
-      payload.children = childCards().map(function(card, index){
-        var child = {};
-        CHILD_FIELDS.forEach(function(base){
-          var field = form.elements[base + '-' + (index + 1)];
-          if (!field) return;
-          var single = field.tagName ? field : field[0];
-          if (single && single.disabled) return;
-          if (field.value) child[base] = String(field.value);
-        });
-        child.namaAnak = titleCase(child.namaAnak);
-        return child;
+      // A card with "dua sesi" ticked becomes two entries: the same child, then the second school and trip.
+      // entryFields[i] says which form field each field of entry i came from, for messages the server sends back.
+      var entryFields = [];
+      payload.children = [];
+      childCards().forEach(function(card, index){
+        var n = '-' + (index + 1);
+        var readEntry = function(suffixFor){
+          var child = {}, names = {};
+          CHILD_FIELDS.forEach(function(base){
+            var name = base + suffixFor(base) + n;
+            var field = form.elements[name];
+            if (!field) return;
+            var single = field.tagName ? field : field[0];
+            if (single && single.disabled) return;
+            names[base] = name;
+            if (field.value) child[base] = String(field.value);
+          });
+          child.namaAnak = titleCase(child.namaAnak);
+          payload.children.push(child);
+          entryFields.push(names);
+        };
+        readEntry(function(){ return ''; });
+        if (hasSecond(card)) {
+          var SAME_CHILD = ['namaAnak', 'tarikhLahir', 'darjahTingkatan2027', 'jantina'];
+          readEntry(function(base){ return SAME_CHILD.indexOf(base) === -1 ? 'B' : ''; });
+        }
       });
       payload.namaIbu = titleCase(payload.namaIbu);
       payload.namaAyah = titleCase(payload.namaAyah);
@@ -584,7 +652,11 @@
       }).catch(function(error){
         var httpStatus = error && error.status;
         if (httpStatus === 400) {
-          if (!showServerFieldError(error.field)) {
+          // The server names a child field by its place in "children" (sekolah-2); turn that back into the form field.
+          var serverField = /^(.+)-(\d+)$/.exec(error.field || '');
+          var entryNames = serverField ? entryFields[Number(serverField[2]) - 1] : null;
+          var formField = entryNames && entryNames[serverField[1]] ? entryNames[serverField[1]] : error.field;
+          if (!showServerFieldError(formField)) {
             setStatus('Sebahagian maklumat tidak dapat diterima. Muat semula halaman dan cuba lagi, atau', 'error', true);
           }
         } else if (httpStatus === 429) {
@@ -657,8 +729,15 @@
       while (summary.firstChild) summary.removeChild(summary.firstChild);
       form.querySelectorAll('[data-child]').forEach(function(card, index){
         var n = '-' + (index + 1);
-        var trip = [fieldValue('sesiSekolah' + n), fieldValue('pilihanPerjalanan' + n)].filter(Boolean).join(' · ');
-        addSummaryRow('Anak ' + (index + 1), [fieldValue('namaAnak' + n), fieldValue('sekolah' + n), trip].filter(Boolean).join(' — '));
+        // Same wording as the WhatsApp confirmation: session first, then school and trip; two sessions joined by a plus sign.
+        var tripWords = {'PERGI': 'pergi sahaja', 'BALIK': 'balik sahaja', 'PERGI DAN BALIK': 'pergi & balik'};
+        var sessionLine = function(suffix){
+          var sesi = fieldValue('sesiSekolah' + suffix + n), sekolah = fieldValue('sekolah' + suffix + n), trip = fieldValue('pilihanPerjalanan' + suffix + n);
+          return [sesi ? sesi + ':' : '', sekolah, trip ? '(' + (tripWords[trip] || trip) + ')' : ''].filter(Boolean).join(' ');
+        };
+        var toggle = card.querySelector('[data-second-toggle]');
+        var sessions = [sessionLine('')].concat(toggle && toggle.checked ? [sessionLine('B')] : []).filter(Boolean).join(' ➕ ');
+        addSummaryRow('Anak ' + (index + 1), [fieldValue('namaAnak' + n), sessions].filter(Boolean).join(' — '));
       });
       addSummaryRow('Alamat', fieldValue('alamatRumah'));
     }

@@ -74,7 +74,7 @@ Plain static site. No framework, no bundler, no `package.json`, no build step
 ### School list (keep in sync!)
 The list of covered schools lives in **three places**. Change all three together:
 1. `index.html`: `.schoolCard` buttons (school locator + map)
-2. `pendaftaran.html`: `<option>`s in the school `<select>`
+2. `pendaftaran.html`: `<option>`s in both school `<select>`s of the child card (`sekolah-1` and the second session's `sekolahB-1`)
 3. `netlify/functions/registration.ts`: the `SCHOOLS` set (server rejects unknown schools)
 
 ### Registration function & data
@@ -104,6 +104,11 @@ There is no test suite. Before opening a PR:
 - `concept.css` still has unused `.conceptRibbon` styles from the preview build (safe to remove later).
 
 ## Handoff notes
+- 2026-10-11 (claude): Branch `claude/second-session`: a child card has a tick "Anak ini bersekolah dua sesi" that opens a second
+  school, session and trip (`[data-second]`, field names end in `B-n`, e.g. `sekolahB-1`). `site.js` sends it as one more entry in
+  `children` with the same name and date of birth, so `registration.ts` and the Apps Script are unchanged (the Apps Script already flags
+  two entries with the same name and birth date). A card with the tick counts as two of the 5 entries. The second school list repeats
+  the first: keep both in step with the school list rule above. Server field errors (`sekolah-2`) are mapped back to the form field.
 - 2026-10-10 (claude): Branch `claude/terms-update`: owner-approved new policy wording on all 5 policy pages (fare is a yearly fee in
   12 instalments including December, invoice on the 25th and due on the 5th, suspension after the 10th, notice to stop before the 20th,
   3-minute wait, what "confirmed" means, privacy list now names IC / date of birth / school and the providers). Three sentences on

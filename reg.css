@@ -281,3 +281,9 @@ html[data-theme="dark"] .st-reg-ready .st-reg-mini li.finished{color:#79cbd5;bor
   .st-reg-ready .st-reg-mini{gap:6px}
   .st-reg-ready .st-reg-mini li,.st-reg-ready .st-reg-mini li span{font-size:.7rem}
 }
+
+/* Child card: "dua sesi" tick and the second school and trip it opens. */
+.st-reg-second-toggle{margin:6px 0 16px;padding:13px 14px;background:#f1f7f7;border:1px dashed #b9cfd2;border-radius:10px}
+.st-reg-second{margin:0 0 16px;padding:16px 16px 2px;border-left:3px solid var(--st-yellow);background:#f6fafa;border-radius:0 10px 10px 0}
+html[data-theme="dark"] .st-reg-second-toggle{background:#17343f;border-color:#3d5c67}
+html[data-theme="dark"] .st-reg-second{background:#17343f}
