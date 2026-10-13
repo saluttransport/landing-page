@@ -160,7 +160,7 @@
       event.preventDefault();
       var lines = ['Assalamualaikum, saya nak semak slot van sekolah.', ''];
       new FormData(form).forEach(function(value, key){ if (value) lines.push(key + ': ' + value); });
-      window.open('https://wa.me/60123539977?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+      window.open('https://api.whatsapp.com/send?phone=60123539977&text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
     });
   });
 
@@ -426,7 +426,7 @@
       if (withWhatsApp) {
         // Fixed text only: the parent's details never go into the WhatsApp link.
         var link = document.createElement('a');
-        link.href = 'https://wa.me/60123539977?text=' + encodeURIComponent('Assalamualaikum Salut Transport. Saya cuba hantar pendaftaran 2027 di salut.my tetapi tidak berjaya.');
+        link.href = 'https://api.whatsapp.com/send?phone=60123539977&text=' + encodeURIComponent('Assalamualaikum Salut Transport. Saya cuba hantar pendaftaran 2027 di salut.my tetapi tidak berjaya.');
         link.target = '_blank';
         link.rel = 'noopener';
         link.textContent = 'hubungi kami di WhatsApp.';
@@ -963,7 +963,7 @@
       if (mapArea) mapArea.textContent = area;
       if (mapLink) mapLink.href = mapUrl;
       if (mapFrame) mapFrame.src = 'https://maps.google.com/maps?q=' + encodeURIComponent(query) + '&output=embed';
-      if (mapCta) mapCta.href = 'https://wa.me/60123539977?text=' + encodeURIComponent('Assalamualaikum, saya nak semak tambang untuk anak di ' + name + '.');
+      if (mapCta) mapCta.href = 'https://api.whatsapp.com/send?phone=60123539977&text=' + encodeURIComponent('Assalamualaikum, saya nak semak tambang untuk anak di ' + name + '.');
     });
   });
 
@@ -985,7 +985,7 @@
     area: 'Assalamualaikum, saya nak tanya kawasan yang diliputi oleh Salut Transport.'
   };
   function whatsappUrl(message){
-    return 'https://wa.me/60123539977?text=' + encodeURIComponent(message || whatsappDefaultMessage);
+    return 'https://api.whatsapp.com/send?phone=60123539977&text=' + encodeURIComponent(message || whatsappDefaultMessage);
   }
   if (floatingWhatsapp && !chatBox) {
     chatBox = document.createElement('div');
@@ -1362,7 +1362,7 @@
     ];
     if (field('notes')) lines.push('📝 *Maklumat tambahan:* ' + field('notes'));
     lines.push('', 'Terima kasih.');
-    window.open('https://wa.me/60123539977?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+    window.open('https://api.whatsapp.com/send?phone=60123539977&text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
     var note = document.getElementById('stFormNote');
     if (note) note.textContent = 'WhatsApp dibuka dengan mesej yang disediakan. Sila tekan hantar di WhatsApp.';
   });
