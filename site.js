@@ -1346,21 +1346,24 @@
   if (stForm) stForm.addEventListener('submit', function(event){
     event.preventDefault();
     var field = function(name){ return (stForm.elements[name].value || '').trim(); };
-    // Route details first (what the owner needs to check a slot), then who is asking. *…* is bold in WhatsApp.
+    // Two short groups: the child's route (what the owner needs to check a slot), then who is asking. One emoji only
+    // (owner, 2026-10-13: an emoji on every line looked untidy). *…* is bold in WhatsApp.
     var lines = [
       'Assalamualaikum Salut Transport 👋',
-      'Saya ingin semak slot & tambang van sekolah.',
+      'Saya ingin semak slot dan tambang van sekolah.',
       '',
-      '🏫 *Sekolah anak:* ' + field('school'),
-      '📍 *Kawasan rumah:* ' + field('area'),
-      '🕒 *Sesi sekolah:* ' + field('session'),
-      '🚐 *Perjalanan:* ' + field('trip'),
-      '👦 *Umur anak:* ' + field('age'),
+      '*Maklumat anak*',
+      'Sekolah: ' + field('school'),
+      'Sesi: ' + field('session'),
+      'Perjalanan: ' + field('trip'),
+      'Umur: ' + field('age'),
+      'Kawasan rumah: ' + field('area'),
       '',
-      '👤 *Nama ibu bapa / penjaga:* ' + field('name'),
-      '📞 *No. telefon:* ' + field('phone')
+      '*Ibu bapa / penjaga*',
+      'Nama: ' + field('name'),
+      'No. telefon: ' + field('phone')
     ];
-    if (field('notes')) lines.push('📝 *Maklumat tambahan:* ' + field('notes'));
+    if (field('notes')) lines.push('', '*Catatan*', field('notes'));
     lines.push('', 'Terima kasih.');
     window.open('https://api.whatsapp.com/send?phone=60123539977&text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
     var note = document.getElementById('stFormNote');
