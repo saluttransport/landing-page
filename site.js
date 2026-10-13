@@ -1310,6 +1310,7 @@
   var stMapArea = document.getElementById('stMapArea');
   var stMapLink = document.getElementById('stMapLink');
   var stMapCheck = document.getElementById('stMapCheck');
+  var stMapSlot = document.getElementById('stMapSlot');
   var stSelectedSchool = stSchools[0] || null;
   stSchools.forEach(function(school){
     school.addEventListener('click', function(){
@@ -1322,6 +1323,8 @@
       var query = school.dataset.query || name;
       if (stMapName) stMapName.textContent = name;
       if (stMapArea) stMapArea.textContent = school.dataset.area || '';
+      var slotPill = school.querySelector('.st-slot');
+      if (stMapSlot && slotPill) { stMapSlot.className = slotPill.className; stMapSlot.textContent = slotPill.textContent; }
       if (stMapLink) stMapLink.href = school.dataset.mapUrl || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query));
       if (stMap) {
         stMap.src = 'https://maps.google.com/maps?q=' + encodeURIComponent(query) + '&output=embed';
@@ -1331,6 +1334,25 @@
   });
   if (stMapCheck) stMapCheck.addEventListener('click', function(){
     if (stSelectedSchool) goToSlotForm({school: stSelectedSchool.dataset.name});
+  });
+
+  // Type filter: Semua / Rendah / Menengah / Agama & swasta (data-type on each school).
+  var stChips = Array.prototype.slice.call(document.querySelectorAll('.st-chip'));
+  stChips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      var type = chip.dataset.filter, shown = 0;
+      stChips.forEach(function(item){
+        item.classList.toggle('selected', item === chip);
+        item.setAttribute('aria-pressed', item === chip ? 'true' : 'false');
+      });
+      stSchools.forEach(function(school){
+        var match = type === 'semua' || school.dataset.type === type;
+        school.hidden = !match;
+        if (match) shown += 1;
+      });
+      var count = document.getElementById('stSchoolCount');
+      if (count) count.textContent = shown + ' sekolah';
+    });
   });
 
   var stSearch = document.getElementById('stSchoolSearch');
