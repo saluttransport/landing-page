@@ -1274,13 +1274,22 @@
   }
 
   var stForm = document.getElementById('stSlotForm');
+  // The section was #contact until 2026-10-13: old links and bookmarks still land on the form.
+  function oldSlotHash(){
+    var slot = document.getElementById('semakslot');
+    if (window.location.hash !== '#contact' || !slot) return;
+    if (window.history.replaceState) window.history.replaceState(null, '', '#semakslot');
+    slot.scrollIntoView({block: 'start'});
+  }
+  oldSlotHash();
+  window.addEventListener('hashchange', oldSlotHash);
   function goToSlotForm(values){
     if (!stForm) return;
     Object.keys(values || {}).forEach(function(name){
       var field = stForm.elements[name];
       if (field) field.value = values[name];
     });
-    var section = document.getElementById('contact');
+    var section = document.getElementById('semakslot');
     if (section) section.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block: 'start'});
     var firstEmpty = Array.prototype.slice.call(stForm.querySelectorAll('input[required], select[required]')).filter(function(field){ return !field.value; })[0];
     if (firstEmpty) window.setTimeout(function(){ firstEmpty.focus({preventScroll: true}); }, reduceMotion ? 0 : 450);
