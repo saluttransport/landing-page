@@ -179,6 +179,6 @@ There is no test suite. Before opening a PR:
 - 2026-10-13 (claude): Branch `claude/slot-status`: every school card in the homepage "Kawasan" section shows a slot status pill
   and the search box is replaced by type filter chips (Semua / Rendah / Menengah / Agama & swasta). To change a school's status,
   edit two things on its `.st-school` button in `index.html`: `data-slot` (`ada`, `terhad` or `penuh`) and the pill
-  `<span class="st-slot st-slot-ada">Ada slot</span>` (class `st-slot-terhad` + "Terhad", or `st-slot-penuh` + "Penuh"), and
+  `<span class="st-slot st-slot-ada">Ada slot</span>` (class `st-slot-terhad` + "Hampir penuh", or `st-slot-penuh` + "Penuh"), and
   update the date in `.st-slot-note`. Only the owner decides a status: never change one without being told. `data-type` on the
   button (`rendah`, `menengah`, `agama`) drives the chips; give a new school one.
