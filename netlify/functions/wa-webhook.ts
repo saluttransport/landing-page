@@ -5,10 +5,17 @@ import type { Config, Context } from "@netlify/functions";
 // POST: only bodies signed with the Meta app secret (X-Hub-Signature-256, env META_APP_SECRET) are accepted. Parent
 // messages are passed on to the registration Apps Script ({type: "whatsapp_inbound"}, same URL and shared secret as
 // /api/registration), which sends a new number the "Semak slot" Flow once and answers a filled-in Flow with a summary.
+// Only filled-in forms carry their content (the Flow answers, or the salut.my form message); other text stays here.
 // Meta wants a quick 200, so the hand-over runs after the reply. Message text is never logged.
 // Env: WA_VERIFY_TOKEN, META_APP_SECRET, SALUT_REGISTRATION_APPS_SCRIPT_URL, SALUT_REGISTRATION_SHARED_SECRET.
 
-export type InboundMessage = { from: string; id: string; kind: "message" | "flow_reply"; response?: string };
+export type InboundMessage = { from: string; id: string; kind: "message" | "flow_reply" | "website_form"; response?: string };
+
+// The message the salut.my "Semak slot" form prepares (site.js): the parent has already given the details, so the
+// Apps Script records them and does not send the Flow on top.
+export function isWebsiteSlotForm(text: string): boolean {
+  return text.includes("*Maklumat anak*") && /\nSekolah: /.test(text) && /\nKawasan rumah: /.test(text);
+}
 
 const encoder = new TextEncoder();
 
@@ -33,12 +40,15 @@ export function inboundMessages(body: unknown): InboundMessage[] {
       const c = change as { field?: string; value?: { messages?: unknown[] } };
       if (c.field !== "messages") continue;
       for (const raw of c.value?.messages || []) {
-        const m = raw as { from?: string; id?: string; type?: string; interactive?: { type?: string; nfm_reply?: { response_json?: string } } };
+        const m = raw as { from?: string; id?: string; type?: string; text?: { body?: string };
+          interactive?: { type?: string; nfm_reply?: { response_json?: string } } };
         if (!m.from || !/^\d{8,15}$/.test(m.from)) continue;
+        const id = String(m.id || "");
         const reply = m.type === "interactive" && m.interactive?.type === "nfm_reply" ? m.interactive.nfm_reply?.response_json : undefined;
-        out.push(reply !== undefined
-          ? { from: m.from, id: String(m.id || ""), kind: "flow_reply", response: String(reply).slice(0, 4000) }
-          : { from: m.from, id: String(m.id || ""), kind: "message" });
+        const text = m.type === "text" ? String(m.text?.body || "") : "";
+        if (reply !== undefined) out.push({ from: m.from, id, kind: "flow_reply", response: String(reply).slice(0, 4000) });
+        else if (isWebsiteSlotForm(text)) out.push({ from: m.from, id, kind: "website_form", response: text.slice(0, 4000) });
+        else out.push({ from: m.from, id, kind: "message" });
       }
     }
   }
