@@ -55,6 +55,14 @@ function requireValue(value: string, field: string) {
   return value;
 }
 
+// "N/A", "-", "tiada" and the like typed in a guardian name instead of leaving it empty (a mother typed "N/A"
+// as ayah's name on 2026-10-31 and became a guardian called "N/A"). Keep in step with isPlaceholderName in site.js.
+const PLACEHOLDER_NAMES = new Set(["na", "nil", "null", "none", "no", "tiada", "tiadanama", "tidakada", "takde", "takada", "xde", "xada", "kosong"]);
+function isPlaceholderName(value: string) {
+  const letters = value.toLowerCase().replace(/[^\p{L}]/gu, "");
+  return letters.length < 2 || PLACEHOLDER_NAMES.has(letters);
+}
+
 async function postRegistrationWithRetry(appsScriptUrl: string, sharedSecret: string, data: ReturnType<typeof validate>) {
   let lastError: unknown = new Error("BACKEND_REJECTED");
   for (let attempt = 0; attempt < 2; attempt += 1) {
@@ -152,11 +160,11 @@ function validate(input: Input) {
   const motherGiven = Boolean(motherName || motherPhone || motherIc);
   if (!fatherGiven && !motherGiven) throw new Error("MISSING:namaAyah");
   if (fatherGiven) {
-    requireValue(fatherName, "namaAyah");
+    if (isPlaceholderName(requireValue(fatherName, "namaAyah"))) throw new Error("INVALID:namaAyah");
     if (!/^60\d{9,10}$/.test(fatherPhone)) throw new Error("INVALID:telefonAyah");
   }
   if (motherGiven) {
-    requireValue(motherName, "namaIbu");
+    if (isPlaceholderName(requireValue(motherName, "namaIbu"))) throw new Error("INVALID:namaIbu");
     if (!/^60\d{9,10}$/.test(motherPhone)) throw new Error("INVALID:telefonIbu");
   }
   if (fatherIc && !/^\d{12}$/.test(fatherIc)) throw new Error("INVALID:icAyah");
