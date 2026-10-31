@@ -23,7 +23,7 @@ const SCHOOL_LEVELS_2027 = new Set([
   "Darjah 1", "Darjah 2", "Darjah 3", "Darjah 4", "Darjah 5", "Darjah 6",
   "Tingkatan 1", "Tingkatan 2", "Tingkatan 3", "Tingkatan 4", "Tingkatan 5", "Perlu semakan",
 ]);
-const ROUTE_POINTS = new Set(["Rumah", "Sekolah", "Transit"]);
+const ROUTE_POINTS = new Set(["Rumah", "Sekolah", "Transit", "Transit As Sobah"]);
 
 type Input = Record<string, unknown>;
 type RegistrationResult = { success?: boolean; submissionId?: string; duplicate?: boolean; paymentUrl?: string; feeRm?: string };
