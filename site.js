@@ -396,6 +396,7 @@
     refreshProgress();
     function schoolLevel2027(birthYear){
       var levels = {
+        2023: '4 tahun', 2022: '5 tahun', 2021: '6 tahun',
         2020: 'Darjah 1', 2019: 'Darjah 2', 2018: 'Darjah 3', 2017: 'Darjah 4',
         2016: 'Darjah 5', 2015: 'Darjah 6', 2014: 'Tingkatan 1', 2013: 'Tingkatan 2',
         2012: 'Tingkatan 3', 2011: 'Tingkatan 4', 2010: 'Tingkatan 5'
