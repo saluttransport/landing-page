@@ -490,10 +490,20 @@
       var mark = field.closest('label') && field.closest('label').querySelector('b');
       if (mark) mark.hidden = !on;
     }
+    // "N/A", "-", "tiada" and the like typed instead of leaving the guardian empty. Keep in step with registration.ts.
+    var placeholderNames = ['na', 'nil', 'null', 'none', 'no', 'tiada', 'tiadanama', 'tidakada', 'takde', 'takada', 'xde', 'xada', 'kosong'];
+    function isPlaceholderName(value){
+      var letters = String(value || '').toLowerCase().replace(/[^\p{L}]/gu, '');
+      return letters.length < 2 || placeholderNames.indexOf(letters) >= 0;
+    }
     function updateGuardianRequired(){
       var given = guardians.map(function(g){ return hasValue(g.name) || hasValue(g.phone) || hasValue(g.ic); });
-      var first = form.elements[guardians[0].name];
-      if (first) first.setCustomValidity(given[0] || given[1] ? '' : 'Isi maklumat sekurang-kurangnya seorang penjaga: ayah atau ibu.');
+      guardians.forEach(function(g, index){
+        var field = form.elements[g.name];
+        if (field) field.setCustomValidity(hasValue(g.name) && isPlaceholderName(field.value)
+          ? 'Isi nama penuh ' + (index ? 'ibu' : 'ayah') + '. Jika tiada, kosongkan semua ruang ' + (index ? 'ibu' : 'ayah') + ' (nama, telefon dan IC).'
+          : (index === 0 && !given[0] && !given[1] ? 'Isi maklumat sekurang-kurangnya seorang penjaga: ayah atau ibu.' : ''));
+      });
       var hasIc = guardians.some(function(g, index){ return given[index] && hasValue(g.ic); });
       var icOwner = given.indexOf(true);
       guardians.forEach(function(g, index){
