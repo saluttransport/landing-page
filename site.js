@@ -270,7 +270,7 @@
       var second = card.querySelector('select[name^="sesiSekolahB-"]');
       if (!second) return;
       var clash = hasSecond(card) && first && first.value && second.value && first.value === second.value;
-      second.setCustomValidity(clash ? 'Sesi kedua mesti berbeza daripada sesi pertama (Pagi dan Petang).' : '');
+      second.setCustomValidity(clash ? 'Sekolah kedua mesti pada sesi berbeza daripada sekolah pertama (Pagi dan Petang).' : '');
     }
     // Card n uses names like "sekolah-n"; after a card is added or removed the cards are numbered 1, 2, 3… again.
     function renumberChildren(){
