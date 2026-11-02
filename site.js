@@ -830,6 +830,10 @@
       set('[data-reg-complete-kicker]', texts.kicker);
       set('[data-reg-complete-title]', texts.title);
       set('[data-reg-complete-text]', texts.text);
+      // Back from Billplz without payment: a yellow clock instead of the green tick, since nothing has failed for sure yet.
+      complete.classList.toggle('isPending', !!texts.pending);
+      var icon = complete.querySelector('.st-reg-complete-icon svg');
+      if (icon) icon.innerHTML = texts.pending ? '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>' : '<path d="M20 6 9 17l-5-5"/>';
       var idLine = complete.querySelector('[data-reg-complete-idline]');
       var idCell = complete.querySelector('[data-reg-complete-id]');
       if (idCell) idCell.textContent = texts.id || '';
@@ -845,7 +849,7 @@
       if (againButton) againButton.hidden = !!texts.payUrl && !texts.receipt;
       // While the parent is being sent to pay, only the pay button and the WhatsApp note are shown.
       var homeButton = complete.querySelector('[data-reg-home]');
-      if (homeButton) homeButton.hidden = !!texts.payOnly;
+      if (homeButton) { homeButton.hidden = !!texts.payOnly; homeButton.classList.toggle('dark', !!texts.pending); }
       var note = complete.querySelector('[data-reg-complete-note]');
       if (note) note.hidden = !texts.payOnly;
       if (quiet) return;
@@ -893,8 +897,11 @@
           text: 'Pengesahan pendaftaran akan dihantar melalui WhatsApp dalam beberapa minit. Terima kasih kerana memilih Salut Transport.',
           payUrl: receiptUrl, payLabel: 'Lihat Resit', receipt: true});
       } else {
-        showComplete({kicker: 'BAYARAN BELUM SELESAI', title: 'Bayaran belum berjaya.',
-          text: 'Pendaftaran anda masih disimpan. Tekan butang Bayar Yuran dalam mesej WhatsApp kami untuk cuba lagi, atau hubungi kami di 012-353 9977.'});
+        // The same bill opens again: Billplz shows the pay page if it is unpaid, or the receipt if the bank confirmed it late.
+        var billUrl = /^[A-Za-z0-9_-]{4,40}$/.test(billId) ? 'https://www.billplz.com/bills/' + billId : '';
+        showComplete({kicker: 'BAYARAN BELUM DISAHKAN', title: 'Bayaran belum diterima.',
+          text: 'Pendaftaran anda tetap disimpan. Jika anda sudah bayar, pengesahan akan dihantar melalui WhatsApp dalam beberapa minit. Jika belum, tekan butang di bawah untuk bayar semula.',
+          payUrl: billUrl, payLabel: 'Bayar Yuran RM10', pending: true});
       }
       if (window.history && window.history.replaceState) window.history.replaceState(null, '', window.location.pathname);
     }
