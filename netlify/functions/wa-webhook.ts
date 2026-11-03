@@ -9,7 +9,13 @@ import type { Config, Context } from "@netlify/functions";
 // Meta wants a quick 200, so the hand-over runs after the reply. Message text is never logged.
 // Env: WA_VERIFY_TOKEN, META_APP_SECRET, SALUT_REGISTRATION_APPS_SCRIPT_URL, SALUT_REGISTRATION_SHARED_SECRET.
 
-export type InboundMessage = { from: string; id: string; kind: "message" | "flow_reply" | "website_form"; response?: string };
+export type InboundMessage = { from: string; id: string; kind: "message" | "flow_reply" | "website_form" | "absence"; response?: string };
+
+// "Tak naik van" keywords (owner, 2026-11-03). A Salut family that writes one gets the "Tak naik van" Flow; the
+// Apps Script treats anyone else's as an ordinary message. Only the kind is passed on, never the text.
+export function isAbsenceKeyword(text: string): boolean {
+  return /(^|[^a-z])(tak|x|tidak)\s*(naik|datang|dtg|hadir)([^a-z]|$)|(^|[^a-z])(cuti|absent)([^a-z]|$)/i.test(text);
+}
 
 // The message the salut.my "Semak slot" form prepares (site.js): the parent has already given the details, so the
 // Apps Script records them and does not send the Flow on top.
@@ -48,6 +54,7 @@ export function inboundMessages(body: unknown): InboundMessage[] {
         const text = m.type === "text" ? String(m.text?.body || "") : "";
         if (reply !== undefined) out.push({ from: m.from, id, kind: "flow_reply", response: String(reply).slice(0, 4000) });
         else if (isWebsiteSlotForm(text)) out.push({ from: m.from, id, kind: "website_form", response: text.slice(0, 4000) });
+        else if (isAbsenceKeyword(text)) out.push({ from: m.from, id, kind: "absence" });
         else out.push({ from: m.from, id, kind: "message" });
       }
     }
