@@ -9,7 +9,14 @@ import type { Config, Context } from "@netlify/functions";
 // Meta wants a quick 200, so the hand-over runs after the reply. Message text is never logged.
 // Env: WA_VERIFY_TOKEN, META_APP_SECRET, SALUT_REGISTRATION_APPS_SCRIPT_URL, SALUT_REGISTRATION_SHARED_SECRET.
 
-export type InboundMessage = { from: string; id: string; kind: "message" | "flow_reply" | "website_form" | "absence"; response?: string };
+// "from" is the phone number. A sender with a WhatsApp username may come without one: then "user" carries the
+// business-scoped user id (BSUID, e.g. "MY.1234…") and "username" the public username, if any (owner, 2026-11-07).
+export type InboundMessage = { from: string; id: string; kind: "message" | "flow_reply" | "website_form" | "absence"; response?: string;
+  user?: string; username?: string };
+
+const PHONE = /^\d{8,15}$/;
+const BSUID = /^[A-Z]{2}\.[A-Za-z0-9]{1,128}$/;
+type Contact = { wa_id?: string; user_id?: string; username?: string };
 
 // "Tak naik van" keywords (owner, 2026-11-03). A Salut family that writes one gets the "Tak naik van" Flow; the
 // Apps Script treats anyone else's as an ordinary message. Only the kind is passed on, never the text.
@@ -37,25 +44,40 @@ export async function validSignature(rawBody: string, header: string | null, app
 }
 
 // Parent messages only: delivery statuses, the owner's own replies from the WhatsApp Business app (other fields)
-// and anything without a sender are left out.
+// and anything with neither a phone number nor a BSUID are left out.
 export function inboundMessages(body: unknown): InboundMessage[] {
   const out: InboundMessage[] = [];
   const entries = (body as { object?: string; entry?: unknown[] })?.object === "whatsapp_business_account" ? (body as { entry: unknown[] }).entry : [];
   for (const entry of entries || []) {
     for (const change of ((entry as { changes?: unknown[] })?.changes || [])) {
-      const c = change as { field?: string; value?: { messages?: unknown[] } };
+      const c = change as { field?: string; value?: { messages?: unknown[]; contacts?: Contact[] } };
       if (c.field !== "messages") continue;
+      const contacts: Contact[] = Array.isArray(c.value?.contacts) ? (c.value?.contacts as Contact[]) : [];
       for (const raw of c.value?.messages || []) {
-        const m = raw as { from?: string; id?: string; type?: string; text?: { body?: string };
+        const m = raw as { from?: string; from_user_id?: string; user_id?: string; id?: string; type?: string; text?: { body?: string };
           interactive?: { type?: string; nfm_reply?: { response_json?: string } } };
-        if (!m.from || !/^\d{8,15}$/.test(m.from)) continue;
+        const phone = typeof m.from === "string" && PHONE.test(m.from) ? m.from : "";
+        // The BSUID may sit on the message (from_user_id / user_id, or in "from" itself) or on its contact entry.
+        let user = [m.from_user_id, m.user_id, m.from].find((v) => typeof v === "string" && BSUID.test(v)) || "";
+        const contact = contacts.find((k) => (phone && k?.wa_id === phone) || (user && k?.user_id === user)) ||
+          (contacts.length === 1 ? contacts[0] : undefined);
+        if (!user && typeof contact?.user_id === "string" && BSUID.test(contact.user_id)) user = contact.user_id;
+        if (!phone) {
+          // Field names only, never content: shows what Meta sends for a sender without a phone number.
+          console.log("wa-webhook: sender without phone; BSUID " + (user ? "found" : "missing") + "; message keys: " +
+            Object.keys(m).join(",") + "; contact keys: " + (contact ? Object.keys(contact).join(",") : "-"));
+          if (!user) continue;
+        }
+        const who: Pick<InboundMessage, "from" | "user" | "username"> = { from: phone };
+        if (user) who.user = user;
+        if (!phone && typeof contact?.username === "string") who.username = contact.username.slice(0, 60);
         const id = String(m.id || "");
         const reply = m.type === "interactive" && m.interactive?.type === "nfm_reply" ? m.interactive.nfm_reply?.response_json : undefined;
         const text = m.type === "text" ? String(m.text?.body || "") : "";
-        if (reply !== undefined) out.push({ from: m.from, id, kind: "flow_reply", response: String(reply).slice(0, 4000) });
-        else if (isWebsiteSlotForm(text)) out.push({ from: m.from, id, kind: "website_form", response: text.slice(0, 4000) });
-        else if (isAbsenceKeyword(text)) out.push({ from: m.from, id, kind: "absence" });
-        else out.push({ from: m.from, id, kind: "message" });
+        if (reply !== undefined) out.push({ ...who, id, kind: "flow_reply", response: String(reply).slice(0, 4000) });
+        else if (isWebsiteSlotForm(text)) out.push({ ...who, id, kind: "website_form", response: text.slice(0, 4000) });
+        else if (isAbsenceKeyword(text)) out.push({ ...who, id, kind: "absence" });
+        else out.push({ ...who, id, kind: "message" });
       }
     }
   }
