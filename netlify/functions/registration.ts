@@ -3,7 +3,7 @@ import type { Config, Context } from "@netlify/functions";
 // One form per family (schema v3): family fields at the top, up to 5 children in "children".
 const FAMILY_FIELDS = new Set([
   "clientRequestId", "alamatRumah", "namaIbu", "telefonIbu", "icIbu", "namaAyah", "telefonAyah", "icAyah", "email",
-  "termsAccepted", "privacyAccepted", "website", "children",
+  "termsAccepted", "privacyAccepted", "website", "st_hp_kosong", "children",
 ]);
 const CHILD_FIELDS = new Set([
   "namaAnak", "tarikhLahir", "darjahTingkatan2027", "jantina", "sekolah", "sesiSekolah", "pilihanPerjalanan",
@@ -143,7 +143,9 @@ function validate(input: Input) {
     for (const key of Object.keys(input)) if (!LEGACY_FIELDS.has(key)) throw new Error(`UNEXPECTED:${key}`);
     childInputs = [Object.fromEntries(Object.entries(input).filter(([key]) => CHILD_FIELDS.has(key)))];
   }
-  if (text(input.website)) throw new Error("SPAM:honeypot");
+  // Hidden trap field. It was called "website", which phone autofill may fill in for real parents (suspected,
+  // 2026-11-07); the form now sends "st_hp_kosong" (an old cached page may still send "website").
+  if (text(input.st_hp_kosong) || text(input.website)) throw new Error("SPAM:honeypot");
 
   const clientRequestId = requireValue(text(input.clientRequestId, 100), "clientRequestId");
   if (!/^[A-Za-z0-9_-]{16,100}$/.test(clientRequestId)) throw new Error("INVALID:clientRequestId");
@@ -217,6 +219,8 @@ export default async (req: Request, context: Context) => {
     // Name only the form field to fix (never its value) so the page can point the parent to it.
     const invalidField = /^(MISSING|INVALID):([\w-]+)$/.exec(message)?.[2];
     const field = invalidField && !["clientRequestId", "children"].includes(invalidField) ? invalidField : undefined;
+    // The reason names only a field (never what the parent typed), so it is safe to log for later checks.
+    if (/^(MISSING|INVALID|UNEXPECTED|SPAM):/.test(message)) console.log("registration rejected: " + message.slice(0, 80));
     if (/^(MISSING|INVALID|UNEXPECTED|SPAM):/.test(message)) return json({ success: false, error: { code: "INVALID_REQUEST", field } }, 400);
     return json({ success: false, error: { code: "TEMPORARY_FAILURE" } }, 502);
   }
