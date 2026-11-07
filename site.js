@@ -782,7 +782,7 @@
     }
     function stepIsValid(step){
       var fields = Array.prototype.slice.call(step.querySelectorAll('input,select,textarea')).filter(function(field){
-        return !field.disabled && field.type !== 'hidden' && field.name !== 'website';
+        return !field.disabled && field.type !== 'hidden' && !field.classList.contains('st-reg-honeypot');
       });
       for (var i = 0; i < fields.length; i++) {
         if (!fields[i].checkValidity()) {
@@ -810,7 +810,7 @@
       event.preventDefault();
       // Enter (the phone keyboard's "next" key) goes to the next field of this part; from the last field, to the next part.
       var fields = Array.prototype.slice.call(steps[current].querySelectorAll('input,select,textarea')).filter(function(field){
-        return !field.disabled && field.type !== 'hidden' && field.name !== 'website' && field.offsetParent !== null;
+        return !field.disabled && field.type !== 'hidden' && !field.classList.contains('st-reg-honeypot') && field.offsetParent !== null;
       });
       var next = fields[fields.indexOf(event.target) + 1];
       if (next) { next.focus(); return; }
