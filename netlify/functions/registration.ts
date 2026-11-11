@@ -152,7 +152,7 @@ function validate(input: Input) {
   const homeAddress = requireValue(text(input.alamatRumah, 500), "alamatRumah");
 
   // At least one guardian (ayah or ibu) so single-parent families can register. A guardian who
-  // is given needs a name and a valid phone; at least one given guardian needs a 12-digit IC.
+  // is given needs a name and a valid phone. IC is optional (owner, 2026-11-11); when given it must be 12 digits.
   const fatherName = text(input.namaAyah, 180);
   const fatherPhone = phone(input.telefonAyah);
   const fatherIc = String(input.icAyah ?? "").replace(/\D/g, "").slice(0, 12);
@@ -172,7 +172,6 @@ function validate(input: Input) {
   }
   if (fatherIc && !/^\d{12}$/.test(fatherIc)) throw new Error("INVALID:icAyah");
   if (motherIc && !/^\d{12}$/.test(motherIc)) throw new Error("INVALID:icIbu");
-  if (!fatherIc && !motherIc) throw new Error(fatherGiven ? "MISSING:icAyah" : "MISSING:icIbu");
   const email = requireValue(text(input.email, 254).toLowerCase(), "email");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("INVALID:email");
 

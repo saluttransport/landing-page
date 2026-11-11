@@ -473,7 +473,7 @@
       {name: 'telefonIbu', label: 'ibu'}
     ];
     // At least one guardian (ayah or ibu) is needed, so single-parent families can register.
-    // A guardian who is filled in needs a name and phone, and at least one of them needs an IC.
+    // A guardian who is filled in needs a name and phone. No. IC is optional.
     // With nothing filled in yet, no field is marked with *: the name field alone blocks "Teruskan" with a message
     // asking for one guardian, so a single mother does not think ayah's details are compulsory (owner, 2026-10-10).
     var guardians = [
@@ -505,12 +505,10 @@
           ? 'Isi nama penuh ' + (index ? 'ibu' : 'ayah') + '. Jika tiada, kosongkan semua ruang ' + (index ? 'ibu' : 'ayah') + ' (nama, telefon dan IC).'
           : (index === 0 && !given[0] && !given[1] ? 'Isi maklumat sekurang-kurangnya seorang penjaga: ayah atau ibu.' : ''));
       });
-      var hasIc = guardians.some(function(g, index){ return given[index] && hasValue(g.ic); });
-      var icOwner = given.indexOf(true);
+      // IC is optional (owner, 2026-11-11): never marked *; when typed it still has to be 12 digits.
       guardians.forEach(function(g, index){
         setRequired(g.name, given[index]);
         setRequired(g.phone, given[index]);
-        setRequired(g.ic, given[index] && (hasValue(g.ic) || (!hasIc && index === icOwner)));
       });
     }
     guardians.forEach(function(g){
