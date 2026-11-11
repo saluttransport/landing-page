@@ -168,6 +168,28 @@ html[data-theme="dark"] .st-feature-icon{color:#a5e6eb;background:#28525f}
 html[data-theme="dark"] .st-fleet{background:#0c202d}
 
 /* Tambang */
+/* Ulasan Google */
+.st-reviews{background:#f6f8f7}
+.st-reviews-summary{max-width:420px;margin:0 0 7px;color:var(--st-muted);font-size:.95rem}
+.st-reviews-score{display:inline-flex;align-items:center;gap:5px;color:var(--st-ink);font:800 1.05rem/1 Poppins,Arial}
+.st-reviews-score svg{width:18px;height:18px;fill:var(--st-yellow)}
+.st-reviews-summary a{display:inline-flex;align-items:center;gap:6px;margin-top:8px;color:var(--st-teal);font-weight:800;border-bottom:1px solid}
+.st-reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.st-review{margin:0;padding:30px;background:#fff;border:1px solid #e0e8e8;border-radius:12px;display:flex;flex-direction:column}
+.st-review-stars{display:flex;gap:3px;margin-bottom:18px}
+.st-review-stars svg{width:18px;height:18px;fill:var(--st-yellow)}
+.st-review p{flex:1;margin:0 0 22px;color:var(--st-ink);font-size:.96rem;line-height:1.7}
+.st-review footer{display:grid;gap:3px;padding-top:18px;border-top:1px solid var(--st-line);font-size:.84rem}
+.st-review footer b{font-weight:800}
+.st-review footer span{color:var(--st-muted);font-size:.76rem;font-weight:700}
+html[data-theme="dark"] .st-reviews{background:#122c39}
+html[data-theme="dark"] .st-review{background:#193946;border-color:#36525e}
+html[data-theme="dark"] .st-review p,html[data-theme="dark"] .st-reviews-score{color:#e8f0f2}
+html[data-theme="dark"] .st-review footer{border-color:#36525e}
+html[data-theme="dark"] .st-review footer span,html[data-theme="dark"] .st-reviews-summary{color:#b9ced2}
+@media (max-width:980px){.st-reviews-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:650px){.st-reviews-grid{grid-template-columns:1fr}.st-review{padding:24px}}
+
 .st-fares{background:var(--st-navy);color:#fff}
 .st-fares .st-kicker{color:#f1cf73}
 .st-fares h2{color:#fff}
