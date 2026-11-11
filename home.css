@@ -170,29 +170,40 @@ html[data-theme="dark"] .st-fleet{background:#0c202d}
 /* Tambang */
 /* Ulasan Google */
 .st-reviews{background:#f6f8f7}
-.st-reviews-summary{margin:0 0 7px}
-.st-reviews-summary a{display:inline-flex;align-items:center;gap:6px;padding-bottom:4px;color:var(--st-teal);font-size:.88rem;font-weight:800;border-bottom:1px solid}
-.st-reviews-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
-.st-review{flex:0 1 calc((100% - 32px)/3);box-sizing:border-box;margin:0;padding:24px;background:#fff;border:1px solid #e0e8e8;border-radius:12px;display:flex;flex-direction:column}
-.st-review-stars{display:flex;gap:3px;margin-bottom:14px}
-.st-review-stars svg{width:16px;height:16px;fill:var(--st-yellow)}
-.st-review p{flex:1;margin:0 0 18px;color:var(--st-ink);font-size:.9rem;line-height:1.65}
-.st-review footer{display:grid;gap:2px;padding-top:14px;border-top:1px solid var(--st-line);font-size:.82rem}
-.st-review footer b{font-weight:800}
-.st-review footer span{color:var(--st-muted);font-size:.72rem;font-weight:700}
+.st-reviews .st-section-head{margin-bottom:26px}
+.st-reviews-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;padding:14px 18px;background:#fff;border:1px solid #e0e8e8;border-radius:12px}
+.st-reviews-brand{display:flex;align-items:center;gap:12px}
+.st-reviews-brand>div{display:grid;gap:2px}
+.st-reviews-brand b{font:800 .95rem/1.2 Poppins,Arial;color:var(--st-ink)}
+.st-reviews-brand .st-review-stars{margin:0}
+.st-g-logo{width:26px;height:26px;flex:none}
+.st-reviews-cta{padding:9px 16px;border:1px solid #dadce0;border-radius:999px;color:#1a73e8;font-size:.84rem;font-weight:700;white-space:nowrap}
+.st-reviews-cta:hover{background:#f1f5fb}
+.st-reviews-grid{display:flex;flex-wrap:wrap;gap:14px}
+.st-review{flex:0 1 calc((100% - 28px)/3);box-sizing:border-box;margin:0;padding:18px 18px 16px;background:#fff;border:1px solid #e0e8e8;border-radius:12px;display:flex;flex-direction:column}
+.st-review header{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.st-review header>div{flex:1;min-width:0;display:grid;gap:1px}
+.st-review header b{font-size:.9rem;font-weight:700;color:#202124;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-review header time{color:#5f6368;font-size:.76rem}
+.st-review header .st-g-logo{width:18px;height:18px}
+.st-review-avatar{display:grid;place-items:center;width:38px;height:38px;flex:none;border-radius:50%;color:#fff;font:700 1rem/1 Poppins,Arial}
+.st-review-stars{display:flex;gap:2px;margin-bottom:10px}
+.st-review-stars svg{width:15px;height:15px;fill:#fbbc04}
+.st-review p{margin:0;color:#3c4043;font-size:.88rem;line-height:1.6}
 html[data-theme="dark"] .st-reviews{background:#122c39}
-html[data-theme="dark"] .st-review{background:#193946;border-color:#36525e}
-html[data-theme="dark"] .st-review p{color:#e8f0f2}
-html[data-theme="dark"] .st-review footer{border-color:#36525e}
-html[data-theme="dark"] .st-review footer span{color:#b9ced2}
-@media (max-width:980px){.st-review{flex-basis:calc((100% - 16px)/2)}}
+html[data-theme="dark"] .st-reviews-bar,html[data-theme="dark"] .st-review{background:#193946;border-color:#36525e}
+html[data-theme="dark"] .st-reviews-brand b,html[data-theme="dark"] .st-review header b{color:#e8f0f2}
+html[data-theme="dark"] .st-review p{color:#d6e2e6}
+html[data-theme="dark"] .st-review header time{color:#b9ced2}
+html[data-theme="dark"] .st-reviews-cta{border-color:#4a6673;color:#8ab4f8}
+html[data-theme="dark"] .st-reviews-cta:hover{background:#22434f}
+@media (max-width:980px){.st-review{flex-basis:calc((100% - 14px)/2)}}
 @media (max-width:650px){
-  .st-reviews-grid{flex-wrap:nowrap;justify-content:flex-start;gap:12px;margin:0 -16px;padding:4px 16px 10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .st-reviews-bar{padding:12px 14px}
+  .st-reviews-grid{flex-wrap:nowrap;gap:12px;margin:0 -16px;padding:4px 16px 10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .st-reviews-grid::-webkit-scrollbar{display:none}
-  .st-review{flex:0 0 74vw;max-width:300px;padding:18px 18px 16px;scroll-snap-align:start}
-  .st-review p{font-size:.86rem;line-height:1.6;margin-bottom:14px}
-  .st-review-stars svg{width:14px;height:14px}
-  .st-review footer{padding-top:12px;font-size:.78rem}
+  .st-review{flex:0 0 76vw;max-width:300px;scroll-snap-align:start}
+  .st-review p{font-size:.85rem}
 }
 
 .st-fares{background:var(--st-navy);color:#fff}
