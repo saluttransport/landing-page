@@ -62,7 +62,6 @@ html[data-theme="dark"] .st-reg-body{background:#0c202d}
 .st-reg-step+.st-reg-step{margin-top:44px;padding-top:44px;border-top:1px solid var(--st-line)}
 .st-reg-js .st-reg-step+.st-reg-step{margin-top:0;padding-top:0;border-top:0}
 .st-reg-form:not(.st-reg-js) [data-step-next],.st-reg-form:not(.st-reg-js) [data-step-back]{display:none}
-.st-reg-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none}
 .st-reg-heading{margin-bottom:28px}
 .st-reg-heading .st-reg-kicker{margin-bottom:9px}
 .st-reg-heading h2{margin-bottom:8px;font-size:clamp(1.75rem,3vw,2.55rem)}

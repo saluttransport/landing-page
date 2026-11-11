@@ -143,9 +143,9 @@ function validate(input: Input) {
     for (const key of Object.keys(input)) if (!LEGACY_FIELDS.has(key)) throw new Error(`UNEXPECTED:${key}`);
     childInputs = [Object.fromEntries(Object.entries(input).filter(([key]) => CHILD_FIELDS.has(key)))];
   }
-  // Hidden trap field. It was called "website", which phone autofill may fill in for real parents (suspected,
-  // 2026-11-07); the form now sends "st_hp_kosong" (an old cached page may still send "website").
-  if (text(input.st_hp_kosong) || text(input.website)) throw new Error("SPAM:honeypot");
+  // The hidden trap field ("website", then "st_hp_kosong") is gone: phone autofill filled it in for real parents
+  // (2026-11-07 and 2026-11-11), so their registrations were rejected. The names stay accepted (and ignored) because an
+  // old cached page may still send them. Origin check, rate limit and the Apps Script secret still guard the endpoint.
 
   const clientRequestId = requireValue(text(input.clientRequestId, 100), "clientRequestId");
   if (!/^[A-Za-z0-9_-]{16,100}$/.test(clientRequestId)) throw new Error("INVALID:clientRequestId");
