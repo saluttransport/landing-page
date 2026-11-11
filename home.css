@@ -176,6 +176,9 @@ html[data-theme="dark"] .st-fleet{background:#0c202d}
 .st-reviews-brand>div{display:grid;gap:2px}
 .st-reviews-brand b{font:800 .95rem/1.2 Poppins,Arial;color:var(--st-ink)}
 .st-reviews-brand .st-review-stars{margin:0}
+.st-reviews-rating{display:flex;align-items:center;gap:7px}
+.st-reviews-rating strong{font:800 1.05rem/1 Poppins,Arial;color:#202124}
+html[data-theme="dark"] .st-reviews-rating strong{color:#e8f0f2}
 .st-g-logo{width:26px;height:26px;flex:none}
 .st-reviews-cta{padding:9px 16px;border:1px solid #dadce0;border-radius:999px;color:#1a73e8;font-size:.84rem;font-weight:700;white-space:nowrap}
 .st-reviews-cta:hover{background:#f1f5fb}
