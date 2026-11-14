@@ -16,7 +16,7 @@ const MAX_CHILDREN = 5;
 const SCHOOLS = new Set([
   "SK Jalan 2", "SMK Jalan 2", "SK Jalan 3", "SMK Jalan 3", "SK Jalan 4", "SMK Jalan 4",
   "SERI / SEMI ABIM Sg Ramal", "KAFA Integrasi Jubli Perak", "Sri Ummah Al Ikhlas", "Sri Ummah Bangi Perdana",
-  "Sri Ummah As Sobah", "Sri Ummah Al Kauthar", "PASTI As-Shafie", "SRI Wardah Addin", "Tadika AlWafiqah",
+  "Sri Ummah As Sobah", "Sri Ummah Al Kauthar", "Sri Ummah Aflah", "PASTI As-Shafie", "SRI Wardah Addin", "Tadika AlWafiqah",
 ]);
 const SCHOOL_LEVELS_2027 = new Set([
   "4 tahun", "5 tahun", "6 tahun",
