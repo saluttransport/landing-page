@@ -84,6 +84,72 @@ export function inboundMessages(body: unknown): InboundMessage[] {
   return out.slice(0, 20);
 }
 
+// Chat record (owner, 2026-11-21): every parent message ("in") and every reply the owner types in the WhatsApp
+// Business app ("out", Meta field "smb_message_echoes") goes to the private CHAT_LOG sheet so chats can be studied
+// without exporting them one by one. The text goes only to the Apps Script, never to the Netlify log.
+export type ChatEntry = { dir: "in" | "out"; phone: string; user?: string; name?: string; id: string; ts: string; type: string;
+  text: string; ad?: string };
+
+function chatText(m: Record<string, any>): string {
+  const t = String(m.type || "");
+  if (t === "text") return String(m.text?.body || "");
+  if (t === "button") return String(m.button?.text || "");
+  if (t === "interactive") {
+    const i = m.interactive || {};
+    if (i.type === "nfm_reply") return "[Borang Flow dihantar]";
+    return String(i.button_reply?.title || i.list_reply?.title || "[interactive]");
+  }
+  if (t === "reaction") return "[reaksi " + String(m.reaction?.emoji || "") + "]";
+  const media = m[t] || {};
+  const caption = typeof media.caption === "string" ? " " + media.caption : "";
+  return "[" + (t || "mesej") + "]" + caption;
+}
+
+export function chatEntries(body: unknown): ChatEntry[] {
+  const out: ChatEntry[] = [];
+  const entries = (body as { object?: string; entry?: unknown[] })?.object === "whatsapp_business_account" ? (body as { entry: unknown[] }).entry : [];
+  for (const entry of entries || []) {
+    for (const change of ((entry as { changes?: unknown[] })?.changes || [])) {
+      const c = change as { field?: string; value?: Record<string, any> };
+      const v = c.value || {};
+      const contacts: Record<string, any>[] = Array.isArray(v.contacts) ? v.contacts : [];
+      if (c.field === "messages") {
+        for (const m of (Array.isArray(v.messages) ? v.messages : []) as Record<string, any>[]) {
+          const phone = typeof m.from === "string" && PHONE.test(m.from) ? m.from : "";
+          const user = [m.from_user_id, m.user_id, m.from].find((x) => typeof x === "string" && BSUID.test(x)) || "";
+          if (!phone && !user) continue;
+          const k = contacts.find((x) => (phone && x?.wa_id === phone) || (user && x?.user_id === user)) || (contacts.length === 1 ? contacts[0] : undefined);
+          const ad = m.referral ? [m.referral.source_type, m.referral.source_id, m.referral.headline].filter(Boolean).join(" | ") : "";
+          out.push({ dir: "in", phone, user: user || undefined, name: String(k?.profile?.name || k?.username || "").slice(0, 80) || undefined,
+            id: String(m.id || ""), ts: String(m.timestamp || ""), type: String(m.type || ""), text: chatText(m).slice(0, 4000), ad: ad.slice(0, 300) || undefined });
+        }
+      } else if (c.field === "smb_message_echoes") {
+        for (const m of (Array.isArray(v.message_echoes) ? v.message_echoes : []) as Record<string, any>[]) {
+          const phone = typeof m.to === "string" && PHONE.test(m.to) ? m.to : "";
+          const user = [m.to_user_id, m.to].find((x) => typeof x === "string" && BSUID.test(x)) || "";
+          if (!phone && !user) continue;
+          out.push({ dir: "out", phone, user: user || undefined, id: String(m.id || ""), ts: String(m.timestamp || ""), type: String(m.type || ""),
+            text: chatText(m).slice(0, 4000) });
+        }
+      }
+    }
+  }
+  return out.slice(0, 50);
+}
+
+async function postChatLog(url: string, sharedSecret: string, entries: ChatEntry[]) {
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ type: "whatsapp_chatlog", sharedSecret, entries }),
+      redirect: "follow",
+    });
+  } catch {
+    // Apps Script unreachable: this chat line is not recorded; the conversation itself is unaffected.
+  }
+}
+
 async function handOver(url: string, sharedSecret: string, messages: InboundMessage[]) {
   try {
     await fetch(url, {
@@ -119,6 +185,12 @@ export default async (req: Request, context: Context) => {
   const sharedSecret = Netlify.env.get("SALUT_REGISTRATION_SHARED_SECRET");
   if (messages.length && appsScriptUrl && sharedSecret) {
     const work = handOver(appsScriptUrl, sharedSecret, messages);
+    if (typeof context.waitUntil === "function") context.waitUntil(work);
+    else await work;
+  }
+  const chat = chatEntries(body);
+  if (chat.length && appsScriptUrl && sharedSecret) {
+    const work = postChatLog(appsScriptUrl, sharedSecret, chat);
     if (typeof context.waitUntil === "function") context.waitUntil(work);
     else await work;
   }
