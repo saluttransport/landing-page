@@ -100,6 +100,16 @@ function chatText(m: Record<string, any>): string {
     return String(i.button_reply?.title || i.list_reply?.title || "[interactive]");
   }
   if (t === "reaction") return "[reaksi " + String(m.reaction?.emoji || "") + "]";
+  // An edited message (owner, 2026-11-21): keep the new text. The new message may sit in edit.message (or a
+  // similar field); when no text is found, only the field names are logged so the shape can be checked.
+  if (t === "edit") {
+    const e = (m.edit || {}) as Record<string, any>;
+    const inner = [e.message, e.new_message, e.edited_message, e].find((x) => x && typeof x === "object" && (x.type || x.text));
+    const body = inner ? (inner.type && inner.type !== "edit" ? chatText(inner) : String(inner.text?.body || inner.text || "")) : "";
+    if (!body || body === "[edit]") console.log("wa-webhook: edit without text; edit keys: " + Object.keys(e).join(","));
+    return "[diedit] " + (body && body !== "[edit]" ? body : "");
+  }
+  if (t === "revoke") return "[mesej dipadam]";
   const media = m[t] || {};
   const caption = typeof media.caption === "string" ? " " + media.caption : "";
   return "[" + (t || "mesej") + "]" + caption;
