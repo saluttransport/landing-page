@@ -16,7 +16,7 @@ const MAX_CHILDREN = 5;
 const SCHOOLS = new Set([
   "SK Jalan 2", "SMK Jalan 2", "SK Jalan 3", "SMK Jalan 3", "SK Jalan 4", "SMK Jalan 4",
   "SERI / SEMI ABIM Sg Ramal", "KAFA Integrasi Jubli Perak", "Sri Ummah Al Ikhlas", "Sri Ummah Bangi Perdana",
-  "Sri Ummah Al Kauthar", "Sri Ummah Aflah", "Sri Ummah Al Madani", "SRI Tahfiz Ummah Bangi 3", "SRI Tahfiz Ummah Bangi 3 (Surau Abd Rahman Auf)", "PASTI As-Shafie", "SRI Wardah Addin", "Tadika AlWafiqah",
+  "Sri Ummah Al Kauthar", "Sri Ummah Aflah", "Sri Ummah Al Madani", "SRI Tahfiz Ummah Bangi 3", "SRI Tahfiz Ummah Bangi 3 (Surau Abd Rahman Auf)", "PASTI As-Shafie", "SRI Wardah Addin (HQ)", "SRI Wardah Addin (Cawangan)", "Tadika AlWafiqah",
   "Tadika Little Caliphs Seksyen 3",
 ]);
 const SCHOOL_LEVELS_2027 = new Set([
@@ -24,7 +24,7 @@ const SCHOOL_LEVELS_2027 = new Set([
   "Darjah 1", "Darjah 2", "Darjah 3", "Darjah 4", "Darjah 5", "Darjah 6",
   "Tingkatan 1", "Tingkatan 2", "Tingkatan 3", "Tingkatan 4", "Tingkatan 5", "Perlu semakan",
 ]);
-const ROUTE_POINTS = new Set(["Rumah", "Sekolah", "Transit", "Transit Al Madani", "Transit Wardah Addin", "Transit Darul Mumtaz", "Transit Al Azim KBC", "Transit Bangi Perdana", "Transit Abd Rahman Auf", "Transit Al Ikhlas", "Transit Al Kauthar", "Transit Tadika AlWafiqah", "Transit Taska Comel Sayang", "Transit Taska Cahaya Bonda"]);
+const ROUTE_POINTS = new Set(["Rumah", "Sekolah", "Transit", "Transit Al Madani", "Transit Wardah Addin HQ", "Transit Wardah Addin Cawangan", "Transit Darul Mumtaz", "Transit Al Azim KBC", "Transit Bangi Perdana", "Transit Abd Rahman Auf", "Transit Al Ikhlas", "Transit Al Kauthar", "Transit Tadika AlWafiqah", "Transit Taska Comel Sayang", "Transit Taska Cahaya Bonda"]);
 
 type Input = Record<string, unknown>;
 type RegistrationResult = { success?: boolean; submissionId?: string; duplicate?: boolean; paymentUrl?: string; feeRm?: string };
