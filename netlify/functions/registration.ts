@@ -24,7 +24,9 @@ const SCHOOL_LEVELS_2027 = new Set([
   "Darjah 1", "Darjah 2", "Darjah 3", "Darjah 4", "Darjah 5", "Darjah 6",
   "Tingkatan 1", "Tingkatan 2", "Tingkatan 3", "Tingkatan 4", "Tingkatan 5", "Perlu semakan",
 ]);
-const ROUTE_POINTS = new Set(["Rumah", "Sekolah", "Transit", "Transit Al Madani", "Transit Wardah Addin HQ", "Transit Wardah Addin Cawangan", "Transit Darul Mumtaz", "Transit Al Azim KBC", "Transit Bangi Perdana", "Transit Abd Rahman Auf", "Transit Al Ikhlas", "Transit Al Kauthar", "Transit Tadika AlWafiqah", "Transit Taska Comel Sayang", "Transit Taska Cahaya Bonda", "Transit Flat PKNS Seksyen 3"]);
+const ROUTE_POINTS = new Set(["Rumah", "Sekolah", "Transit", "Transit Al Madani", "Transit Wardah Addin HQ", "Transit Wardah Addin Cawangan", "Transit Darul Mumtaz", "Transit Al Azim KBC", "Transit Bangi Perdana", "Transit Abd Rahman Auf", "Transit Al Ikhlas", "Transit Al Kauthar", "Transit Tadika AlWafiqah", "Transit Taska Comel Sayang", "Transit Taska Cahaya Bonda", "Transit Flat PKNS Seksyen 3",
+  // Nama baru dengan kurungan (28 Nov 2026); nama lama di atas masih diterima.
+  "Transit Flat PKNS (Seksyen 3)", "Transit Wardah Addin (HQ)", "Transit Wardah Addin (Cawangan)", "Transit Darul Mumtaz (Seksyen 7)"]);
 
 type Input = Record<string, unknown>;
 type RegistrationResult = { success?: boolean; submissionId?: string; duplicate?: boolean; paymentUrl?: string; feeRm?: string };
